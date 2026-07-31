@@ -161,6 +161,13 @@
   input.mini { width: 110px; }
   input.mini.wide { width: 100%; min-width: 160px; }
 
+  /* diligence checklist */
+  tr.checkrow td { background: var(--ground); }
+  .checkgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 5px 16px; padding: 6px 2px; }
+  .checkgrid label { display: flex; gap: 8px; align-items: flex-start; font-size: 12.5px; cursor: pointer; }
+  .checkgrid input { margin-top: 2px; }
+  .diligence-btn { font-variant-numeric: tabular-nums; }
+
   /* log */
   .log-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
   .log-list li { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; box-shadow: var(--shadow); }
@@ -228,7 +235,7 @@
 <!-- ============ SITES ============ -->
 <section class="view" id="view-sites">
   <h2>Candidate Sites</h2>
-  <p class="sub">One row per site or assemblage cluster. House rule: a site doesn't move past <em>screening</em> without a named <strong>willingness signal</strong> — probate, a no-sale auction, a broker tip, an absentee owner who answered — something better than "the land looks right." No cold-targeting owners with zero indication they'd ever sell.</p>
+  <p class="sub"><strong>Target: 500+ contiguous acres in Iowa, workable for a hyperscale campus.</strong> Power/energization is assumed self-provided by the end user, so it's not part of the screen — the screen is land, water, fiber, access, zoning, and a seller who'd actually sell. Each site carries a diligence checklist; nothing counts as "checked" until it's verified down to a T. To bulk-load your existing research, use the Spreadsheet tab → <em>Import rows as sites</em>.</p>
 
   <div id="siteChips"></div>
 
@@ -236,9 +243,12 @@
     <div><label for="sf-label">Site / cluster name</label><input id="sf-label" required placeholder="e.g. Hardin Co — Sect 14 cluster"></div>
     <div><label for="sf-state">State</label><input id="sf-state" value="IA"></div>
     <div><label for="sf-county">County</label><input id="sf-county" placeholder="County"></div>
-    <div><label for="sf-acres">Acres (approx)</label><input id="sf-acres" inputmode="numeric" placeholder="640"></div>
+    <div><label for="sf-acres">Contiguous acres</label><input id="sf-acres" inputmode="numeric" placeholder="500+"></div>
     <div><label for="sf-owners">Owners (#)</label><input id="sf-owners" inputmode="numeric" placeholder="3"></div>
-    <div><label for="sf-tx">Transmission</label><input id="sf-tx" placeholder="345 kV, 1.2 mi"></div>
+    <div><label for="sf-water">Water</label><input id="sf-water" placeholder="rural water district / wells"></div>
+    <div><label for="sf-fiber">Fiber</label><input id="sf-fiber" placeholder="long-haul route 2 mi N"></div>
+    <div><label for="sf-access">Access (road/rail)</label><input id="sf-access" placeholder="Hwy 20 frontage; UP rail 4 mi"></div>
+    <div><label for="sf-zoning">Zoning</label><input id="sf-zoning" placeholder="A-1, CUP path likely"></div>
     <div><label for="sf-channel">Found via</label><select id="sf-channel"></select></div>
     <div><label for="sf-interest">Owner interest</label>
       <select id="sf-interest">
@@ -251,7 +261,7 @@
     <div class="full"><label for="sf-signal">Willingness signal — why we think they'd sell</label><input id="sf-signal" placeholder="e.g. estate in probate; farm no-saled at auction in March; broker says owner asking around"></div>
     <div><label for="sf-next">Next action</label><input id="sf-next" placeholder="call after letter lands"></div>
     <div><label for="sf-nextdate">By date</label><input id="sf-nextdate" type="date"></div>
-    <div class="full"><label for="sf-notes">Notes</label><textarea id="sf-notes" placeholder="owners, tenant situation, pricing thoughts…"></textarea></div>
+    <div class="full"><label for="sf-notes">Notes</label><textarea id="sf-notes" placeholder="owners, tenant situation, pricing thoughts, power interplay if any…"></textarea></div>
     <div class="form-actions">
       <button class="btn primary" type="submit" id="siteSubmit">Add site</button>
       <button class="btn" type="button" id="siteCancel" hidden>Cancel edit</button>
@@ -294,8 +304,8 @@
 
 <!-- ============ SPREADSHEET ============ -->
 <section class="view" id="view-sheet" hidden>
-  <h2>Spreadsheet Viewer</h2>
-  <p class="sub">Drop any <code>.xlsx</code> or <code>.csv</code> — a broker's parcel list, county export, whatever — and it renders as a searchable, sortable table. Parsed entirely in your browser; nothing is uploaded anywhere.</p>
+  <h2>Spreadsheet — Upload Your Research</h2>
+  <p class="sub">Drop any <code>.xlsx</code> or <code>.csv</code> — your site research, a broker's parcel list, a county export — and it renders as a searchable table. Then use <strong>Import rows as sites</strong> to pull every row into the Sites tracker: map your columns to the tracker's fields, and anything unmapped is preserved verbatim in each site's notes so no research detail is lost. Parsed entirely in your browser; nothing is uploaded anywhere.</p>
   <div class="drop" id="drop" role="button" tabindex="0" aria-label="Load a spreadsheet file">
     <b>Drop an .xlsx or .csv here</b>
     <span>or click to choose a file · multi-sheet workbooks supported</span>
@@ -307,7 +317,17 @@
       <input type="search" id="trackSearch" placeholder="Filter rows…" aria-label="Filter rows">
       <span class="hint" id="trackMeta"></span>
       <span class="spacer"></span>
+      <button class="btn primary" id="importSitesBtn" type="button">Import rows as sites</button>
       <button class="btn" id="clearSheet" type="button">Clear</button>
+    </div>
+    <div id="mapPanel" hidden style="background:var(--panel);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow);padding:16px;margin-bottom:14px">
+      <p class="hint" style="margin:0 0 10px"><strong>Map your columns → tracker fields.</strong> Auto-guessed from your headers; fix any that are wrong, leave "—" for none. Unmapped columns are appended to each site's notes so nothing is dropped.</p>
+      <div id="mapGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px"></div>
+      <div class="form-actions" style="margin-top:12px">
+        <button class="btn primary" id="mapConfirm" type="button">Import</button>
+        <button class="btn" id="mapCancel" type="button">Cancel</button>
+        <span class="hint" id="mapHint"></span>
+      </div>
     </div>
     <div class="tablewrap" id="trackTableWrap"></div>
     <p class="hint" id="trackNote"></p>
@@ -320,7 +340,8 @@
   <p class="sub">The full sourcing strategy, kept here for reference. The living version is in the repo.</p>
 
   <details class="ref"><summary>Site screen — before anyone gets a call</summary><div class="body">
-    <p><strong>Kill criteria:</strong> within ~1–2 mi of 161/345 kV (or ~3 mi of a substation with room); 300–800+ contiguous acres across ≤6–8 owners; core footprint out of the 100-yr floodplain, slopes under ~5%; a plausible zoning path (CUP or rezone); hard-surface road access.</p>
+    <p><em>Working assumption for this search: the end user brings its own energization/power, so transmission proximity is informational, not a kill criterion.</em></p>
+    <p><strong>Kill criteria:</strong> 500+ contiguous acres across ≤6–8 owners; core footprint out of the 100-yr floodplain, slopes under ~5%; a plausible zoning path (CUP or rezone); hard-surface road access; water and fiber realistically reachable.</p>
     <p><strong>Scoring preferences:</strong> lower-CSR2 ground (50s–60s — cheaper, and owners more open to alternatives; sort the parcel universe by CSR2 ascending); absentee or aging ownership, estates, trusts; existing disturbance (closed ethanol plants, gravel pits, rail-served ground); water and fiber nearby; a county already comfortable with energy projects.</p>
     <p><strong>Pre-build per cluster:</strong> a one-pager — parcel map with owners color-coded, acreage, CSR2, assessed value, transmission distance, floodplain overlay, and the assemblage sequence (anchor / optional / risk).</p>
   </div></details>
@@ -588,13 +609,37 @@
   /* ---------------- sites ---------------- */
   var siteSort = { col: 'status', dir: 1 };
   var editingSite = null;
+  var expandedCheck = null;
+  var CHECK_ITEMS = [
+    '500+ contiguous acres confirmed on county GIS',
+    'All parcels & owners mapped (tax roll pulled)',
+    'FEMA floodplain overlay checked',
+    'Slope / soils / CSR2 reviewed',
+    'Wetlands (NWI) & environmental flags checked',
+    'Zoning + CUP/rezone path confirmed with county',
+    'Water availability assessed',
+    'Fiber route identified',
+    'Hard-surface road access confirmed',
+    'Rail proximity noted',
+    'Neighbors / setbacks within 1 mi mapped',
+    'Owner willingness signal documented',
+    'Tenant situation known',
+    'Title / liens / easements pre-searched',
+    'County & EDC temperature checked',
+    'Pricing framework / comps set'
+  ];
   var SITE_COLS = [
-    ['label', 'Site'], ['county', 'County'], ['state', 'St'], ['acres', 'Acres'],
-    ['owners', 'Owners'], ['transmission', 'Transmission'], ['channel', 'Found via'],
+    ['label', 'Site'], ['county', 'County'], ['acres', 'Acres'], ['owners', 'Owners'],
+    ['water', 'Water'], ['fiber', 'Fiber'], ['access', 'Access'], ['zoning', 'Zoning'],
     ['signal', 'Signal'], ['interest', 'Interest'], ['status', 'Status'],
     ['nextAction', 'Next action'], ['nextDate', 'By'], ['notes', 'Notes']
   ];
   var STATUS_ORDER = { negotiating: 0, meeting: 1, outreach: 2, optioned: 3, screening: 4, dead: 5 };
+  function checkCount(s) {
+    var n = 0;
+    if (s.checks) CHECK_ITEMS.forEach(function (_, i) { if (s.checks[i]) n++; });
+    return n;
+  }
 
   function channelOptions(sel) {
     var el = document.getElementById('sf-channel');
@@ -631,8 +676,8 @@
     var html = '<table><thead><tr>' + SITE_COLS.map(function (c) {
       var arrow = siteSort.col === c[0] ? '<span class="arrow">' + (siteSort.dir === 1 ? '▲' : '▼') + '</span>' : '';
       return '<th data-col="' + c[0] + '">' + c[1] + arrow + '</th>';
-    }).join('') + '<th></th></tr></thead><tbody>';
-    if (!rows.length) html += '<tr><td colspan="' + (SITE_COLS.length + 1) + '" style="color:var(--ink-soft)">No sites yet — add the ones you\'ve identified above.</td></tr>';
+    }).join('') + '<th style="cursor:default">Diligence</th><th></th></tr></thead><tbody>';
+    if (!rows.length) html += '<tr><td colspan="' + (SITE_COLS.length + 2) + '" style="color:var(--ink-soft)">No sites yet — add them above, or bulk-import from the Spreadsheet tab.</td></tr>';
     rows.forEach(function (s) {
       html += '<tr>';
       SITE_COLS.forEach(function (c) {
@@ -641,11 +686,40 @@
         else v = esc(v);
         html += '<td class="' + (c[0] === 'notes' || c[0] === 'signal' ? 'notes' : '') + '">' + v + '</td>';
       });
+      var done = checkCount(s);
+      html += '<td><button class="btn small diligence-btn" data-check="' + s.id + '">' +
+        (expandedCheck === s.id ? '▾ ' : '▸ ') + done + '/' + CHECK_ITEMS.length + '</button></td>';
       html += '<td class="rowbtns"><button class="btn small" data-edit="' + s.id + '">Edit</button> <button class="btn small danger" data-del="' + s.id + '">✕</button></td></tr>';
+      if (expandedCheck === s.id) {
+        html += '<tr class="checkrow"><td colspan="' + (SITE_COLS.length + 2) + '"><div class="checkgrid">' +
+          CHECK_ITEMS.map(function (item, i) {
+            var on = s.checks && s.checks[i];
+            return '<label><input type="checkbox" data-site="' + s.id + '" data-item="' + i + '"' + (on ? ' checked' : '') + '> ' + esc(item) + '</label>';
+          }).join('') + '</div></td></tr>';
+      }
     });
     html += '</tbody></table>';
     var wrap = document.getElementById('siteTable');
     wrap.innerHTML = html;
+    wrap.querySelectorAll('[data-check]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var id = b.getAttribute('data-check');
+        expandedCheck = expandedCheck === id ? null : id;
+        renderSites();
+      });
+    });
+    wrap.querySelectorAll('.checkgrid input[type=checkbox]').forEach(function (cb) {
+      cb.addEventListener('change', function () {
+        var s = store.sites.find(function (x) { return x.id === cb.getAttribute('data-site'); });
+        if (!s) return;
+        s.checks = s.checks || {};
+        s.checks[cb.getAttribute('data-item')] = cb.checked;
+        s.updated = today();
+        var btn = wrap.querySelector('[data-check="' + s.id + '"]');
+        if (btn) btn.textContent = '▾ ' + checkCount(s) + '/' + CHECK_ITEMS.length;
+        saveStore();
+      });
+    });
     wrap.querySelectorAll('th[data-col]').forEach(function (th) {
       th.addEventListener('click', function () {
         var c = th.getAttribute('data-col');
@@ -674,7 +748,10 @@
       county: document.getElementById('sf-county').value.trim(),
       acres: document.getElementById('sf-acres').value.trim(),
       owners: document.getElementById('sf-owners').value.trim(),
-      transmission: document.getElementById('sf-tx').value.trim(),
+      water: document.getElementById('sf-water').value.trim(),
+      fiber: document.getElementById('sf-fiber').value.trim(),
+      access: document.getElementById('sf-access').value.trim(),
+      zoning: document.getElementById('sf-zoning').value.trim(),
       channel: document.getElementById('sf-channel').value,
       signal: document.getElementById('sf-signal').value.trim(),
       interest: document.getElementById('sf-interest').value,
@@ -690,7 +767,10 @@
     document.getElementById('sf-county').value = s.county || '';
     document.getElementById('sf-acres').value = s.acres || '';
     document.getElementById('sf-owners').value = s.owners || '';
-    document.getElementById('sf-tx').value = s.transmission || '';
+    document.getElementById('sf-water').value = s.water || '';
+    document.getElementById('sf-fiber').value = s.fiber || '';
+    document.getElementById('sf-access').value = s.access || '';
+    document.getElementById('sf-zoning').value = s.zoning || '';
     channelOptions(s.channel);
     document.getElementById('sf-signal').value = s.signal || '';
     document.getElementById('sf-interest').value = s.interest || 'unknown';
@@ -736,8 +816,12 @@
   });
   document.getElementById('siteSearch').addEventListener('input', renderSites);
   document.getElementById('exportSites').addEventListener('click', function () {
-    var rows = [SITE_COLS.map(function (c) { return c[1]; })].concat(
-      store.sites.map(function (s) { return SITE_COLS.map(function (c) { return s[c[0]] || ''; }); }));
+    var header = ['state'].concat(SITE_COLS.map(function (c) { return c[1]; })).concat(['diligence_done', 'diligence_open_items']);
+    var rows = [header].concat(store.sites.map(function (s) {
+      var open = CHECK_ITEMS.filter(function (_, i) { return !(s.checks && s.checks[i]); }).join('; ');
+      return [s.state || ''].concat(SITE_COLS.map(function (c) { return s[c[0]] || ''; }))
+        .concat([checkCount(s) + '/' + CHECK_ITEMS.length, open]);
+    }));
     offerFile('ia-land-sites.csv', toCsv(rows));
   });
 
@@ -1102,8 +1186,91 @@
     sheetState = { fileName: '', sheets: [], active: 0, sortCol: -1, sortDir: 1, filter: '' };
     store.sheetData = null;
     document.getElementById('trackerUI').hidden = true;
+    document.getElementById('mapPanel').hidden = true;
     drop.querySelector('b').textContent = 'Drop an .xlsx or .csv here';
     saveStore();
+  });
+
+  /* ---------------- import spreadsheet rows as sites ---------------- */
+  var MAP_FIELDS = [
+    ['label', 'Site name', /site|name|label|cluster|property|parcel|farm/i],
+    ['county', 'County', /county/i],
+    ['state', 'State', /^state$|^st$/i],
+    ['acres', 'Acres', /acre|size/i],
+    ['owners', 'Owners (#)', /owner.?(count|#|num)|n.?owners|# ?owners/i],
+    ['water', 'Water', /water/i],
+    ['fiber', 'Fiber', /fiber|fibre/i],
+    ['access', 'Access', /access|road|rail|highway|hwy/i],
+    ['zoning', 'Zoning', /zon/i],
+    ['signal', 'Willingness signal', /signal|willing|motiv|reason/i],
+    ['interest', 'Interest', /interest/i],
+    ['status', 'Status', /status|stage/i],
+    ['nextAction', 'Next action', /next.?action|todo|to.?do/i],
+    ['nextDate', 'Next date', /next.?date|by.?date|due/i],
+    ['notes', 'Notes', /note|comment|detail|remark/i]
+  ];
+  document.getElementById('importSitesBtn').addEventListener('click', function () {
+    var sheet = sheetState.sheets[sheetState.active];
+    if (!sheet || sheet.rows.length < 2) return;
+    var head = sheet.rows[0];
+    var used = {};
+    var grid = document.getElementById('mapGrid');
+    grid.innerHTML = MAP_FIELDS.map(function (f) {
+      var guess = -1;
+      for (var c = 0; c < head.length; c++) {
+        if (!used[c] && f[2].test(String(head[c] || ''))) { guess = c; used[c] = true; break; }
+      }
+      return '<div><label style="display:block;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:3px">' + f[1] + '</label>' +
+        '<select class="mini" style="width:100%" data-map="' + f[0] + '">' +
+        '<option value="-1">—</option>' +
+        head.map(function (h, i) {
+          return '<option value="' + i + '"' + (i === guess ? ' selected' : '') + '>' + esc(h) + '</option>';
+        }).join('') + '</select></div>';
+    }).join('');
+    document.getElementById('mapHint').textContent = sheet.rows.length - 1 + ' rows in "' + sheet.name + '" will become sites.';
+    document.getElementById('mapPanel').hidden = false;
+  });
+  document.getElementById('mapCancel').addEventListener('click', function () {
+    document.getElementById('mapPanel').hidden = true;
+  });
+  document.getElementById('mapConfirm').addEventListener('click', function () {
+    var sheet = sheetState.sheets[sheetState.active];
+    if (!sheet) return;
+    var head = sheet.rows[0];
+    var mapping = {};
+    var mapped = {};
+    document.querySelectorAll('#mapGrid [data-map]').forEach(function (sel) {
+      var col = parseInt(sel.value, 10);
+      if (col > -1) { mapping[sel.getAttribute('data-map')] = col; mapped[col] = true; }
+    });
+    var INTERESTS = ['unknown', 'cold', 'lukewarm', 'warm', 'committed'];
+    var STATUSES = ['screening', 'outreach', 'meeting', 'negotiating', 'optioned', 'dead'];
+    var added = 0;
+    sheet.rows.slice(1).forEach(function (row, idx) {
+      var s = { id: uid(), state: 'IA', interest: 'unknown', status: 'screening', updated: today(), checks: {} };
+      Object.keys(mapping).forEach(function (f) {
+        var v = String(row[mapping[f]] == null ? '' : row[mapping[f]]).trim();
+        if (!v) return;
+        if (f === 'interest') { var iv = v.toLowerCase(); s.interest = INTERESTS.indexOf(iv) > -1 ? iv : s.interest; }
+        else if (f === 'status') { var sv = v.toLowerCase(); s.status = STATUSES.indexOf(sv) > -1 ? sv : s.status; }
+        else s[f] = v;
+      });
+      if (!s.label) s.label = (s.county ? s.county + ' Co — ' : '') + 'imported row ' + (idx + 2);
+      var extra = [];
+      for (var c = 0; c < head.length; c++) {
+        var v2 = String(row[c] == null ? '' : row[c]).trim();
+        if (!mapped[c] && v2) extra.push(String(head[c] || 'col ' + (c + 1)) + ': ' + v2);
+      }
+      if (extra.length) s.notes = (s.notes ? s.notes + '\n' : '') + extra.join('\n');
+      store.sites.push(s);
+      added++;
+    });
+    document.getElementById('mapPanel').hidden = true;
+    renderSites(); renderLogSiteOptions(); saveStore();
+    document.querySelector('.tabs button[data-view=sites]').click();
+    var hint = document.getElementById('siteHint');
+    hint.className = 'hint';
+    hint.textContent = added + ' sites imported from ' + sheetState.fileName + '.';
   });
 
   /* ---------------- render all ---------------- */
