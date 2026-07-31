@@ -1,0 +1,2 @@
+cluster_id,parcel_id,county,township,section,acres,csr2,owner_name,owner_type,tax_mailing_city_state,absentee,tenant_name,dist_to_transmission_mi,line_kv,floodplain_pct,assessed_value,est_price_per_acre,role_in_assemblage,status,option_status,next_action,next_action_date,notes
+CL-01,,,,,,,"","owner|estate|trust|LLC","",Y/N,"",,,,,,"anchor|core|optional|alternate","screened|letter_sent|contacted|meeting|negotiating|optioned|declined|do_not_contact","none|drafting|signed|expired","","",""

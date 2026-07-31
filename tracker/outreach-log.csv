@@ -1,0 +1,2 @@
+date,owner_name,cluster_id,parcel_id,channel,who_made_contact,summary,commitments_made,owner_sentiment,referrals_given,follow_up_needed,follow_up_date
+,,,,"letter|call|voicemail|in_person|broker|farm_mgr|attorney|referral","","","","warm|neutral|cold|hostile|do_not_contact","",Y/N,
