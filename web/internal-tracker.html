@@ -1,0 +1,1121 @@
+<title>IA Land Sites — Internal Tracker</title>
+<style>
+  :root {
+    --ground: #F3F4EC;
+    --panel: #FBFBF6;
+    --ink: #23281F;
+    --ink-soft: #5A614F;
+    --line: #D8DBCB;
+    --accent: #3F6C3D;
+    --accent-soft: #E5EDDE;
+    --copper: #A66A28;
+    --copper-soft: #F3E8D6;
+    --danger: #9E3B2C;
+    --warn-bg: #F6EFDB;
+    --shadow: 0 1px 2px rgba(35,40,31,.06), 0 3px 10px rgba(35,40,31,.05);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #15180F; --panel: #1E2217; --ink: #E5E7DA; --ink-soft: #A4AA95;
+      --line: #363C2C; --accent: #8FB57F; --accent-soft: #263019;
+      --copper: #D69C55; --copper-soft: #33291A; --danger: #E08573;
+      --warn-bg: #2B2717;
+      --shadow: 0 1px 2px rgba(0,0,0,.35), 0 3px 10px rgba(0,0,0,.25);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #15180F; --panel: #1E2217; --ink: #E5E7DA; --ink-soft: #A4AA95;
+    --line: #363C2C; --accent: #8FB57F; --accent-soft: #263019;
+    --copper: #D69C55; --copper-soft: #33291A; --danger: #E08573;
+    --warn-bg: #2B2717;
+    --shadow: 0 1px 2px rgba(0,0,0,.35), 0 3px 10px rgba(0,0,0,.25);
+  }
+  :root[data-theme="light"] {
+    --ground: #F3F4EC; --panel: #FBFBF6; --ink: #23281F; --ink-soft: #5A614F;
+    --line: #D8DBCB; --accent: #3F6C3D; --accent-soft: #E5EDDE;
+    --copper: #A66A28; --copper-soft: #F3E8D6; --danger: #9E3B2C;
+    --warn-bg: #F6EFDB;
+    --shadow: 0 1px 2px rgba(35,40,31,.06), 0 3px 10px rgba(35,40,31,.05);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--ground); color: var(--ink);
+    font-family: -apple-system, 'Segoe UI', system-ui, Roboto, 'Helvetica Neue', sans-serif;
+    font-size: 15px; line-height: 1.55;
+  }
+  a { color: var(--accent); }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--copper); outline-offset: 2px; border-radius: 2px; }
+
+  /* ---------- gate ---------- */
+  #gate {
+    position: fixed; inset: 0; z-index: 100; background: var(--ground);
+    display: flex; align-items: center; justify-content: center; padding: 20px;
+  }
+  .gate-card {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+    box-shadow: var(--shadow); padding: 30px 28px; width: 100%; max-width: 380px;
+  }
+  .gate-card h1 { font-size: 18px; margin: 0 0 4px; }
+  .gate-card p { font-size: 13px; color: var(--ink-soft); margin: 0 0 16px; }
+  .gate-card form { display: flex; gap: 8px; }
+  .gate-card input {
+    flex: 1; padding: 9px 12px; border: 1px solid var(--line); border-radius: 6px;
+    background: var(--ground);
+  }
+  #gateErr { color: var(--danger); font-size: 13px; margin: 10px 0 0; display: none; }
+
+  /* ---------- chrome ---------- */
+  header {
+    border-bottom: 1px solid var(--line); background: var(--panel);
+    padding: 14px 20px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+  }
+  header h1 { font-size: 16px; margin: 0; font-weight: 700; }
+  header .tag {
+    font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--copper); border: 1px solid var(--copper); border-radius: 3px; padding: 2px 8px;
+  }
+  header .lock { margin-left: auto; font-size: 12px; color: var(--ink-soft); background: none; border: none; cursor: pointer; text-decoration: underline; }
+
+  nav { background: var(--panel); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 10; }
+  .tabs { display: flex; overflow-x: auto; padding: 0 12px; }
+  .tabs button {
+    background: none; border: none; border-bottom: 2px solid transparent;
+    padding: 11px 14px; cursor: pointer; font-size: 13px; font-weight: 600;
+    color: var(--ink-soft); white-space: nowrap;
+  }
+  .tabs button[aria-selected="true"] { color: var(--accent); border-bottom-color: var(--accent); }
+
+  main { max-width: 1060px; margin: 0 auto; padding: 20px 20px 70px; }
+  .view[hidden] { display: none; }
+  h2 { font-size: 18px; margin: 6px 0 4px; }
+  .sub { font-size: 13px; color: var(--ink-soft); margin: 0 0 16px; max-width: 78ch; }
+
+  /* ---------- buttons & chips ---------- */
+  .btn {
+    font-size: 13px; font-weight: 600; padding: 8px 13px; border-radius: 6px;
+    border: 1px solid var(--line); background: var(--panel); cursor: pointer;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #FDFDF9; }
+  .btn.primary:hover { opacity: .92; color: #FDFDF9; }
+  .btn.danger { color: var(--danger); }
+  .btn.small { padding: 3px 9px; font-size: 12px; }
+  .chip {
+    display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 10px;
+    border-radius: 999px; background: var(--accent-soft); color: var(--accent); margin: 0 6px 6px 0;
+  }
+  .chip.copper { background: var(--copper-soft); color: var(--copper); }
+
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 0 0 14px; }
+  .toolbar .spacer { flex: 1; }
+  .toolbar input[type="search"] {
+    padding: 8px 12px; border: 1px solid var(--line); border-radius: 6px;
+    background: var(--panel); min-width: 180px;
+  }
+
+  /* ---------- forms ---------- */
+  form.card {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+    box-shadow: var(--shadow); padding: 16px; margin-bottom: 18px;
+    display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  }
+  form.card .full { grid-column: 1 / -1; }
+  form.card label { display: block; font-size: 11.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 3px; }
+  form.card input, form.card select, form.card textarea {
+    width: 100%; padding: 7px 10px; border: 1px solid var(--line); border-radius: 6px;
+    background: var(--ground); font-size: 14px;
+  }
+  form.card textarea { min-height: 54px; resize: vertical; }
+  .form-actions { display: flex; gap: 8px; align-items: center; grid-column: 1 / -1; }
+  .hint { font-size: 12px; color: var(--ink-soft); }
+  .hint.warn { color: var(--copper); font-weight: 600; }
+
+  /* ---------- tables ---------- */
+  .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow); background: var(--panel); margin-bottom: 12px; }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+  th {
+    text-align: left; font-size: 11px; letter-spacing: .07em; text-transform: uppercase;
+    color: var(--ink-soft); padding: 9px 12px; border-bottom: 2px solid var(--line);
+    background: var(--accent-soft); white-space: nowrap; cursor: pointer; user-select: none;
+  }
+  th .arrow { color: var(--copper); margin-left: 3px; }
+  td { padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; font-variant-numeric: tabular-nums; }
+  tr:last-child td { border-bottom: none; }
+  td .status {
+    display: inline-block; font-size: 11.5px; font-weight: 700; padding: 1px 8px; border-radius: 999px; white-space: nowrap;
+  }
+  .st-screening { background: var(--accent-soft); color: var(--accent); }
+  .st-outreach  { background: var(--copper-soft); color: var(--copper); }
+  .st-meeting, .st-negotiating { background: var(--warn-bg); color: var(--copper); }
+  .st-optioned  { background: var(--accent); color: #FDFDF9; }
+  .st-dead      { background: var(--line); color: var(--ink-soft); }
+  td.notes { max-width: 260px; }
+  .rowbtns { white-space: nowrap; }
+
+  /* channels inline editing */
+  .ch-tier { margin: 18px 0 6px; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--copper); }
+  select.mini, input.mini { padding: 4px 6px; border: 1px solid var(--line); border-radius: 5px; background: var(--ground); font-size: 12.5px; }
+  input.mini { width: 110px; }
+  input.mini.wide { width: 100%; min-width: 160px; }
+
+  /* log */
+  .log-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+  .log-list li { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; box-shadow: var(--shadow); }
+  .log-list .meta { font-size: 11.5px; color: var(--ink-soft); margin-bottom: 2px; display: flex; gap: 8px; align-items: baseline; }
+  .log-list .meta .del { margin-left: auto; }
+
+  /* drop zone */
+  .drop {
+    border: 2px dashed var(--line); border-radius: 8px; background: var(--panel);
+    padding: 26px 18px; text-align: center; cursor: pointer; margin-bottom: 14px;
+  }
+  .drop:hover, .drop.over { border-color: var(--accent); background: var(--accent-soft); }
+  .drop b { display: block; font-size: 15px; margin-bottom: 3px; }
+  .drop span { font-size: 12.5px; color: var(--ink-soft); }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+  /* playbook reference */
+  #view-playbook { font-family: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif; font-size: 16px; }
+  #view-playbook h2, #view-playbook .sub { font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; }
+  details.ref { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow); margin-bottom: 10px; }
+  details.ref summary { padding: 12px 16px; cursor: pointer; font-weight: 700; font-size: 15px; font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; list-style: none; }
+  details.ref summary::-webkit-details-marker { display: none; }
+  details.ref summary::before { content: "▸ "; color: var(--copper); }
+  details.ref[open] summary::before { content: "▾ "; }
+  details.ref .body { padding: 0 18px 14px; border-top: 1px dashed var(--line); }
+  details.ref .body p, details.ref .body li { max-width: 72ch; }
+  details.ref .body p { margin: .7em 0; }
+  details.ref blockquote { border-left: 3px solid var(--accent); margin: 12px 0; padding: 4px 14px; background: var(--ground); border-radius: 0 6px 6px 0; }
+  details.ref table { font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; font-size: 13px; }
+  details.ref th { cursor: default; }
+  li::marker { color: var(--copper); }
+</style>
+
+<!-- ================= GATE ================= -->
+<div id="gate">
+  <div class="gate-card">
+    <h1>IA Land Sites</h1>
+    <p>Internal tracker · enter the shared passcode</p>
+    <form id="gateForm">
+      <input type="password" id="gatePass" placeholder="Passcode" autocomplete="current-password" aria-label="Passcode">
+      <button class="btn primary" type="submit">Unlock</button>
+    </form>
+    <p id="gateErr">That's not it — check with the team and try again.</p>
+  </div>
+</div>
+
+<!-- ================= APP ================= -->
+<div id="app" hidden>
+<header>
+  <h1>IA Land Sites</h1>
+  <span class="tag">Internal · Confidential</span>
+  <button class="lock" id="lockBtn" type="button">Lock</button>
+</header>
+
+<nav><div class="tabs" role="tablist">
+  <button role="tab" aria-selected="true" data-view="sites">Sites</button>
+  <button role="tab" aria-selected="false" data-view="channels">Channels</button>
+  <button role="tab" aria-selected="false" data-view="log">Log</button>
+  <button role="tab" aria-selected="false" data-view="sheet">Spreadsheet</button>
+  <button role="tab" aria-selected="false" data-view="playbook">Playbook</button>
+</div></nav>
+
+<main>
+
+<!-- ============ SITES ============ -->
+<section class="view" id="view-sites">
+  <h2>Candidate Sites</h2>
+  <p class="sub">One row per site or assemblage cluster. House rule: a site doesn't move past <em>screening</em> without a named <strong>willingness signal</strong> — probate, a no-sale auction, a broker tip, an absentee owner who answered — something better than "the land looks right." No cold-targeting owners with zero indication they'd ever sell.</p>
+
+  <div id="siteChips"></div>
+
+  <form class="card" id="siteForm">
+    <div><label for="sf-label">Site / cluster name</label><input id="sf-label" required placeholder="e.g. Hardin Co — Sect 14 cluster"></div>
+    <div><label for="sf-state">State</label><input id="sf-state" value="IA"></div>
+    <div><label for="sf-county">County</label><input id="sf-county" placeholder="County"></div>
+    <div><label for="sf-acres">Acres (approx)</label><input id="sf-acres" inputmode="numeric" placeholder="640"></div>
+    <div><label for="sf-owners">Owners (#)</label><input id="sf-owners" inputmode="numeric" placeholder="3"></div>
+    <div><label for="sf-tx">Transmission</label><input id="sf-tx" placeholder="345 kV, 1.2 mi"></div>
+    <div><label for="sf-channel">Found via</label><select id="sf-channel"></select></div>
+    <div><label for="sf-interest">Owner interest</label>
+      <select id="sf-interest">
+        <option>unknown</option><option>cold</option><option>lukewarm</option><option>warm</option><option>committed</option>
+      </select></div>
+    <div><label for="sf-status">Status</label>
+      <select id="sf-status">
+        <option>screening</option><option>outreach</option><option>meeting</option><option>negotiating</option><option>optioned</option><option>dead</option>
+      </select></div>
+    <div class="full"><label for="sf-signal">Willingness signal — why we think they'd sell</label><input id="sf-signal" placeholder="e.g. estate in probate; farm no-saled at auction in March; broker says owner asking around"></div>
+    <div><label for="sf-next">Next action</label><input id="sf-next" placeholder="call after letter lands"></div>
+    <div><label for="sf-nextdate">By date</label><input id="sf-nextdate" type="date"></div>
+    <div class="full"><label for="sf-notes">Notes</label><textarea id="sf-notes" placeholder="owners, tenant situation, pricing thoughts…"></textarea></div>
+    <div class="form-actions">
+      <button class="btn primary" type="submit" id="siteSubmit">Add site</button>
+      <button class="btn" type="button" id="siteCancel" hidden>Cancel edit</button>
+      <span class="hint" id="siteHint"></span>
+    </div>
+  </form>
+
+  <div class="toolbar">
+    <input type="search" id="siteSearch" placeholder="Filter sites…" aria-label="Filter sites">
+    <span class="spacer"></span>
+    <button class="btn" id="exportSites" type="button">Export CSV</button>
+  </div>
+  <div class="tablewrap" id="siteTable"></div>
+</section>
+
+<!-- ============ CHANNELS ============ -->
+<section class="view" id="view-channels" hidden>
+  <h2>Sourcing Channels — What We're Actually Working</h2>
+  <p class="sub">Every creative way we're hunting for ground, and whether it's actually being worked. Update status and notes inline — changes save automatically. Full detail on each channel lives in the Playbook tab.</p>
+  <div class="toolbar">
+    <span class="chip" id="chActive"></span>
+    <span class="spacer"></span>
+    <button class="btn" id="addChannel" type="button">+ Custom channel</button>
+    <button class="btn" id="exportChannels" type="button">Export CSV</button>
+  </div>
+  <div id="channelList"></div>
+</section>
+
+<!-- ============ LOG ============ -->
+<section class="view" id="view-log" hidden>
+  <h2>Activity Log</h2>
+  <p class="sub">Quick entries — calls made, letters dropped, coffee-shop intel, broker conversations. Timestamped automatically. In a small county, knowing exactly what we said and when is the whole game.</p>
+  <form class="card" id="logForm">
+    <div class="full"><label for="lf-text">What happened</label><textarea id="lf-text" required placeholder="e.g. Spoke with owner of NW quarter — not selling, but says the neighbor's estate might; follow up with attorney"></textarea></div>
+    <div><label for="lf-site">Related site (optional)</label><select id="lf-site"><option value="">—</option></select></div>
+    <div class="form-actions"><button class="btn primary" type="submit">Add entry</button></div>
+  </form>
+  <ul class="log-list" id="logList"></ul>
+</section>
+
+<!-- ============ SPREADSHEET ============ -->
+<section class="view" id="view-sheet" hidden>
+  <h2>Spreadsheet Viewer</h2>
+  <p class="sub">Drop any <code>.xlsx</code> or <code>.csv</code> — a broker's parcel list, county export, whatever — and it renders as a searchable, sortable table. Parsed entirely in your browser; nothing is uploaded anywhere.</p>
+  <div class="drop" id="drop" role="button" tabindex="0" aria-label="Load a spreadsheet file">
+    <b>Drop an .xlsx or .csv here</b>
+    <span>or click to choose a file · multi-sheet workbooks supported</span>
+    <input type="file" id="fileInput" class="visually-hidden" accept=".xlsx,.xlsm,.csv,.tsv">
+  </div>
+  <div id="trackerUI" hidden>
+    <div class="toolbar" id="sheetTabs"></div>
+    <div class="toolbar">
+      <input type="search" id="trackSearch" placeholder="Filter rows…" aria-label="Filter rows">
+      <span class="hint" id="trackMeta"></span>
+      <span class="spacer"></span>
+      <button class="btn" id="clearSheet" type="button">Clear</button>
+    </div>
+    <div class="tablewrap" id="trackTableWrap"></div>
+    <p class="hint" id="trackNote"></p>
+  </div>
+</section>
+
+<!-- ============ PLAYBOOK ============ -->
+<section class="view" id="view-playbook" hidden>
+  <h2>Playbook Reference</h2>
+  <p class="sub">The full sourcing strategy, kept here for reference. The living version is in the repo.</p>
+
+  <details class="ref"><summary>Site screen — before anyone gets a call</summary><div class="body">
+    <p><strong>Kill criteria:</strong> within ~1–2 mi of 161/345 kV (or ~3 mi of a substation with room); 300–800+ contiguous acres across ≤6–8 owners; core footprint out of the 100-yr floodplain, slopes under ~5%; a plausible zoning path (CUP or rezone); hard-surface road access.</p>
+    <p><strong>Scoring preferences:</strong> lower-CSR2 ground (50s–60s — cheaper, and owners more open to alternatives; sort the parcel universe by CSR2 ascending); absentee or aging ownership, estates, trusts; existing disturbance (closed ethanol plants, gravel pits, rail-served ground); water and fiber nearby; a county already comfortable with energy projects.</p>
+    <p><strong>Pre-build per cluster:</strong> a one-pager — parcel map with owners color-coded, acreage, CSR2, assessed value, transmission distance, floodplain overlay, and the assemblage sequence (anchor / optional / risk).</p>
+  </div></details>
+
+  <details class="ref"><summary>The 19 sourcing channels</summary><div class="body">
+    <p><strong>Tier 1 — data-driven (free, do first):</strong></p>
+    <ol>
+      <li><strong>County GIS parcel universe</strong> — Beacon / Vanguard portals + transmission overlay → every parcel in the buffer with owner and tax mailing address.</li>
+      <li><strong>Absentee-owner extraction</strong> — out-of-county tax addresses; weakest emotional ties, highest cold-outreach yield.</li>
+      <li><strong>Estate / trust / life-event signals</strong> — probate filings, trust-owned parcels, <em>no-saled auctions</em> (owner already decided to sell), expiring CRP contracts.</li>
+      <li><strong>Tax-stress signals</strong> — treasurer's delinquent lists; owners who might welcome a clean exit.</li>
+    </ol>
+    <p><strong>Tier 2 — relationships (the real Iowa land market):</strong></p>
+    <ol start="5">
+      <li><strong>Farm management companies</strong> — Hertz, Peoples Company, Farmers National, Stalcup, bank trust departments; one manager = dozens of owners.</li>
+      <li><strong>Brokers retained as buyer's scouts</strong> — retainer + success fee to <em>originate</em>, not to check listings.</li>
+      <li><strong>Auction houses</strong> — Sullivan, Steffes; pre-auction private deals.</li>
+      <li><strong>Ag lenders &amp; trust officers</strong> — can't share client info, can pass our one-pager along.</li>
+      <li><strong>County-seat estate attorneys</strong> — credibility + they know every family situation.</li>
+      <li><strong>Tenants as intermediaries</strong> — over half of Iowa farmland is rented; a tenant with upside becomes an advocate.</li>
+    </ol>
+    <p><strong>Tier 3 — community &amp; institutional:</strong></p>
+    <ol start="11">
+      <li><strong>County EDC offices</strong> — call before calling landowners; they know who's sale-curious.</li>
+      <li><strong>Utilities &amp; RECs</strong> — MidAmerican, Alliant, ITC Midwest siting teams; parcels near their own substations.</li>
+      <li><strong>Expired wind/solar options</strong> — county recorder search → a literal list of energy-friendly owners.</li>
+      <li><strong>Distressed industrial sites</strong> — closed ethanol plants, idle rail-served parks; IEDA certified sites list.</li>
+    </ol>
+    <p><strong>Tier 4 — creative plays:</strong></p>
+    <ol start="15">
+      <li><strong>Section-line letters</strong> — 30–80 per cluster, personalized with the legal description; 5–10× generic mail response.</li>
+      <li><strong>Plat book + coffee shop circuit</strong> — two days in county; within a week sellers call you. Only works if the story is true.</li>
+      <li><strong>"Keep farming it" offers</strong> — option payment now, rent-free farming until construction.</li>
+      <li><strong>Land swaps &amp; 1031s</strong> — capital-gains fear kills more deals than price; lead with the structure.</li>
+      <li><strong>Township trustees &amp; Farm Bureau officers</strong> — the informal mayors; heads-up calls end with "you ought to talk to ___."</li>
+    </ol>
+  </div></details>
+
+  <details class="ref"><summary>Assemblage discipline</summary><div class="body">
+    <p><strong>Options, not purchases:</strong> exclusive 12–36 month options, non-refundable payment credited at closing; record a <em>memorandum</em> (not the option — keeps price private); rent-free farming until exercise; price fixed up front, never open at exercise.</p>
+    <p><strong>Iowa-specific (local counsel from day one):</strong> Iowa Code ch. 9H corporate farmland restrictions — entity structure and option wording matter before the first signature. Farm tenancies auto-renew unless terminated by <strong>Sept 1</strong>. Keep a 1031 facilitator ready.</p>
+    <p><strong>Sequencing:</strong> anchor parcel first; design ≥2 viable configurations per cluster (alternates kill holdout leverage); uniform per-acre pricing framework — owners compare numbers at church; contingent options for the tail; pre-set walk-away numbers before the first call.</p>
+    <p><strong>Confidentiality, the honest version:</strong> neutral-name project LLC (standard, legal); everyone tells the same story — evaluating feasibility of a potential energy campus, battery storage or similar; if asked who's behind it: "we can't share who we're working with at this stage" — never a denial. NDAs with intermediaries; you can't keep the project's <em>existence</em> quiet, so don't build a plan that needs that.</p>
+  </div></details>
+
+  <details class="ref"><summary>Scripts — call, voicemail, letter, pitches</summary><div class="body">
+    <p><strong>Ground rules:</strong> one story, told the same by everyone. Discreet ≠ deceptive — don't name the end user, do answer honestly, never deny something true. Under-promise (it's a feasibility study). One letter, one voicemail, one follow-up; "don't call again" gets logged and honored.</p>
+    <p><strong>Cold call (after letter):</strong></p>
+    <blockquote><p>"Hi, is this [owner]? My name's [name] — I sent you a letter last week about your farm in Section [X] of [township] Township. Do you have two minutes? The short version: I'm working with a group studying whether a potential energy campus — battery storage, that kind of energy infrastructure — could work in [county] County. Your ground sits in an area that could fit, mostly because of where it is relative to the power lines. I want to be straight with you — this is early, and I'm not calling to pressure anybody. One question: if the numbers were right, is selling or optioning some or all of that ground something you'd ever entertain, or is it just not on the table?"</p></blockquote>
+    <p><em>If open:</em> coffee this week, walk through how an option works — "you'd farm it just like normal unless the project actually goes." <em>If no:</em> thank them, ask for referrals — "no" calls produce referrals constantly. <em>If hostile:</em> off the list, no argument; the neighbors are watching how we behave.</p>
+    <p><strong>Voicemail (≤20 s):</strong></p>
+    <blockquote><p>"Hi [name], this is [name] — I mailed you a letter about your farmland in [township] Township. We're studying a potential energy project in the county and had a quick question about your ground. No pressure either way — [number]. Thanks."</p></blockquote>
+    <p><strong>First-touch letter:</strong> personalized with the legal description; states the real story (early-stage feasibility, energy campus / battery storage); offers option structures where they keep farming; invites a "not interested" reply; promises one phone follow-up. Hand-signed, stamped not metered, local return address, one page, no gloss.</p>
+    <p><strong>Broker / farm-manager pitch:</strong> "[300–800]+ contiguous acres in [counties], energy-campus class. Nothing listed works, so we're originating off-market. Full commission, options so sellers keep farming, clean closes. NDA and we'll show you the screened areas."</p>
+    <p><strong>EDC / township heads-up:</strong> "Wanted you to hear it from us before any landowner calls. Feasibility study, very early, nothing committed — and if it moves forward, everything goes through your public process."</p>
+    <p><strong>Objections:</strong></p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>They say</th><th>We say</th></tr></thead>
+      <tbody>
+        <tr><td>"What's this really for?"</td><td>"Can't name who we're working with yet — normal at this stage — but the use is what I said. If it proceeds it all becomes public in permitting."</td></tr>
+        <tr><td>"Not selling the farm."</td><td>"Would an option interest you? Paid now, keep farming, sale only if the project's real — with years of notice."</td></tr>
+        <tr><td>"Capital gains would kill me."</td><td>"1031 facilitators — roll into replacement ground tax-deferred. Talk to your accountant; we structure around it."</td></tr>
+        <tr><td>"My tenant rents it."</td><td>"Built in — tenancy stays; under an option they farm until construction, years out if ever."</td></tr>
+        <tr><td>"What's it worth to you?"</td><td>"Recent county sales and CSR2, at a premium — same framework for every owner, so nobody loses by talking first. Real number on paper after I see the ground."</td></tr>
+        <tr><td>"Neighbors will hate it."</td><td>"Maybe some — that's why we're with the county and townships early, telling one true story. Nothing happens outside the public process."</td></tr>
+      </tbody>
+    </table></div>
+  </div></details>
+
+  <details class="ref"><summary>Data sources (all free)</summary><div class="body">
+    <ul>
+      <li><strong>Ownership:</strong> Beacon (beacon.schneidercorp.com) / Vanguard assessor portals; county GIS shapefiles; geodata.iowa.gov; Farm &amp; Home plat books.</li>
+      <li><strong>Soil:</strong> CSR2 via assessor portals, ISU ISPAID, AcreValue free tier; USDA Web Soil Survey.</li>
+      <li><strong>Energy/infrastructure:</strong> HIFLD / EIA Energy Atlas (transmission by kV, substations); MISO interconnection queue (withdrawn projects = pre-optioned landowners); Iowa Utilities Commission territory maps; FEMA flood layer; Iowa DOT rail GIS.</li>
+      <li><strong>Motivation signals:</strong> Iowa Courts Online probate search; county recorder (expired wind/solar easements); treasurer delinquent lists; Sullivan/Steffes auction results (flag no-sales); USDA CRP expirations.</li>
+      <li><strong>Pricing &amp; intel:</strong> ISU Extension Farmland Value Survey; auction comps adjusted by CSR2; county EDC + IEDA certified sites; supervisors' meeting minutes (search prior wind/solar/BESS items).</li>
+    </ul>
+  </div></details>
+
+  <details class="ref"><summary>Four-week sequence</summary><div class="body">
+    <p><strong>Weeks 1–2:</strong> parcel universe, screen clusters, rank owners. <strong>Week 2:</strong> retain local attorney + one broker/farm-manager channel. <strong>Week 3:</strong> EDC + utility conversations; letters drop for cluster #1. <strong>Week 4+:</strong> calls follow letters by 7–10 days; coffee-shop circuit same window; iterate cluster by cluster.</p>
+  </div></details>
+</section>
+
+<div class="toolbar" style="margin-top:26px">
+  <button class="btn" id="backupBtn" type="button">Backup everything (.json)</button>
+  <button class="btn" id="restoreBtn" type="button">Import backup</button>
+  <input type="file" id="restoreInput" class="visually-hidden" accept=".json">
+  <span class="hint">Data lives encrypted in this browser only. To sync with your partner: Backup → send the file → they Import.</span>
+</div>
+
+</main>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var GATE_HASH = 'fa30f11a2550b897bef651c20f700200f0550576e663ffa5c91d1e3bafd95a4d';
+  var STORE_KEY = 'ia-land-store-v2';
+  var SALT = 'ia-land-salt-v1';
+  var cryptoKey = null;
+
+  var store = { sites: [], channels: [], log: [], sheetData: null };
+
+  var SEED_CHANNELS = [
+    ['Tier 1 — Data-driven', 'County GIS parcel universe'],
+    ['Tier 1 — Data-driven', 'Absentee-owner extraction'],
+    ['Tier 1 — Data-driven', 'Estate / trust / probate / no-sale auctions / CRP'],
+    ['Tier 1 — Data-driven', 'Tax-stress signals'],
+    ['Tier 2 — Relationships', 'Farm management companies'],
+    ['Tier 2 — Relationships', 'Brokers retained as scouts'],
+    ['Tier 2 — Relationships', 'Auction houses (pre-auction deals)'],
+    ['Tier 2 — Relationships', 'Ag lenders & trust officers'],
+    ['Tier 2 — Relationships', 'County-seat attorneys'],
+    ['Tier 2 — Relationships', 'Tenants as intermediaries'],
+    ['Tier 3 — Community', 'County EDC offices'],
+    ['Tier 3 — Community', 'Utilities & RECs'],
+    ['Tier 3 — Community', 'Expired wind/solar options (recorder)'],
+    ['Tier 3 — Community', 'Distressed industrial sites'],
+    ['Tier 4 — Creative', 'Section-line letter campaigns'],
+    ['Tier 4 — Creative', 'Plat book + coffee shop circuit'],
+    ['Tier 4 — Creative', '"Keep farming it" option offers'],
+    ['Tier 4 — Creative', 'Land swaps & 1031 structures'],
+    ['Tier 4 — Creative', 'Township trustees & Farm Bureau']
+  ];
+  var CH_STATUSES = ['not started', 'active', 'paused', 'dead end'];
+
+  function uid() {
+    var a = new Uint8Array(6); crypto.getRandomValues(a);
+    return Array.prototype.map.call(a, function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+  }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (ch) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch];
+    });
+  }
+  function today() { return new Date().toISOString().slice(0, 10); }
+
+  /* ---------------- crypto ---------------- */
+  function b64(buf) {
+    var bytes = new Uint8Array(buf), s = '';
+    for (var i = 0; i < bytes.length; i++) s += String.fromCharCode(bytes[i]);
+    return btoa(s);
+  }
+  function unb64(str) {
+    var bin = atob(str), bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return bytes;
+  }
+  async function sha256hex(s) {
+    var d = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+    return Array.prototype.map.call(new Uint8Array(d), function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+  }
+  async function deriveKey(pass) {
+    var enc = new TextEncoder();
+    var km = await crypto.subtle.importKey('raw', enc.encode(pass), 'PBKDF2', false, ['deriveKey']);
+    return crypto.subtle.deriveKey(
+      { name: 'PBKDF2', salt: enc.encode(SALT), iterations: 150000, hash: 'SHA-256' },
+      km, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+  }
+  async function saveStore() {
+    if (!cryptoKey) return;
+    try {
+      var iv = crypto.getRandomValues(new Uint8Array(12));
+      var ct = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv },
+        cryptoKey, new TextEncoder().encode(JSON.stringify(store)));
+      localStorage.setItem(STORE_KEY, b64(iv) + '.' + b64(ct));
+    } catch (e) { /* quota — data still lives in memory this session */ }
+  }
+  async function loadStore() {
+    try {
+      var raw = localStorage.getItem(STORE_KEY);
+      if (!raw) return;
+      var parts = raw.split('.');
+      var pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: unb64(parts[0]) },
+        cryptoKey, unb64(parts[1]));
+      var parsed = JSON.parse(new TextDecoder().decode(pt));
+      if (parsed && typeof parsed === 'object') {
+        store.sites = parsed.sites || [];
+        store.channels = parsed.channels || [];
+        store.log = parsed.log || [];
+        store.sheetData = parsed.sheetData || null;
+      }
+    } catch (e) { /* wrong key or corrupt — start fresh */ }
+  }
+  function seedChannels() {
+    var have = {};
+    store.channels.forEach(function (c) { have[c.name] = true; });
+    SEED_CHANNELS.forEach(function (sc) {
+      if (!have[sc[1]]) store.channels.push({
+        id: uid(), tier: sc[0], name: sc[1], status: 'not started', who: '', lastTouch: '', notes: '', custom: false
+      });
+    });
+  }
+
+  /* ---------------- gate ---------------- */
+  var gateEl = document.getElementById('gate');
+  var appEl = document.getElementById('app');
+  document.getElementById('gateForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    unlock(document.getElementById('gatePass').value);
+  });
+  async function unlock(pass) {
+    var h = await sha256hex('ia-land-v1|' + pass);
+    if (h !== GATE_HASH) {
+      document.getElementById('gateErr').style.display = 'block';
+      return;
+    }
+    try { sessionStorage.setItem('ia-gate', pass); } catch (e) {}
+    cryptoKey = await deriveKey(pass);
+    await loadStore();
+    seedChannels();
+    gateEl.hidden = true;
+    appEl.hidden = false;
+    renderAll();
+    saveStore();
+  }
+  document.getElementById('lockBtn').addEventListener('click', function () {
+    try { sessionStorage.removeItem('ia-gate'); } catch (e) {}
+    location.reload();
+  });
+  (function tryAuto() {
+    try {
+      var p = sessionStorage.getItem('ia-gate');
+      if (p) unlock(p);
+    } catch (e) {}
+  })();
+
+  /* ---------------- tabs ---------------- */
+  document.querySelectorAll('.tabs button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('.tabs button').forEach(function (x) { x.setAttribute('aria-selected', 'false'); });
+      b.setAttribute('aria-selected', 'true');
+      document.querySelectorAll('.view').forEach(function (v) { v.hidden = true; });
+      document.getElementById('view-' + b.getAttribute('data-view')).hidden = false;
+    });
+  });
+
+  /* ---------------- downloads ---------------- */
+  async function offerFile(filename, data) {
+    var dl = window.claude && window.claude.downloads;
+    if (dl) {
+      try { await dl.save({ filename: filename, data: data }); return; }
+      catch (err) {
+        if (err && err.code === 'extension_not_enabled') {
+          try { await dl.save({ filename: filename.replace(/\.[a-z]+$/i, '.txt'), data: data }); return; }
+          catch (e2) { if (e2 && e2.code === 'declined') return; }
+        } else if (err && err.code === 'declined') return;
+      }
+    }
+    var a = document.createElement('a');
+    a.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(data);
+    a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+  function toCsv(rows) {
+    return rows.map(function (r) {
+      return r.map(function (v) {
+        v = String(v == null ? '' : v);
+        return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+      }).join(',');
+    }).join('\n');
+  }
+
+  /* ---------------- sites ---------------- */
+  var siteSort = { col: 'status', dir: 1 };
+  var editingSite = null;
+  var SITE_COLS = [
+    ['label', 'Site'], ['county', 'County'], ['state', 'St'], ['acres', 'Acres'],
+    ['owners', 'Owners'], ['transmission', 'Transmission'], ['channel', 'Found via'],
+    ['signal', 'Signal'], ['interest', 'Interest'], ['status', 'Status'],
+    ['nextAction', 'Next action'], ['nextDate', 'By'], ['notes', 'Notes']
+  ];
+  var STATUS_ORDER = { negotiating: 0, meeting: 1, outreach: 2, optioned: 3, screening: 4, dead: 5 };
+
+  function channelOptions(sel) {
+    var el = document.getElementById('sf-channel');
+    el.innerHTML = '<option value="">—</option>' + store.channels.map(function (c) {
+      return '<option' + (sel === c.name ? ' selected' : '') + '>' + esc(c.name) + '</option>';
+    }).join('') + '<option' + (sel === 'other' ? ' selected' : '') + '>other</option>';
+  }
+
+  function renderSiteChips() {
+    var counts = {};
+    store.sites.forEach(function (s) { counts[s.status] = (counts[s.status] || 0) + 1; });
+    var order = ['screening', 'outreach', 'meeting', 'negotiating', 'optioned', 'dead'];
+    document.getElementById('siteChips').innerHTML = order.filter(function (k) { return counts[k]; })
+      .map(function (k) { return '<span class="chip' + (k === 'optioned' || k === 'negotiating' ? ' copper' : '') + '">' + counts[k] + ' ' + k + '</span>'; }).join('') +
+      '<span class="chip">' + store.sites.length + ' total</span>';
+  }
+
+  function renderSites() {
+    renderSiteChips();
+    channelOptions();
+    var q = (document.getElementById('siteSearch').value || '').toLowerCase();
+    var rows = store.sites.slice();
+    if (q) rows = rows.filter(function (s) {
+      return SITE_COLS.some(function (c) { return String(s[c[0]] || '').toLowerCase().indexOf(q) > -1; });
+    });
+    rows.sort(function (a, b) {
+      var col = siteSort.col;
+      var av = col === 'status' ? STATUS_ORDER[a.status] : (a[col] == null ? '' : a[col]);
+      var bv = col === 'status' ? STATUS_ORDER[b.status] : (b[col] == null ? '' : b[col]);
+      var an = Number(av), bn = Number(bv);
+      if (av !== '' && bv !== '' && isFinite(an) && isFinite(bn)) return (an - bn) * siteSort.dir;
+      return String(av).localeCompare(String(bv), undefined, { numeric: true }) * siteSort.dir;
+    });
+    var html = '<table><thead><tr>' + SITE_COLS.map(function (c) {
+      var arrow = siteSort.col === c[0] ? '<span class="arrow">' + (siteSort.dir === 1 ? '▲' : '▼') + '</span>' : '';
+      return '<th data-col="' + c[0] + '">' + c[1] + arrow + '</th>';
+    }).join('') + '<th></th></tr></thead><tbody>';
+    if (!rows.length) html += '<tr><td colspan="' + (SITE_COLS.length + 1) + '" style="color:var(--ink-soft)">No sites yet — add the ones you\'ve identified above.</td></tr>';
+    rows.forEach(function (s) {
+      html += '<tr>';
+      SITE_COLS.forEach(function (c) {
+        var v = s[c[0]] || '';
+        if (c[0] === 'status') v = '<span class="status st-' + esc(s.status) + '">' + esc(s.status) + '</span>';
+        else v = esc(v);
+        html += '<td class="' + (c[0] === 'notes' || c[0] === 'signal' ? 'notes' : '') + '">' + v + '</td>';
+      });
+      html += '<td class="rowbtns"><button class="btn small" data-edit="' + s.id + '">Edit</button> <button class="btn small danger" data-del="' + s.id + '">✕</button></td></tr>';
+    });
+    html += '</tbody></table>';
+    var wrap = document.getElementById('siteTable');
+    wrap.innerHTML = html;
+    wrap.querySelectorAll('th[data-col]').forEach(function (th) {
+      th.addEventListener('click', function () {
+        var c = th.getAttribute('data-col');
+        if (siteSort.col === c) siteSort.dir *= -1; else { siteSort.col = c; siteSort.dir = 1; }
+        renderSites();
+      });
+    });
+    wrap.querySelectorAll('[data-edit]').forEach(function (b) {
+      b.addEventListener('click', function () { startEditSite(b.getAttribute('data-edit')); });
+    });
+    wrap.querySelectorAll('[data-del]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var s = store.sites.find(function (x) { return x.id === b.getAttribute('data-del'); });
+        if (s && confirm('Delete site "' + s.label + '"?')) {
+          store.sites = store.sites.filter(function (x) { return x !== s; });
+          renderSites(); renderLogSiteOptions(); saveStore();
+        }
+      });
+    });
+  }
+
+  function siteFormValues() {
+    return {
+      label: document.getElementById('sf-label').value.trim(),
+      state: document.getElementById('sf-state').value.trim(),
+      county: document.getElementById('sf-county').value.trim(),
+      acres: document.getElementById('sf-acres').value.trim(),
+      owners: document.getElementById('sf-owners').value.trim(),
+      transmission: document.getElementById('sf-tx').value.trim(),
+      channel: document.getElementById('sf-channel').value,
+      signal: document.getElementById('sf-signal').value.trim(),
+      interest: document.getElementById('sf-interest').value,
+      status: document.getElementById('sf-status').value,
+      nextAction: document.getElementById('sf-next').value.trim(),
+      nextDate: document.getElementById('sf-nextdate').value,
+      notes: document.getElementById('sf-notes').value.trim()
+    };
+  }
+  function fillSiteForm(s) {
+    document.getElementById('sf-label').value = s.label || '';
+    document.getElementById('sf-state').value = s.state || 'IA';
+    document.getElementById('sf-county').value = s.county || '';
+    document.getElementById('sf-acres').value = s.acres || '';
+    document.getElementById('sf-owners').value = s.owners || '';
+    document.getElementById('sf-tx').value = s.transmission || '';
+    channelOptions(s.channel);
+    document.getElementById('sf-signal').value = s.signal || '';
+    document.getElementById('sf-interest').value = s.interest || 'unknown';
+    document.getElementById('sf-status').value = s.status || 'screening';
+    document.getElementById('sf-next').value = s.nextAction || '';
+    document.getElementById('sf-nextdate').value = s.nextDate || '';
+    document.getElementById('sf-notes').value = s.notes || '';
+  }
+  function startEditSite(id) {
+    var s = store.sites.find(function (x) { return x.id === id; });
+    if (!s) return;
+    editingSite = id;
+    fillSiteForm(s);
+    document.getElementById('siteSubmit').textContent = 'Save changes';
+    document.getElementById('siteCancel').hidden = false;
+    document.getElementById('sf-label').focus();
+  }
+  function resetSiteForm() {
+    editingSite = null;
+    fillSiteForm({ state: 'IA' });
+    document.getElementById('siteSubmit').textContent = 'Add site';
+    document.getElementById('siteCancel').hidden = true;
+    document.getElementById('siteHint').textContent = '';
+  }
+  document.getElementById('siteCancel').addEventListener('click', resetSiteForm);
+  document.getElementById('siteForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var v = siteFormValues();
+    if (!v.label) return;
+    var hint = document.getElementById('siteHint');
+    if (v.status !== 'screening' && v.status !== 'dead' && !v.signal) {
+      hint.className = 'hint warn';
+      hint.textContent = 'House rule: past screening needs a willingness signal. Saved anyway — add one.';
+    } else { hint.textContent = ''; hint.className = 'hint'; }
+    if (editingSite) {
+      var s = store.sites.find(function (x) { return x.id === editingSite; });
+      if (s) Object.assign(s, v, { updated: today() });
+    } else {
+      store.sites.push(Object.assign({ id: uid(), updated: today() }, v));
+    }
+    resetSiteForm();
+    renderSites(); renderLogSiteOptions(); saveStore();
+  });
+  document.getElementById('siteSearch').addEventListener('input', renderSites);
+  document.getElementById('exportSites').addEventListener('click', function () {
+    var rows = [SITE_COLS.map(function (c) { return c[1]; })].concat(
+      store.sites.map(function (s) { return SITE_COLS.map(function (c) { return s[c[0]] || ''; }); }));
+    offerFile('ia-land-sites.csv', toCsv(rows));
+  });
+
+  /* ---------------- channels ---------------- */
+  function renderChannels() {
+    var active = store.channels.filter(function (c) { return c.status === 'active'; }).length;
+    document.getElementById('chActive').textContent = active + ' of ' + store.channels.length + ' channels active';
+    var byTier = {};
+    store.channels.forEach(function (c) { (byTier[c.tier] = byTier[c.tier] || []).push(c); });
+    var html = '';
+    Object.keys(byTier).forEach(function (tier) {
+      html += '<div class="ch-tier">' + esc(tier) + '</div>';
+      html += '<div class="tablewrap"><table><thead><tr><th style="cursor:default">Channel</th><th style="cursor:default">Status</th><th style="cursor:default">Who</th><th style="cursor:default">Last touch</th><th style="cursor:default">Notes</th><th></th></tr></thead><tbody>';
+      byTier[tier].forEach(function (c) {
+        html += '<tr data-ch="' + c.id + '">' +
+          '<td style="font-weight:600">' + esc(c.name) + '</td>' +
+          '<td><select class="mini" data-f="status">' + CH_STATUSES.map(function (s) {
+            return '<option' + (c.status === s ? ' selected' : '') + '>' + s + '</option>';
+          }).join('') + '</select></td>' +
+          '<td><input class="mini" data-f="who" value="' + esc(c.who) + '" placeholder="who"></td>' +
+          '<td><input class="mini" data-f="lastTouch" type="date" value="' + esc(c.lastTouch) + '"></td>' +
+          '<td style="min-width:220px"><input class="mini wide" data-f="notes" value="' + esc(c.notes) + '" placeholder="notes"></td>' +
+          '<td class="rowbtns">' + (c.custom ? '<button class="btn small danger" data-delch="' + c.id + '">✕</button>' : '') + '</td>' +
+          '</tr>';
+      });
+      html += '</tbody></table></div>';
+    });
+    var list = document.getElementById('channelList');
+    list.innerHTML = html;
+    list.querySelectorAll('tr[data-ch]').forEach(function (tr) {
+      var c = store.channels.find(function (x) { return x.id === tr.getAttribute('data-ch'); });
+      tr.querySelectorAll('[data-f]').forEach(function (el) {
+        el.addEventListener('change', function () {
+          c[el.getAttribute('data-f')] = el.value;
+          if (el.getAttribute('data-f') === 'status') {
+            var active2 = store.channels.filter(function (x) { return x.status === 'active'; }).length;
+            document.getElementById('chActive').textContent = active2 + ' of ' + store.channels.length + ' channels active';
+          }
+          saveStore();
+        });
+      });
+    });
+    list.querySelectorAll('[data-delch]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        store.channels = store.channels.filter(function (x) { return x.id !== b.getAttribute('data-delch'); });
+        renderChannels(); saveStore();
+      });
+    });
+  }
+  document.getElementById('addChannel').addEventListener('click', function () {
+    var name = prompt('New channel name:');
+    if (!name || !name.trim()) return;
+    store.channels.push({ id: uid(), tier: 'Custom', name: name.trim(), status: 'active', who: '', lastTouch: today(), notes: '', custom: true });
+    renderChannels(); saveStore();
+  });
+  document.getElementById('exportChannels').addEventListener('click', function () {
+    var rows = [['tier', 'channel', 'status', 'who', 'last_touch', 'notes']].concat(
+      store.channels.map(function (c) { return [c.tier, c.name, c.status, c.who, c.lastTouch, c.notes]; }));
+    offerFile('ia-land-channels.csv', toCsv(rows));
+  });
+
+  /* ---------------- log ---------------- */
+  function renderLogSiteOptions() {
+    var sel = document.getElementById('lf-site');
+    sel.innerHTML = '<option value="">—</option>' + store.sites.map(function (s) {
+      return '<option value="' + esc(s.id) + '">' + esc(s.label) + '</option>';
+    }).join('');
+  }
+  function renderLog() {
+    renderLogSiteOptions();
+    var ul = document.getElementById('logList');
+    var entries = store.log.slice().sort(function (a, b) { return b.ts.localeCompare(a.ts); });
+    ul.innerHTML = entries.length ? '' : '<li style="color:var(--ink-soft)">No entries yet.</li>';
+    entries.forEach(function (en) {
+      var site = store.sites.find(function (s) { return s.id === en.siteId; });
+      var li = document.createElement('li');
+      li.innerHTML = '<div class="meta"><span>' + esc(en.ts.replace('T', ' ').slice(0, 16)) + '</span>' +
+        (site ? '<span class="chip">' + esc(site.label) + '</span>' : '') +
+        '<button class="btn small danger del" data-dellog="' + en.id + '">✕</button></div>' +
+        '<div>' + esc(en.text) + '</div>';
+      ul.appendChild(li);
+    });
+    ul.querySelectorAll('[data-dellog]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        store.log = store.log.filter(function (x) { return x.id !== b.getAttribute('data-dellog'); });
+        renderLog(); saveStore();
+      });
+    });
+  }
+  document.getElementById('logForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var text = document.getElementById('lf-text').value.trim();
+    if (!text) return;
+    store.log.push({ id: uid(), ts: new Date().toISOString(), siteId: document.getElementById('lf-site').value, text: text });
+    document.getElementById('lf-text').value = '';
+    renderLog(); saveStore();
+  });
+
+  /* ---------------- backup / restore ---------------- */
+  document.getElementById('backupBtn').addEventListener('click', function () {
+    offerFile('ia-land-backup.json', JSON.stringify({ v: 2, exported: new Date().toISOString(), sites: store.sites, channels: store.channels, log: store.log }, null, 2));
+  });
+  document.getElementById('restoreBtn').addEventListener('click', function () {
+    document.getElementById('restoreInput').click();
+  });
+  document.getElementById('restoreInput').addEventListener('change', async function () {
+    var f = this.files[0]; this.value = '';
+    if (!f) return;
+    try {
+      var data = JSON.parse(await f.text());
+      if (!data || !Array.isArray(data.sites)) throw new Error('bad file');
+      if (!confirm('Replace current sites/channels/log with the backup "' + f.name + '"?')) return;
+      store.sites = data.sites || [];
+      store.channels = data.channels || [];
+      store.log = data.log || [];
+      seedChannels();
+      renderAll(); saveStore();
+    } catch (e) { alert('Could not read that backup file.'); }
+  });
+
+  /* ---------------- spreadsheet viewer ---------------- */
+  var sheetState = { fileName: '', sheets: [], active: 0, sortCol: -1, sortDir: 1, filter: '' };
+  var MAX_ROWS = 1500;
+  var drop = document.getElementById('drop');
+  var fileInput = document.getElementById('fileInput');
+
+  function findEOCD(view) {
+    for (var i = view.byteLength - 22; i >= Math.max(0, view.byteLength - 22 - 65536); i--) {
+      if (view.getUint32(i, true) === 0x06054b50) return i;
+    }
+    return -1;
+  }
+  async function unzip(buf) {
+    var view = new DataView(buf);
+    var eocd = findEOCD(view);
+    if (eocd < 0) throw new Error('Not a valid .xlsx (zip) file.');
+    var count = view.getUint16(eocd + 10, true);
+    var cdOffset = view.getUint32(eocd + 16, true);
+    var entries = {}; var p = cdOffset; var dec = new TextDecoder();
+    for (var n = 0; n < count; n++) {
+      if (view.getUint32(p, true) !== 0x02014b50) break;
+      var method = view.getUint16(p + 10, true);
+      var csize = view.getUint32(p + 20, true);
+      var nameLen = view.getUint16(p + 28, true);
+      var extraLen = view.getUint16(p + 30, true);
+      var commentLen = view.getUint16(p + 32, true);
+      var lho = view.getUint32(p + 42, true);
+      var name = dec.decode(new Uint8Array(buf, p + 46, nameLen));
+      entries[name] = { method: method, csize: csize, lho: lho };
+      p += 46 + nameLen + extraLen + commentLen;
+    }
+    async function read(name) {
+      var e = entries[name];
+      if (!e) return null;
+      var lNameLen = view.getUint16(e.lho + 26, true);
+      var lExtraLen = view.getUint16(e.lho + 28, true);
+      var start = e.lho + 30 + lNameLen + lExtraLen;
+      var slice = buf.slice(start, start + e.csize);
+      if (e.method === 0) return dec.decode(slice);
+      var ds = new DecompressionStream('deflate-raw');
+      return await new Response(new Blob([slice]).stream().pipeThrough(ds)).text();
+    }
+    return { read: read };
+  }
+  function colIndex(ref) {
+    var c = 0;
+    for (var i = 0; i < ref.length; i++) {
+      var ch = ref.charCodeAt(i);
+      if (ch >= 65 && ch <= 90) c = c * 26 + (ch - 64); else break;
+    }
+    return c - 1;
+  }
+  function parseXmlDoc(text) { return new DOMParser().parseFromString(text, 'application/xml'); }
+  async function parseXlsx(buf) {
+    var zip = await unzip(buf);
+    var wbXml = await zip.read('xl/workbook.xml');
+    if (!wbXml) throw new Error('No workbook found.');
+    var wb = parseXmlDoc(wbXml);
+    var relsXml = await zip.read('xl/_rels/workbook.xml.rels');
+    var relMap = {};
+    if (relsXml) {
+      var rels = parseXmlDoc(relsXml).getElementsByTagName('Relationship');
+      for (var i = 0; i < rels.length; i++) {
+        var t = rels[i].getAttribute('Target').replace(/^\//, '').replace(/^(?!xl\/)/, 'xl/');
+        relMap[rels[i].getAttribute('Id')] = t;
+      }
+    }
+    var shared = [];
+    var ssXml = await zip.read('xl/sharedStrings.xml');
+    if (ssXml) {
+      var sis = parseXmlDoc(ssXml).getElementsByTagName('si');
+      for (var s = 0; s < sis.length; s++) shared.push(sis[s].textContent);
+    }
+    var sheetEls = wb.getElementsByTagName('sheet');
+    var sheets = [];
+    for (var j = 0; j < sheetEls.length; j++) {
+      var sName = sheetEls[j].getAttribute('name') || ('Sheet' + (j + 1));
+      var rid = sheetEls[j].getAttribute('r:id') || sheetEls[j].getAttributeNS('http://schemas.openxmlformats.org/officeDocument/2006/relationships', 'id');
+      var path = (rid && relMap[rid]) || ('xl/worksheets/sheet' + (j + 1) + '.xml');
+      var shXml = await zip.read(path);
+      if (!shXml) continue;
+      var rowEls = parseXmlDoc(shXml).getElementsByTagName('row');
+      var rows = [];
+      for (var r = 0; r < rowEls.length; r++) {
+        var cells = rowEls[r].getElementsByTagName('c');
+        var row = [];
+        for (var c = 0; c < cells.length; c++) {
+          var cell = cells[c];
+          var ref = cell.getAttribute('r');
+          var ci = ref ? colIndex(ref) : row.length;
+          var type = cell.getAttribute('t');
+          var val = '';
+          if (type === 'inlineStr') val = cell.textContent;
+          else {
+            var vEl = cell.getElementsByTagName('v')[0];
+            if (vEl) {
+              val = vEl.textContent;
+              if (type === 's') { var si = parseInt(val, 10); val = shared[si] != null ? shared[si] : ''; }
+              else if (type === 'b') val = val === '1' ? 'TRUE' : 'FALSE';
+            }
+          }
+          while (row.length < ci) row.push('');
+          row[ci] = val;
+        }
+        if (row.some(function (v) { return String(v).trim() !== ''; })) rows.push(row);
+      }
+      sheets.push({ name: sName, rows: rows });
+    }
+    if (!sheets.length) throw new Error('No sheets with data found.');
+    return sheets;
+  }
+  function parseCsv(text) {
+    var delim = text.indexOf('\t') > -1 && text.indexOf(',') === -1 ? '\t' : ',';
+    var rows = [], row = [], cur = '', inQ = false;
+    for (var i = 0; i < text.length; i++) {
+      var ch = text[i];
+      if (inQ) {
+        if (ch === '"') { if (text[i + 1] === '"') { cur += '"'; i++; } else inQ = false; }
+        else cur += ch;
+      } else if (ch === '"') inQ = true;
+      else if (ch === delim) { row.push(cur); cur = ''; }
+      else if (ch === '\n' || ch === '\r') {
+        if (ch === '\r' && text[i + 1] === '\n') i++;
+        row.push(cur); cur = '';
+        if (row.some(function (v) { return v.trim() !== ''; })) rows.push(row);
+        row = [];
+      } else cur += ch;
+    }
+    row.push(cur);
+    if (row.some(function (v) { return v.trim() !== ''; })) rows.push(row);
+    return [{ name: 'Sheet 1', rows: rows }];
+  }
+  function excelDate(serial) {
+    var d = new Date(Math.round((serial - 25569) * 86400000));
+    return isNaN(d.getTime()) ? null : d.toISOString().slice(0, 10);
+  }
+  function applyDateHeuristic(sheet) {
+    if (!sheet.rows.length) return;
+    var head = sheet.rows[0];
+    for (var c = 0; c < head.length; c++) {
+      if (!/date/i.test(String(head[c] || ''))) continue;
+      for (var r = 1; r < sheet.rows.length; r++) {
+        var v = sheet.rows[r][c]; var num = Number(v);
+        if (v !== '' && v != null && isFinite(num) && num > 20000 && num < 80000 && String(v).indexOf('-') === -1) {
+          var d = excelDate(num);
+          if (d) sheet.rows[r][c] = d;
+        }
+      }
+    }
+  }
+  function renderSheet() {
+    var ui = document.getElementById('trackerUI');
+    var sheet = sheetState.sheets[sheetState.active];
+    if (!sheet) { ui.hidden = true; return; }
+    ui.hidden = false;
+    var tabs = document.getElementById('sheetTabs');
+    tabs.innerHTML = '';
+    if (sheetState.sheets.length > 1) {
+      sheetState.sheets.forEach(function (s, i) {
+        var b = document.createElement('button');
+        b.className = 'btn small'; b.type = 'button'; b.textContent = s.name;
+        if (i === sheetState.active) { b.style.background = 'var(--accent)'; b.style.color = '#FDFDF9'; b.style.borderColor = 'var(--accent)'; }
+        b.addEventListener('click', function () {
+          sheetState.active = i; sheetState.sortCol = -1; sheetState.filter = '';
+          document.getElementById('trackSearch').value = '';
+          renderSheet(); persistSheet();
+        });
+        tabs.appendChild(b);
+      });
+    }
+    var head = sheet.rows[0] || [];
+    var body = sheet.rows.slice(1);
+    var q = sheetState.filter.trim().toLowerCase();
+    if (q) body = body.filter(function (r) { return r.some(function (v) { return String(v).toLowerCase().indexOf(q) > -1; }); });
+    if (sheetState.sortCol > -1) {
+      var col = sheetState.sortCol, dir = sheetState.sortDir;
+      body = body.slice().sort(function (a, b) {
+        var av = a[col] == null ? '' : a[col], bv = b[col] == null ? '' : b[col];
+        var an = Number(av), bn = Number(bv);
+        if (av !== '' && bv !== '' && isFinite(an) && isFinite(bn)) return (an - bn) * dir;
+        return String(av).localeCompare(String(bv), undefined, { numeric: true }) * dir;
+      });
+    }
+    var shown = body.slice(0, MAX_ROWS);
+    var html = '<table><thead><tr>';
+    for (var c = 0; c < head.length; c++) {
+      var arrow = sheetState.sortCol === c ? '<span class="arrow">' + (sheetState.sortDir === 1 ? '▲' : '▼') + '</span>' : '';
+      html += '<th data-col="' + c + '">' + esc(head[c]) + arrow + '</th>';
+    }
+    html += '</tr></thead><tbody>';
+    for (var r = 0; r < shown.length; r++) {
+      html += '<tr>';
+      for (var c2 = 0; c2 < head.length; c2++) html += '<td>' + esc(shown[r][c2]) + '</td>';
+      html += '</tr>';
+    }
+    html += '</tbody></table>';
+    var wrap = document.getElementById('trackTableWrap');
+    wrap.innerHTML = html;
+    wrap.querySelectorAll('th').forEach(function (th) {
+      th.addEventListener('click', function () {
+        var c = parseInt(th.getAttribute('data-col'), 10);
+        if (sheetState.sortCol === c) sheetState.sortDir *= -1; else { sheetState.sortCol = c; sheetState.sortDir = 1; }
+        renderSheet();
+      });
+    });
+    document.getElementById('trackMeta').textContent = sheetState.fileName + ' · ' + body.length + ' rows' + (q ? ' (filtered)' : '');
+    document.getElementById('trackNote').textContent = body.length > MAX_ROWS
+      ? 'Showing first ' + MAX_ROWS + ' of ' + body.length + ' matching rows — narrow the filter.'
+      : 'First row is treated as headers. Click a column to sort.';
+  }
+  function persistSheet() {
+    store.sheetData = { fileName: sheetState.fileName, sheets: sheetState.sheets, active: sheetState.active };
+    saveStore();
+  }
+  async function loadSheetFile(file) {
+    drop.querySelector('b').textContent = 'Reading ' + file.name + '…';
+    try {
+      var sheets;
+      if (/\.(csv|tsv)$/i.test(file.name)) sheets = parseCsv(await file.text());
+      else { sheets = await parseXlsx(await file.arrayBuffer()); sheets.forEach(applyDateHeuristic); }
+      sheetState = { fileName: file.name, sheets: sheets, active: 0, sortCol: -1, sortDir: 1, filter: '' };
+      document.getElementById('trackSearch').value = '';
+      renderSheet(); persistSheet();
+      drop.querySelector('b').textContent = 'Drop a different .xlsx or .csv to replace';
+    } catch (err) {
+      drop.querySelector('b').textContent = 'Couldn’t read that file — ' + err.message + ' Try again?';
+    }
+  }
+  drop.addEventListener('click', function () { fileInput.click(); });
+  drop.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); } });
+  fileInput.addEventListener('change', function () { if (fileInput.files[0]) loadSheetFile(fileInput.files[0]); fileInput.value = ''; });
+  ['dragover', 'dragenter'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
+  ['dragleave', 'drop'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
+  drop.addEventListener('drop', function (e) {
+    var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+    if (f) loadSheetFile(f);
+  });
+  document.getElementById('trackSearch').addEventListener('input', function () {
+    sheetState.filter = this.value; renderSheet();
+  });
+  document.getElementById('clearSheet').addEventListener('click', function () {
+    sheetState = { fileName: '', sheets: [], active: 0, sortCol: -1, sortDir: 1, filter: '' };
+    store.sheetData = null;
+    document.getElementById('trackerUI').hidden = true;
+    drop.querySelector('b').textContent = 'Drop an .xlsx or .csv here';
+    saveStore();
+  });
+
+  /* ---------------- render all ---------------- */
+  function renderAll() {
+    resetSiteForm();
+    renderSites();
+    renderChannels();
+    renderLog();
+    if (store.sheetData && store.sheetData.sheets && store.sheetData.sheets.length) {
+      sheetState = { fileName: store.sheetData.fileName || 'saved data', sheets: store.sheetData.sheets, active: store.sheetData.active || 0, sortCol: -1, sortDir: 1, filter: '' };
+      renderSheet();
+      drop.querySelector('b').textContent = 'Drop a different .xlsx or .csv to replace';
+    }
+  }
+})();
+</script>
