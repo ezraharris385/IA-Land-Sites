@@ -1,0 +1,76 @@
+{
+  "schema": "candidate campus footprints. a package is a way of getting to 500+ contiguous buildable acres — by combining what is already on record, by targeting ground that fits the screen, or by taking someone else's assembled site.",
+  "updated": "2026-08-05",
+  "types": {
+    "combine": "Built from sites already on record",
+    "target": "Constructed from the screen — ground to go and get, not yet found",
+    "third_party": "Somebody else already assembled it"
+  },
+  "stages": ["concept", "qualifying", "in_discussion", "under_option", "dead"],
+  "packages": [
+    {
+      "id": "P-001", "name": "Redding pair", "type": "combine", "county": "Ringgold",
+      "components": ["S-001", "S-009"], "contiguous": "unconfirmed",
+      "owners_est": 2, "stage": "concept",
+      "thesis": "The only two tracts in the whole file sitting in the same small town. If they touch, or are separated only by a section-line road, this is the largest single footprint available without finding anything new.",
+      "blockers": "Both are cut by watercourses — the larger one carries two rivers and only 530 tillable acres of 1,232. Ringgold scores 47 and is bracketed by Clarke, which is closed, and Taylor, which is drafting.",
+      "next": "Ask the two listing brokers whether the parcels adjoin. Nick Hopp holds one and Jared Luebbers the other, so it is two calls."
+    },
+    {
+      "id": "P-002", "name": "Davis County pair", "type": "combine", "county": "Davis",
+      "components": ["S-006", "S-007"], "contiguous": "no — Bloomfield and Floris are separate localities",
+      "owners_est": 2, "stage": "concept",
+      "thesis": "Two tracts over 500 acres in one county, which normally means one trip and one board to persuade.",
+      "blockers": "Davis has the worst assemblage profile on the screen at 7.4 owners per section, and the ground is recreational — ponds, timber and a cabin on one, unresolved flood extent on the other. These cannot merge into a single campus.",
+      "next": "Low priority. Keep as a fallback rather than working it."
+    },
+    {
+      "id": "P-003", "name": "Buena Vista county position", "type": "combine", "county": "Buena Vista",
+      "components": ["S-003", "S-018"], "contiguous": "no — 7.7 miles apart",
+      "owners_est": 2, "stage": "qualifying",
+      "thesis": "Two independent shots in a county scoring 78 with 3.4 owners per section and no ordinance action. One is a full off-market section with willing owners; the other is a clean 775-acre auction tract. Same county, same regional council, same board — the entitlement work is shared even though the sites are not.",
+      "blockers": "These are two campuses, not one. Section 16 carries Zone A across much of its area with no Base Flood Elevation. The auction tract runs on someone else's clock.",
+      "next": "Establish the dry, contiguous acreage inside Section 16. That single answer decides whether this county position is worth building around."
+    },
+    {
+      "id": "P-004", "name": "Kossuth section", "type": "target", "county": "Kossuth",
+      "components": [], "target_acres": 640, "contiguous": "by construction",
+      "stage": "concept",
+      "thesis": "The deepest pool of large holdings in Iowa — 396 farms at 500+ acres and 143 above 1,000, at a median of 228 acres. Roughly three signatures for a full section. Nothing on record here, and two loaded contacts already cover it.",
+      "blockers": "Nothing identified yet. This is a package to go and build, not one to evaluate.",
+      "next": "Mid Iowa Growth Partnership covers Kossuth and has not been called. NIACOG covers it too."
+    },
+    {
+      "id": "P-005", "name": "Cherokee section", "type": "target", "county": "Cherokee",
+      "components": [], "target_acres": 640, "contiguous": "by construction",
+      "stage": "concept",
+      "thesis": "The easiest assemblage arithmetic in the state at 2.7 owners per section, on Northwest Iowa Plains — the best landform class Iowa has. Well drained, gently rolling, sparse streams.",
+      "blockers": "Adjacent to two counties that have already closed, so the political weather could change. Smaller pool than Kossuth at 204 farms above 500 acres.",
+      "next": "Siouxland Interstate Metropolitan Planning Council covers Cherokee and Ida. One call reaches both."
+    },
+    {
+      "id": "P-006", "name": "Mills Crossings Mega Site", "type": "third_party", "county": "Mills",
+      "components": [], "target_acres": 1600, "contiguous": "yes — single certified site",
+      "stage": "concept",
+      "thesis": "Larger than anything else in the project and the diligence is already paid for. State certification means Phase I environmental, geotechnical, archaeological and cultural review, utility verification and zoning confirmation are complete before a prospect looks. Minutes from I-29 and I-80 via US-34.",
+      "blockers": "Not contacted. Loess Hills and Missouri alluvial terrain in that part of the state needs checking site by site — flat ground there tends to be floodplain.",
+      "next": "Iowa Economic Development Authority holds the certified-site register. One email."
+    },
+    {
+      "id": "P-007", "name": "Big Cedar Industrial Center", "type": "third_party", "county": "Linn",
+      "components": [], "target_acres": 1391, "contiguous": "yes — utility-assembled park",
+      "stage": "concept",
+      "thesis": "Alliant Energy assembled 1,391 acres specifically to attract large load, and QTS has already taken 612 of it. Industrial zoning, rail and a counterparty whose business model is the project.",
+      "blockers": "Linn County's 18-month moratorium runs from 1 July 2026, but it applies to unincorporated county territory — the park sits inside Cedar Rapids city limits, so the city may be unaffected. Confirm which jurisdiction governs before spending time. Remaining capacity after QTS is unknown.",
+      "next": "Alliant Energy economic development. Ask what acreage remains and which jurisdiction has authority."
+    },
+    {
+      "id": "P-008", "name": "Iowa Farmland — unqualified 2,700+ acres", "type": "third_party", "county": "unknown",
+      "components": [], "target_acres": 2700, "contiguous": "unknown",
+      "stage": "concept",
+      "thesis": "The largest acreage figure anywhere in the project. If it is one block it dwarfs everything else on record.",
+      "blockers": "No location, no parcel count, no owner, and contact was made through a website form rather than a conversation. It is equally likely to be a portfolio total across scattered listings.",
+      "next": "Phone them. One call establishes whether this is a single block or a spreadsheet total."
+    }
+  ]
+}

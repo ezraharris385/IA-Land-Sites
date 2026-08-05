@@ -158,6 +158,64 @@ details.ch[open]>summary{background:var(--sunk);border-bottom:1px solid var(--ru
 .ch-do b{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);display:block;margin-bottom:4px}
 .msg{padding:40px 22px;text-align:center;font-family:var(--mono);font-size:12px;color:var(--ink3);letter-spacing:.05em;line-height:1.7}
 .msg.err{color:var(--stop)}
+/* ── orientation strip: always visible, whichever tab you are on ─── */
+.now{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;
+  background:var(--plate);border:1px solid var(--rule);border-left:3px solid var(--acc);
+  padding:14px 18px;margin-top:16px}
+@media(max-width:620px){.now{grid-template-columns:1fr;gap:8px}}
+.now-k{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);padding-top:3px;white-space:nowrap}
+.now-v{font-size:14px;line-height:1.55;color:var(--ink)}
+.now-c{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:9px;font-family:var(--mono);font-size:10.5px;color:var(--ink3);letter-spacing:.04em}
+.now-c b{color:var(--ink);font-weight:500}
+
+/* ── collapsible guide ────────────────────────────────────────────── */
+details.guide{margin-top:12px;background:var(--sunk);border:1px solid var(--rule)}
+details.guide>summary{padding:11px 18px;cursor:pointer;list-style:none;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink2)}
+details.guide>summary::-webkit-details-marker{display:none}
+details.guide>summary:hover{color:var(--acc)}
+details.guide[open]>summary{border-bottom:1px solid var(--rule);color:var(--acc)}
+.guide-b{padding:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:20px 26px}
+.g-h{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);margin-bottom:8px}
+.g-l{margin:0;font-size:13px;line-height:1.6;color:var(--ink2)}
+.g-l dt{font-weight:600;color:var(--ink);margin-top:9px}
+.g-l dt:first-child{margin-top:0}
+.g-l dd{margin:2px 0 0}
+
+/* ── definition expander under a table ────────────────────────────── */
+details.defs{margin-top:8px}
+details.defs>summary{cursor:pointer;list-style:none;font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.05em;color:var(--ink3);padding:4px 0}
+details.defs>summary::-webkit-details-marker{display:none}
+details.defs>summary:hover{color:var(--acc)}
+.defs-b{padding:14px 16px;background:var(--plate);border:1px solid var(--rule);
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(238px,1fr));gap:12px 22px}
+.defs-b div{font-size:12.5px;line-height:1.55;color:var(--ink2)}
+.defs-b b{display:block;color:var(--ink);font-weight:600;font-size:13px}
+
+/* ── packages ─────────────────────────────────────────────────────── */
+.pkgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+/* a pill carrying a phrase rather than a word has to wrap */
+.pill.w{white-space:normal;align-items:flex-start;max-width:100%;text-transform:none;letter-spacing:.02em;font-size:11px;line-height:1.45}
+.pill.w i{margin-top:5px}
+.pkg-c span{overflow-wrap:anywhere}
+.pkg{background:var(--plate);padding:18px 20px 20px;display:flex;flex-direction:column;gap:11px}
+.pkg-h{display:flex;gap:10px;justify-content:space-between;align-items:flex-start}
+.pkg-n{font-family:var(--serif);font-size:20px;line-height:1.15}
+.pkg-n span{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ink3);margin-top:4px}
+.pkg-m{display:grid;grid-template-columns:repeat(auto-fit,minmax(76px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.pkg-m div{background:var(--sunk);padding:8px 10px}
+.pkg-m dt{font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+.pkg-m dd{margin:3px 0 0;font-family:var(--mono);font-size:15px;font-variant-numeric:tabular-nums;color:var(--ink)}
+.pkg-s{font-size:13px;line-height:1.58;color:var(--ink2)}
+.pkg-s b{color:var(--ink);font-weight:600;display:block;font-family:var(--mono);font-size:8.5px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:3px}
+.pkg-x{padding:10px 13px;background:var(--acc-soft);border-left:2px solid var(--acc);font-size:12.5px;line-height:1.55;color:var(--ink)}
+.pkg-x b{font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);display:block;margin-bottom:3px}
+.pkg-c{display:flex;flex-wrap:wrap;gap:4px}
+.pkg-c span{font-family:var(--mono);font-size:10.5px;background:var(--sunk);border:1px solid var(--rule2);padding:2px 7px;color:var(--ink2)}
+
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -177,9 +235,57 @@ details.ch[open]>summary{background:var(--sunk);border-bottom:1px solid var(--ru
   </div>
 </header>
 
+<div class="now">
+  <div class="now-k">Where things stand</div>
+  <div>
+    <div class="now-v" id="nowV">—</div>
+    <div class="now-c" id="nowC"></div>
+  </div>
+</div>
+
+<details class="guide">
+  <summary>New here? How to read this desk</summary>
+  <div class="guide-b">
+    <div>
+      <div class="g-h">What each tab is for</div>
+      <dl class="g-l">
+        <dt>Target screen</dt><dd>Where to look. Every county ranked on public data.</dd>
+        <dt>Pipeline</dt><dd>What we have. Every individual site on record.</dd>
+        <dt>Packages</dt><dd>How we get to 500 acres — by combining sites, targeting new ground, or taking someone else's assembled site.</dd>
+        <dt>Analyst</dt><dd>What the numbers say. Recalculated every time you press refresh.</dd>
+        <dt>Execution</dt><dd>Who to call, and the exact ask.</dd>
+        <dt>Progress</dt><dd>What has already been done.</dd>
+        <dt>Data</dt><dd>What has been loaded in and what it was missing.</dd>
+      </dl>
+    </div>
+    <div>
+      <div class="g-h">The three numbers that matter</div>
+      <dl class="g-l">
+        <dt>Owners per section</dt><dd>How many signatures a 640-acre footprint needs in that county. Under 3 is easy, over 6 is painful. Lower is better.</dd>
+        <dt>Net buildable acres</dt><dd>Gross acreage minus what the water takes. This is the number that has to clear 500 — not the deed acreage.</dd>
+        <dt>County score</dt><dd>0-100 on landform, assemblage, ordinance status and how many large farms exist there. Higher is better.</dd>
+      </dl>
+    </div>
+    <div>
+      <div class="g-h">Reading the tags</div>
+      <dl class="g-l">
+        <dt>Green triangle</dt><dd>Good — open county, clean ground, an advantage.</dd>
+        <dt>Amber circle</dt><dd>Needs checking, or a clock is running.</dd>
+        <dt>Red square</dt><dd>A real problem. Closed county, floodplain, too small.</dd>
+        <dt>Grey ring</dt><dd>Neutral or nothing recorded yet.</dd>
+      </dl>
+    </div>
+    <div>
+      <div class="g-h">Keeping it current</div>
+      <p class="g-l">Everything here is derived from six data files, so nothing is hand-written or stale. Send through a call log, a spreadsheet, a flood map or a set of notes and it gets folded in — the site updates in about thirty seconds and every number on every tab recalculates. <b style="color:var(--ink)">Refresh &amp; re-analyse</b> pulls the latest without reloading the page.</p>
+    </div>
+  </div>
+</details>
+
 <div class="tabs" role="tablist">
   <button class="tab" role="tab" aria-selected="true" data-p="screen">Target screen</button>
   <button class="tab" role="tab" aria-selected="false" data-p="pipeline">Pipeline <b id="tPipe">0</b></button>
+  <button class="tab" role="tab" aria-selected="false" data-p="packages">Packages <b id="tPkg">0</b></button>
   <button class="tab" role="tab" aria-selected="false" data-p="analyst">Analyst <b id="tFind">0</b></button>
   <button class="tab" role="tab" aria-selected="false" data-p="execution">Execution</button>
   <button class="tab" role="tab" aria-selected="false" data-p="progress">Progress</button>
@@ -209,7 +315,17 @@ details.ch[open]>summary{background:var(--sunk);border-bottom:1px solid var(--ru
     <th class="srt num" data-s="farms_ge1000">≥1,000</th><th class="srt num" data-s="median_farm_ac">Median farm</th>
     <th class="srt" data-s="landform">Landform</th><th>Ordinance</th><th>Position</th><th>Read</th>
   </tr></thead><tbody></tbody></table></div>
-  <p class="mini" style="margin-top:10px">Owners per section is an optimistic floor — the census counts operations, and large operators farm rented ground across several owners. Calibrate against a real parcel dissolve before trusting it. Score weights: landform 30, assemblage 28, ordinance 27, pool depth 15.</p>
+  <details class="defs"><summary>What these columns mean</summary><div class="defs-b">
+    <div><b>Score</b>0-100. Landform 30, assemblage 28, ordinance 27, pool depth 15. Higher is better.</div>
+    <div><b>Owners / sec</b>640 ÷ the county's median farm size — how many signatures a full section needs. Lower is better. Under 3 is easy; over 6 is painful.</div>
+    <div><b>Farms ≥500</b>How many farms in the county are 500 acres or larger. This is the size of the pool you are fishing in.</div>
+    <div><b>≥1,000</b>Farms of 1,000 acres or more — the ones where a single owner could cover the whole footprint.</div>
+    <div><b>Median farm</b>The middle farm size in that county. Bigger median means fewer owners to deal with.</div>
+    <div><b>Landform</b>Iowa's terrain regions. Northwest Iowa Plains and Iowan Surface are the best; Southern Iowa Drift Plain is cut by streams and the worst for a slab.</div>
+    <div><b>Ordinance</b>Whether the county has closed itself to data centres. Closed and Drafting mean do not spend money there yet.</div>
+    <div><b>Position</b>Whether a live site is already on record in that county.</div>
+  </div></details>
+  <p class="mini" style="margin-top:10px">Owners per section is an optimistic floor — the census counts operations, and large operators farm rented ground across several owners. Calibrate against a real parcel dissolve before trusting it.</p>
 </section>
 
 <section class="panel" data-p="pipeline">
@@ -233,6 +349,34 @@ details.ch[open]>summary{background:var(--sunk);border-bottom:1px solid var(--ru
     <th class="srt num" data-s="_cscore">Cty score</th><th class="srt num" data-s="_ops">Owners/sec</th>
     <th>Status</th><th>Owner</th><th>Flags</th><th>Notes</th>
   </tr></thead><tbody></tbody></table></div>
+  <details class="defs"><summary>What these columns mean, and what the statuses are</summary><div class="defs-b">
+    <div><b>Gross</b>Deed acreage as recorded. Not the campus.</div>
+    <div><b>Net</b>What is left after the water is taken out. This is the number that has to clear 500. The small red figure beneath is what was discounted.</div>
+    <div><b>Cty score</b>The county screen score, joined on. Tells you whether a good site sits in a good place.</div>
+    <div><b>Owners / sec</b>Assemblage difficulty for that county — how many signatures a full section needs.</div>
+    <div><b>Identified</b>On record, nothing done yet.</div>
+    <div><b>Screened</b>Reviewed against the screen and worth pursuing.</div>
+    <div><b>Letter sent · Contacted · Meeting · Negotiating</b>Progressive stages of owner conversation.</div>
+    <div><b>Optioned</b>Tied up under an option agreement.</div>
+    <div><b>Dead</b>Ruled out. Kept on record so it is not rediscovered later.</div>
+  </div></details>
+</section>
+
+<section class="panel" data-p="packages">
+  <h2>Packages</h2>
+  <p class="dek">A package is a route to 500+ contiguous buildable acres. Three kinds: <strong>combine</strong> what is already on record, <strong>target</strong> ground that fits the screen but has not been found yet, or take a site <strong>somebody else already assembled</strong>. Acreage and owner counts are computed live from the pipeline and the county screen.</p>
+  <div class="stats" id="pkgStats"></div>
+  <div class="bar" style="margin-top:14px">
+    <div class="chips" id="pkgChips" role="group" aria-label="Filter packages">
+      <button class="chip" aria-pressed="true" data-t="all">All</button>
+      <button class="chip" aria-pressed="false" data-t="combine">Combine what we have</button>
+      <button class="chip" aria-pressed="false" data-t="target">Go and get</button>
+      <button class="chip" aria-pressed="false" data-t="third_party">Already assembled</button>
+      <button class="chip" aria-pressed="false" data-t="viable">Clears 500 net</button>
+    </div>
+  </div>
+  <div class="pkgs" id="packages"></div>
+  <p class="mini" style="margin-top:10px">Gross and net acreage on <b>combine</b> packages is the sum of their component sites. Owners is the component count, or for <b>target</b> packages the county's owners-per-section figure rounded up. A package that cannot form one contiguous footprint says so — those are county positions, not campuses.</p>
 </section>
 
 <section class="panel" data-p="analyst">
@@ -310,11 +454,29 @@ const pill=(c,t)=>`<span class="pill ${c}"><i aria-hidden="true"></i>${esc(t)}</
 const HAIRCUT={multi:.45,flood100:.35,single:.25,rec:.22,fringe:.15,clean:.05};
 const LIVE=['identified','screened','letter_sent','contacted','meeting','negotiating','optioned'];
 const ORDP={open:['ok','Open'],'unzoned?':['ok','Unzoned?'],watch:['warn','Verify'],drafting:['stop','Drafting'],closed:['stop','Closed']};
+/* plain-English labels so a tag never has to be decoded */
+const FLAGS={
+  off_market:['ok','Off-market'], owner_willing:['ok','Owner has been willing'],
+  full_section:['ok','Full 640-ac section'], rail_access:['ok','Rail access'],
+  entitlement_precedent:['ok','Data centre precedent nearby'],
+  unzoned_unverified:['warn','No county zoning — unverified'],
+  at_auction:['warn','On an auction clock'], lease_encumbrance:['warn','Lease in place'],
+  duplicate_source:['warn','Appears in two sources'], multi_tract:['warn','Multiple tracts'],
+  flood_unresolved:['warn','Flood extent unresolved'],
+  adjacent_county_closed:['warn','Neighbouring county closed'],
+  zone_a_no_bfe:['stop','Zone A — no flood elevation'],
+  floodplain:['stop','In floodplain'], in_sfha:['stop','In flood hazard area'],
+  severe_hydrology:['stop','Multiple watercourses'], recreational_ground:['stop','Recreational / timber'],
+  ordinance_risk:['stop','Ordinance risk'], karst:['stop','Karst terrain'],
+  acreage_missing:['stop','No acreage recorded'],
+  under_500_net:['stop','Under 500 net acres'], under_500_gross:['stop','Under 500 gross acres']
+};
+const flagPill=f=>{const m=FLAGS[f];return m?pill(m[0],m[1]):pill('mute',f.replace(/_/g,' '));};
 let DB={},FIND=[],byCounty={};
 
 async function load(){
   const bust='?t='+Date.now();
-  const names=['counties','sites','contacts','activity','documents','brief'];
+  const names=['counties','sites','contacts','activity','documents','brief','packages'];
   const out={};
   for(const n of names){
     const r=await fetch('data/'+n+'.json'+bust,{cache:'no-store'});
@@ -528,7 +690,7 @@ function renderPipe(){
   $('#pipTable tbody').innerHTML=rows.map(s=>{
     const lost=(s.acres_gross&&s.acres_net)?s.acres_gross-s.acres_net:0;
     const op=s._ord?(ORDP[s._ord]||['mute',s._ord]):null;
-    const fl=(s.flags||[]).map(f=>pill(/risk|floodplain|sfha|under_500|severe|recreational|karst|acreage_missing/.test(f)?'stop':/auction|lease|duplicate|unverified|unresolved|multi|adjacent/.test(f)?'warn':'ok',f.replace(/_/g,' '))).join('');
+    const fl=(s.flags||[]).map(flagPill).join('');
     return '<tr'+(!s._live?' class="dim"':'')+'>'+
       '<td class="rk">'+esc(s.id)+'</td>'+
       '<td><div class="nm">'+esc(s.name)+'</div><div class="sub">'+esc(s.city||'')+(s.source?' · '+esc(s.source):'')+'</div></td>'+
@@ -542,6 +704,82 @@ function renderPipe(){
       '<td><div class="pills">'+fl+'</div></td>'+
       '<td class="note" style="min-width:240px">'+esc(s.notes||'')+'</td></tr>';
   }).join('');
+}
+
+let pkgF='all';
+function pkgCalc(p){
+  const S=DB.sites.sites, comp=(p.components||[]).map(id=>S.filter(s=>s.id===id)[0]).filter(Boolean);
+  const c=byCounty[p.county];
+  let gross,net,owners;
+  if(comp.length){
+    gross=comp.reduce((a,s)=>a+(s.acres_gross||0),0);
+    net=comp.reduce((a,s)=>a+(s.acres_net||0),0);
+    owners=p.owners_est||comp.length;
+  }else if(p.type==='third_party'){
+    /* already assembled — one counterparty, not a county-median estimate */
+    gross=p.target_acres||null; net=null; owners=1;
+  }else{
+    gross=p.target_acres||null; net=null;
+    owners=c?Math.ceil(c.owners_per_section):null;
+  }
+  /* NB: key this "cty", not "county" — Object.assign would otherwise overwrite
+     the package's county *name* with the county *record* */
+  return {comp:comp,gross:gross,net:net,owners:owners,cty:c};
+}
+function renderPkg(){
+  const P=DB.packages.packages.map(p=>Object.assign({},p,pkgCalc(p)));
+  const viable=P.filter(p=>(p.net!=null?p.net:p.gross)>=500);
+  statCards('#pkgStats',[
+    ['Packages',P.length,'Routes to a campus'],
+    ['Combine',P.filter(p=>p.type==='combine').length,'From sites already on record'],
+    ['Go and get',P.filter(p=>p.type==='target').length,'Ground the screen points at'],
+    ['Already assembled',P.filter(p=>p.type==='third_party').length,'Someone else did the work'],
+    ['Clear 500 acres',viable.length,'On current figures']]);
+  $('#tPkg').textContent=P.length;
+
+  const rows=P.filter(p=>{
+    if(pkgF==='viable')return (p.net!=null?p.net:p.gross)>=500;
+    if(pkgF==='all')return true;
+    return p.type===pkgF;
+  });
+  $('#packages').innerHTML=rows.map(p=>{
+    const known=p.net!=null;
+    const headline=known?p.net:p.gross;
+    const ok=headline>=500;
+    const contig=/^yes|by construction/.test(p.contiguous||'');
+    return '<div class="pkg">'+
+      '<div class="pkg-h"><div class="pkg-n">'+esc(p.name)+
+        '<span>'+esc(p.id)+' · '+esc(p.county)+' · '+esc(DB.packages.types[p.type]||p.type)+'</span></div>'+
+        pill(ok?'ok':'warn',ok?'Clears 500':'Short or unknown')+'</div>'+
+      '<dl class="pkg-m">'+
+        '<div><dt>'+(known?'Gross':'Target')+'</dt><dd>'+fmt(p.gross)+'</dd></div>'+
+        (known?'<div><dt>Net buildable</dt><dd>'+fmt(p.net)+'</dd></div>':'')+
+        '<div><dt>Owners</dt><dd>'+(p.owners==null?'—':'~'+p.owners)+'</dd></div>'+
+        '<div><dt>Cty score</dt><dd>'+(p.cty?p.cty.score:'—')+'</dd></div>'+
+      '</dl>'+
+      (p.comp.length?'<div class="pkg-c">'+p.comp.map(s=>'<span>'+esc(s.id)+' · '+esc(s.name)+'</span>').join('')+'</div>':'')+
+      '<div>'+pill((contig?'ok':'warn')+' w','Contiguous: '+(p.contiguous||'unknown'))+'</div>'+
+      '<div class="pkg-s"><b>Thesis</b>'+esc(p.thesis)+'</div>'+
+      '<div class="pkg-s"><b>Blockers</b>'+esc(p.blockers)+'</div>'+
+      '<div class="pkg-x"><b>Next</b>'+esc(p.next)+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+function renderNow(){
+  const S=DB.sites.sites, live=S.filter(s=>s._live), C=DB.counties.counties;
+  const crit=FIND.filter(f=>f.sev==='critical').length;
+  const best=live.filter(s=>s.acres_net).sort((a,b)=>b.acres_net-a.acres_net)[0];
+  const top=C.slice().sort((a,b)=>b.score-a.score)[0];
+  $('#nowV').textContent=DB.brief.if_nothing_else;
+  $('#nowC').innerHTML=[
+    ['Live sites','<b>'+live.length+'</b>'],
+    ['Clearing 500 net','<b>'+live.filter(s=>(s.acres_net||0)>=500).length+'</b>'],
+    ['Packages','<b>'+DB.packages.packages.length+'</b>'],
+    ['Critical findings','<b>'+crit+'</b>'],
+    ['Outreach logged','<b>'+DB.activity.activity.filter(a=>a.type==='outreach').length+'</b>'],
+    ['Best county with no position','<b>'+esc((C.slice().sort((a,b)=>b.score-a.score).filter(c=>!c._held&&(c.ordinance==='open'||c.ordinance==='unzoned?'))[0]||{name:'—'}).name)+'</b>']
+  ].map(x=>x[0]+' '+x[1]).join('<span style="opacity:.4">·</span> ');
 }
 
 let anF='all';
@@ -650,7 +888,7 @@ function renderData(){
 
 function renderAll(){
   derive(); FIND=analyse();
-  renderScreen(); renderPipe(); renderAnalyst(); renderExec(); renderProgress(); renderData();
+  renderScreen(); renderPipe(); renderPkg(); renderAnalyst(); renderExec(); renderProgress(); renderData(); renderNow();
   $('#tPipe').textContent=DB.sites.sites.filter(s=>s._live).length;
   $('#mCounts').textContent=DB.sites.sites.length+' sites · '+DB.counties.counties.length+' counties · '+DB.contacts.contacts.length+' contacts';
   $('#mUpdated').textContent=DB.sites.updated||'—';
@@ -663,6 +901,7 @@ function chips(sel,fn){$(sel).addEventListener('click',function(e){
   fn(b.dataset.t);});}
 chips('#scChips',v=>{scF=v;renderScreen();});
 chips('#pipChips',v=>{pipF=v;renderPipe();});
+chips('#pkgChips',v=>{pkgF=v;renderPkg();});
 chips('#anChips',v=>{anF=v;renderAnalyst();});
 chips('#exChips',v=>{exF=v;renderExec();});
 chips('#prChips',v=>{prF=v;renderProgress();});
