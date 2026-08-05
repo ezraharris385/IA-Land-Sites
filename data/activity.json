@@ -1,0 +1,59 @@
+{
+  "schema": "retrospective log — what has been done. no planning, no future-dated entries. append only.",
+  "updated": "2026-08-05",
+  "types": ["data", "analysis", "outreach", "document", "decision", "build"],
+  "channels": ["letter", "call", "voicemail", "in_person", "broker", "farm_mgr", "attorney", "referral", "email"],
+  "sentiments": ["warm", "neutral", "cold", "hostile", "do_not_contact"],
+  "activity": [
+    {
+      "id": "A-001", "date": "2026-08-03", "type": "document",
+      "subject": "Iowa Survey Draft.xlsx ingested",
+      "detail": "Five curated sites with acreage, transmission and substation distances, wetland and FEMA notes, and two broker contacts.",
+      "outcome": "S-001, S-008, S-009, S-010, S-011 created.",
+      "refs": ["S-001", "S-008", "S-009", "S-010", "S-011"], "metric": {"sites_added": 5}
+    },
+    {
+      "id": "A-002", "date": "2026-08-03", "type": "document",
+      "subject": "CoStar Sites - IA.xlsx ingested",
+      "detail": "Three blocks: a six-row CoStar export with no acreage column, four LandWatch results, and three Land.com auction listings.",
+      "outcome": "Twelve further records created; one tract found duplicated across two sources.",
+      "refs": ["S-002", "S-003", "S-004", "S-005", "S-006", "S-007", "S-012", "S-013", "S-014", "S-015", "S-016", "S-017"],
+      "metric": {"sites_added": 12, "duplicates_found": 1}
+    },
+    {
+      "id": "A-003", "date": "2026-08-05", "type": "data",
+      "subject": "USDA 2022 Census of Agriculture parsed — all 99 Iowa counties",
+      "detail": "Extracted farm counts, land in farms, average and median farm size, and the 500-999 and 1,000+ acre brackets directly from the county-level PDF tables.",
+      "outcome": "Median farm size by county became available, which is what makes owners-per-section computable.",
+      "refs": [], "metric": {"counties_parsed": 99}
+    },
+    {
+      "id": "A-004", "date": "2026-08-05", "type": "analysis",
+      "subject": "County screen built and scored — 48 counties",
+      "detail": "Scored on landform region, assemblage difficulty, ordinance status and target-pool depth. Kossuth ranked first at 88.",
+      "outcome": "Target screen established. Public data layer complete.",
+      "refs": [], "metric": {"counties_scored": 48}
+    },
+    {
+      "id": "A-005", "date": "2026-08-05", "type": "data",
+      "subject": "Ordinance status researched",
+      "detail": "Nine Iowa counties confirmed with data-centre moratoria adopted during 2026; Taylor County recorded as having drafted an ordinance on 8 June 2026.",
+      "outcome": "Ordinance exposure identified on one pipeline site.",
+      "refs": ["S-008"], "metric": {"counties_closed": 9}
+    },
+    {
+      "id": "A-006", "date": "2026-08-05", "type": "data",
+      "subject": "Contact universe compiled",
+      "detail": "Twenty-two organisations and people across utilities, regional development, state programmes, auction houses and courthouses, mapped to the counties and sites they cover.",
+      "outcome": "Execution layer established. No outreach initiated yet.",
+      "refs": [], "metric": {"contacts_added": 22}
+    },
+    {
+      "id": "A-007", "date": "2026-08-05", "type": "build",
+      "subject": "Public site deployed",
+      "detail": "Static site published to GitHub Pages, link-accessible without login and excluded from search indexing.",
+      "outcome": "Shareable working tool live.",
+      "refs": [], "metric": {}
+    }
+  ]
+}

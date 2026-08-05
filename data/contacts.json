@@ -1,0 +1,211 @@
+{
+  "schema": "organisations and people who can surface land or clear a path. tier 1 = highest acres reachable per hour.",
+  "updated": "2026-08-05",
+  "contacts": [
+    {
+      "id": "C-001", "tier": 1, "org": "Iowa Area Development Group (IADG)",
+      "person": "Bruce Hansen", "role": "Economic development arm of ~250 Iowa utilities — 150+ rural electric cooperatives, municipal utilities, independent broadband",
+      "phone": "800-888-4743 · 515-223-4817", "email": null, "web": "iadg.com",
+      "counties": "Statewide rural", "covers_sites": ["S-012", "S-013"],
+      "ask": "Every 300+ acre site their member utilities know of, listed or not, in the screen counties — plus which county boards are receptive.",
+      "why": "Already appears twice in the CoStar export as the listing contact on the Mona Rail Site and the Iowa Falls industrial site. Both a live broker relationship and the door into 250 utilities.",
+      "status": "not_contacted", "last_touch": null
+    },
+    {
+      "id": "C-002", "tier": 1, "org": "Mid Iowa Growth Partnership / Greater Fort Dodge Growth Alliance",
+      "person": "Jefferson Fosbender, Economic Development Director",
+      "role": "Regional partnership covering nine counties",
+      "phone": "515-227-7124", "email": "jefferson@greaterfortdodge.com",
+      "web": "midiowagrowth.com · 24 N 9th St, Suite A, Fort Dodge, IA 50501",
+      "counties": "Calhoun · Hamilton · Hardin · Humboldt · Kossuth · Palo Alto · Pocahontas · Webster · Wright",
+      "covers_sites": ["S-004", "S-013"],
+      "ask": "Full land inventory over 300 acres across all nine counties, county-by-county ordinance posture, and which cities hold adoptable 427B ordinances and existing urban renewal areas.",
+      "why": "Their nine-county footprint covers the top of the screen almost exactly, including Kossuth, which ranks first.",
+      "status": "not_contacted", "last_touch": null
+    },
+    {
+      "id": "C-003", "tier": 1, "org": "Mid Iowa Growth Partnership / Greater Fort Dodge Growth Alliance",
+      "person": "Astra Ferris, CEO", "role": "Chief executive, same nine-county region",
+      "phone": "515-955-5500", "email": "astra@greaterfortdodge.com",
+      "web": "midiowagrowth.com", "counties": "Same nine counties", "covers_sites": [],
+      "ask": "Escalation path if the economic development director cannot move a county board.",
+      "why": "Second contact at the same organisation — use only if the first stalls.",
+      "status": "not_contacted", "last_touch": null
+    },
+    {
+      "id": "C-004", "tier": 1, "org": "Iowa Economic Development Authority",
+      "person": null, "role": "Certified Sites programme, regional business development managers, High Quality Jobs Program",
+      "phone": "515.348.6200", "email": "info@iowaeda.com",
+      "web": "opportunityiowa.gov · 1963 Bell Ave, Suite 200, Des Moines, IA 50315",
+      "counties": "Statewide", "covers_sites": [],
+      "ask": "Complete certified-site register filtered above 300 acres, the regional business development manager for each screen county, and any confidential large-site inventory.",
+      "why": "Mills Crossings Mega Site at Glenwood is 1,600+ acres with due diligence already completed.",
+      "status": "not_contacted", "last_touch": null
+    },
+    {
+      "id": "C-005", "tier": 1, "org": "MidAmerican Energy",
+      "person": null, "role": "Economic development and surplus real estate",
+      "phone": "1-800-799-4443", "email": null,
+      "web": "midamericanenergy.com/economic-development", "counties": "Service territory", "covers_sites": [],
+      "ask": "Industrial site inventory, certified sites, and non-operating or former generation land held as surplus.",
+      "why": "In this channel the utility is the landowner, not the supplier.",
+      "status": "not_contacted", "last_touch": null
+    },
+    {
+      "id": "C-006", "tier": 1, "org": "Alliant Energy",
+      "person": null, "role": "Economic development and industrial land",
+      "phone": null, "email": null, "web": "alliantenergy.com", "counties": "Service territory", "covers_sites": [],
+      "ask": "Industrial site inventory and surplus land, starting with capacity remaining at Big Cedar Industrial Center.",
+      "why": "Owns the 1,391-acre Big Cedar Industrial Center at Cedar Rapids, of which QTS took 612 acres.",
+      "status": "not_contacted", "last_touch": null
+    },
+    {
+      "id": "C-007", "tier": 2, "org": "Peoples Company", "person": null,
+      "role": "Land brokerage and auctions; absorbed Murray Wise Associates",
+      "phone": null, "email": null, "web": "peoplescompany.com", "counties": "Statewide", "covers_sites": [],
+      "ask": "What is under listing agreement but not yet marketed, and who holds a section or more of flat ground who would sell at the right number.",
+      "why": "Large Iowa farms trade by auction and surface 30-60 days before sale, often never reaching listing sites.",
+      "status": "not_contacted", "last_touch": null
+    },
+    {
+      "id": "C-008", "tier": 2, "org": "Hertz Farm Management", "person": null,
+      "role": "Farm management and auctions, licensed in twelve states",
+      "phone": null, "email": null, "web": "hertz.ag", "counties": "Statewide", "covers_sites": [],
+      "ask": "Unmarketed pipeline and farm-management clients with 500+ contiguous acres.",
+      "why": "Farm managers know which owners are ageing out before any broker does.",
+      "status": "not_contacted", "last_touch": null
+    },
+    {
+      "id": "C-009", "tier": 2, "org": "Sullivan Auctioneers · Steffes Group · Farmers National · Iowa Land Company",
+      "person": null, "role": "Auction houses handling large Iowa farmland",
+      "phone": null, "email": null,
+      "web": "sullivanauctioneers.com · steffesgroup.com · farmersnational.com · iowalandcompany.com",
+      "counties": "Statewide", "covers_sites": ["S-003", "S-004", "S-005"],
+      "ask": "Pre-auction pipeline and private-treaty opportunities above 500 acres.",
+      "why": "Three sites in the pipeline came from auction listings — these firms are already selling the ground being pursued.",
+      "status": "not_contacted", "last_touch": null
+    },
+    {
+      "id": "C-010", "tier": 2, "org": "Listing brokers already in the file", "person": "Nick Hopp · Jared Luebbers",
+      "role": "Brokers on two pipeline sites",
+      "phone": "Nick Hopp 319.204.6121 · Jared Luebbers 515.517.8649", "email": null, "web": null,
+      "counties": "Ringgold", "covers_sites": ["S-001", "S-009"],
+      "ask": "Not the listing they showed — what else they know of, and which owners nearby would sell at the right number.",
+      "why": "Every land broker holds a mental list of large tracts whose owners are not formally selling.",
+      "status": "not_contacted", "last_touch": null
+    },
+    {
+      "id": "C-011", "tier": 3, "org": "MIDAS Council of Governments", "person": null,
+      "role": "Regional planning and economic development district",
+      "phone": "(515) 576-7183", "email": null, "web": "iowacog.com", "cog": "MIDAS",
+      "counties": "Calhoun · Hamilton · Humboldt · Pocahontas · Webster · Wright", "covers_sites": ["S-004"],
+      "ask": "Every site over 300 acres listed or not, current county zoning and data-centre ordinance status, and which cities have adopted 427B.",
+      "why": "Covers six screen counties including Wright and Calhoun.",
+      "status": "not_contacted", "last_touch": null
+    },
+    {
+      "id": "C-012", "tier": 3, "org": "North Iowa Area Council of Governments", "person": null,
+      "role": "Regional planning and economic development district",
+      "phone": "(641) 423-0491", "email": null, "web": "iowacog.com", "cog": "NIACOG",
+      "counties": "Cerro Gordo · Floyd · Franklin · Hancock · Kossuth · Mitchell · Winnebago · Worth",
+      "covers_sites": ["S-012"],
+      "ask": "Same three questions. Lead with Kossuth.",
+      "why": "Covers Kossuth, the top-ranked county on the screen.",
+      "status": "not_contacted", "last_touch": null
+    },
+    {
+      "id": "C-013", "tier": 3, "org": "Northwest Iowa Planning & Development Commission", "person": null,
+      "role": "Regional planning and economic development district",
+      "phone": "(712) 262-7225", "email": null, "web": "iowacog.com", "cog": "NWIPDC",
+      "counties": "Buena Vista · Clay · Dickinson · Emmet · Lyon · O'Brien · Osceola · Palo Alto · Sioux",
+      "covers_sites": ["S-003", "S-005"],
+      "ask": "Same three questions, plus whether Sioux County's moratorium has an expiry date on the record.",
+      "why": "Covers two pipeline sites and the best landform counties in the state.",
+      "status": "not_contacted", "last_touch": null
+    },
+    {
+      "id": "C-014", "tier": 3, "org": "Siouxland Interstate Metropolitan Planning Council", "person": null,
+      "role": "Regional planning and economic development district",
+      "phone": "(712) 279-6286", "email": null, "web": "iowacog.com", "cog": "SIMPC",
+      "counties": "Cherokee · Ida · Monona · Plymouth · Woodbury", "covers_sites": [],
+      "ask": "Same three questions. Lead with Cherokee and Ida.",
+      "why": "Covers Cherokee, second on the screen, and Ida.",
+      "status": "not_contacted", "last_touch": null
+    },
+    {
+      "id": "C-015", "tier": 3, "org": "Region 6 Resource Partners", "person": null,
+      "role": "Regional planning and economic development district",
+      "phone": "(641) 752-0717", "email": null, "web": "iowacog.com", "cog": "REGION6",
+      "counties": "Hardin · Marshall · Poweshiek · Tama", "covers_sites": ["S-013"],
+      "ask": "Same three questions, plus the acreage and flood footprint of the Iowa Falls industrial site.",
+      "why": "Covers Hardin, where a pipeline site has no acreage recorded.",
+      "status": "not_contacted", "last_touch": null
+    },
+    {
+      "id": "C-016", "tier": 3, "org": "Region XII Council of Governments", "person": null,
+      "role": "Regional planning and economic development district",
+      "phone": "(712) 792-9914", "email": null, "web": "iowacog.com", "cog": "REGION12",
+      "counties": "Audubon · Carroll · Crawford · Dallas · Greene · Guthrie · Sac", "covers_sites": ["S-011"],
+      "ask": "Same three questions. Lead with Sac and Crawford.",
+      "why": "Covers Sac and Crawford, both top-twelve on the screen.",
+      "status": "not_contacted", "last_touch": null
+    },
+    {
+      "id": "C-017", "tier": 3, "org": "Iowa Northland Regional Council of Governments", "person": null,
+      "role": "Regional planning and economic development district",
+      "phone": "(319) 235-0311", "email": null, "web": "iowacog.com", "cog": "INRCOG",
+      "counties": "Black Hawk · Bremer · Buchanan · Butler · Chickasaw · Grundy", "covers_sites": [],
+      "ask": "Same three questions, and confirm in writing whether Chickasaw County has a countywide zoning ordinance.",
+      "why": "Covers Grundy, and Chickasaw is one of the reported unzoned counties.",
+      "status": "not_contacted", "last_touch": null
+    },
+    {
+      "id": "C-018", "tier": 3, "org": "East Central Iowa Council of Governments", "person": null,
+      "role": "Regional planning and economic development district",
+      "phone": "(319) 365-9941", "email": null, "web": "iowacog.com", "cog": "ECICOG",
+      "counties": "Benton · Iowa · Johnson · Jones · Linn · Washington", "covers_sites": [],
+      "ask": "Same three questions. Benton only — Linn and Johnson are closed.",
+      "why": "Covers Benton. Iowa County and Washington County are both documented as unzoned or rescinded.",
+      "status": "not_contacted", "last_touch": null
+    },
+    {
+      "id": "C-019", "tier": 3, "org": "Southern Iowa Council of Governments", "person": null,
+      "role": "Regional planning and economic development district",
+      "phone": "(641) 782-8491", "email": null, "web": "iowacog.com", "cog": "SICOG",
+      "counties": "Adair · Adams · Clarke · Decatur · Madison · Ringgold · Taylor · Union",
+      "covers_sites": ["S-001", "S-002", "S-008", "S-009"],
+      "ask": "Confirm the status of the Taylor County moratorium ordinance drafted 8 Jun 2026, and Ringgold County's current posture.",
+      "why": "Covers four pipeline sites and both counties with live ordinance exposure.",
+      "status": "not_contacted", "last_touch": null
+    },
+    {
+      "id": "C-020", "tier": 3, "org": "Area 15 Regional Planning Commission", "person": null,
+      "role": "Regional planning and economic development district",
+      "phone": "(641) 684-6551", "email": null, "web": "iowacog.com", "cog": "AREA15",
+      "counties": "Davis · Jefferson · Keokuk · Lucas · Mahaska · Monroe · Van Buren · Wapello · Wayne",
+      "covers_sites": ["S-006", "S-007"],
+      "ask": "Same three questions for Davis County.",
+      "why": "Covers two pipeline sites.",
+      "status": "not_contacted", "last_touch": null
+    },
+    {
+      "id": "C-021", "tier": 3, "org": "Southwest Iowa Planning Council", "person": null,
+      "role": "Regional planning and economic development district",
+      "phone": "(712) 243-4196", "email": null, "web": "iowacog.com", "cog": "SWIPCO",
+      "counties": "Cass · Fremont · Harrison · Mills · Montgomery · Page · Pottawattamie · Shelby",
+      "covers_sites": ["S-010"],
+      "ask": "Same three questions, plus what remains available at Mills Crossings Mega Site in Glenwood.",
+      "why": "Covers Pottawattamie and Mills, home of the 1,600-acre certified mega site.",
+      "status": "not_contacted", "last_touch": null
+    },
+    {
+      "id": "C-022", "tier": 4, "org": "County courthouse — zoning administrator", "person": null,
+      "role": "The only source for zoning status and ordinance posture",
+      "phone": "County sites follow the pattern <county>county.iowa.gov", "email": null, "web": null,
+      "counties": "Per county", "covers_sites": [],
+      "ask": "Does the county have a countywide zoning ordinance? Is any data-centre ordinance or moratorium adopted or pending? What is the rezoning process and timeline for a 600-acre application?",
+      "why": "Zoning status is the highest-leverage field in the dataset and the only one that cannot be downloaded.",
+      "status": "not_contacted", "last_touch": null
+    }
+  ]
+}

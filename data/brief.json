@@ -1,0 +1,41 @@
+{
+  "schema": "narrative analysis, regenerated whenever new data lands. the deterministic engine finds the facts; this reads them.",
+  "generated": "2026-08-05",
+  "generated_from": {"sites": 17, "counties": 48, "contacts": 22, "activity": 7},
+  "headline": "The public data layer is complete and the private layer is empty. Every site on record came from a listing source, no owner has been contacted, and the top four counties on the screen hold no position at all.",
+  "state_of_play": [
+    "Seventeen sites are on record. Eight carry a usable acreage figure at or above 500 gross acres; five have no acreage captured at all because the CoStar export was pulled without a lot-size column.",
+    "Nothing has moved past identified. There are no letters out, no conversations open, and no options drafted, so the pipeline has no conversion data to read yet.",
+    "The county screen is built and scored on hard USDA data. That layer is now the most reliable asset in the project — it is measured rather than estimated.",
+    "The contact universe is mapped but untouched. Twenty-two organisations are loaded and every one shows not_contacted."
+  ],
+  "what_the_data_says": [
+    {
+      "point": "Position and opportunity are almost perfectly inverted",
+      "detail": "Six of the eleven sites with acreage sit in Ringgold, Davis and Taylor — counties scoring 47, 37 and 38. The four highest-scoring counties on the screen (Kossuth 88, Cherokee 85, Wright 81, Sac 79) hold zero sites. The portfolio is concentrated in the bottom of the screen."
+    },
+    {
+      "point": "Assemblage difficulty is the cleanest discriminator in the dataset",
+      "detail": "Owners per section ranges from 2.7 in Cherokee to 10.2 in Dallas. Two sites sit in Davis County at 7.4 and one in Dallas at 10.2 — meaning a full-section footprint there needs roughly three times the signatures it needs in the top counties, for worse ground."
+    },
+    {
+      "point": "Kossuth is the single largest untouched pool in the state",
+      "detail": "396 farms at 500+ acres and 143 above 1,000, at a median of 228 acres — 2.8 owners per section. No site, no contact, no activity. Two loaded contacts already cover it: NIACOG and Mid Iowa Growth Partnership."
+    },
+    {
+      "point": "One recorded fact is worth more than the rest and is unverified",
+      "detail": "The Lohrville listing states no county zoning in Calhoun. If true it removes the rezoning path entirely on a 613-acre tract on flat ground. It is a phone call and it has not been made."
+    },
+    {
+      "point": "Three of the strongest sites are on auction timelines",
+      "detail": "Albert City, Lohrville and Sanborn all came from auction listings. Auction ground moves on a fixed date rather than a negotiation, so these are the only records in the pipeline with an externally imposed clock."
+    }
+  ],
+  "watchlist": [
+    "Taylor County drafted a moratorium ordinance on 8 June 2026 and one site sits inside it. Status unconfirmed since.",
+    "Sioux and Plymouth are closed, and both border O'Brien where a site is held. Ordinance contagion moves along county lines.",
+    "Five sites carry no acreage. Until that is filled they cannot be ranked and are effectively invisible to the screen.",
+    "No owner names are recorded anywhere in the dataset. Every site is known only through a broker or listing, which means no direct approach is possible yet."
+  ],
+  "if_nothing_else": "Two calls close the largest gaps in the dataset at once: Mid Iowa Growth Partnership covers Kossuth, Wright, Calhoun and Hardin — four of the top counties and two pipeline sites — and IADG is already the listing contact on two sites while representing 250 utilities across the rural counties where the screen points."
+}

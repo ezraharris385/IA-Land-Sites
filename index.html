@@ -3,1664 +3,681 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Iowa Hyperscale Land Survey — Finding the Rest</title>
-<meta name="description" content="Land-only reconnaissance for 500+ acre Iowa hyperscale data centre sites: site rescoring, county assemblage data, off-market channels, contacts and incentives.">
-<meta name="robots" content="noindex, nofollow">
-<meta name="color-scheme" content="light dark">
-<style>*{box-sizing:border-box}body{margin:0}img{max-width:100%}</style>
-</head>
-<body>
+<meta name="robots" content="noindex,nofollow">
+<title>IA Land — Hyperscale Site Desk</title>
 <style>
-/* ─────────────────────────────────────────────────────────────
-   IDENTITY: USGS quadrangle sheet / Iowa plat book.
-   Light = drafting paper. Dark = blueprint.
-   Chart marks come from the validated data-viz palette and are
-   kept separate from the page accent.
-   ───────────────────────────────────────────────────────────── */
 :root {
   color-scheme: light;
-  --paper:        #f4f3ec;
-  --plate:        #fbfaf5;
-  --plate-sunk:   #efeee5;
-  --ink:          #1b1c17;
-  --ink-2:        #5c5c50;
-  --ink-3:        #8f8e80;
-  --rule:         #d6d4c6;
-  --rule-soft:    #e5e3d8;
-  --grid:         rgba(27,28,23,0.055);
-
-  --acc:          #9c3f2b;   /* section-grid red-brown */
-  --acc-soft:     rgba(156,63,43,0.10);
-  --contour:      #8a6a3d;
-  --hydro:        #2a6f9e;
-  --hydro-soft:   rgba(42,111,158,0.10);
-  --wood:         #43704a;
-
-  /* status — reserved; always shipped with glyph + text label */
-  --ok:           #0ca30c;
-  --watch:        #fab219;
-  --stop:         #d03b3b;
-  --ok-bg:        rgba(12,163,12,0.11);
-  --watch-bg:     rgba(190,130,0,0.13);
-  --stop-bg:      rgba(208,59,59,0.11);
-  --ok-ink:       #0a6b0a;
-  --watch-ink:    #8a5c00;
-  --stop-ink:     #a52626;
-
-  /* ordinal blue ramp — validated light */
-  --r1: #86b6ef; --r2: #5598e7; --r3: #2a78d6; --r4: #1c5cab; --r5: #104281;
-  --bar-ink: #2a78d6;
-  --bar-lost: #c9c7b8;
-
-  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
-  --sans: "Avenir Next", Avenir, "Segoe UI", system-ui, -apple-system, sans-serif;
-  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  --paper:#f4f3ec; --plate:#fbfaf5; --sunk:#efeee5;
+  --ink:#1b1c17; --ink2:#5c5c50; --ink3:#8f8e80;
+  --rule:#d6d4c6; --rule2:#e5e3d8; --grid:rgba(27,28,23,0.055);
+  --acc:#9c3f2b; --acc-soft:rgba(156,63,43,0.10);
+  --hydro:#2a6f9e;
+  --ok:#0a6b0a; --ok-bg:rgba(12,163,12,0.11);
+  --warn:#8a5c00; --warn-bg:rgba(190,130,0,0.13);
+  --stop:#a52626; --stop-bg:rgba(208,59,59,0.11);
+  --bar:#2a78d6;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --sans:"Avenir Next",Avenir,"Segoe UI",system-ui,-apple-system,sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
 }
-@media (prefers-color-scheme: dark) {
-  :root:where(:not([data-theme="light"])) {
-    color-scheme: dark;
-    --paper:      #0b1116;
-    --plate:      #121a20;
-    --plate-sunk: #0e161b;
-    --ink:        #eef3f4;
-    --ink-2:      #a3b5bb;
-    --ink-3:      #77888e;
-    --rule:       #26343b;
-    --rule-soft:  #1c272d;
-    --grid:       rgba(180,215,230,0.05);
-    --acc:        #e58265;
-    --acc-soft:   rgba(229,130,101,0.13);
-    --contour:    #c39b62;
-    --hydro:      #5fa8d8;
-    --hydro-soft: rgba(95,168,216,0.13);
-    --wood:       #6fa377;
-    --ok-bg:      rgba(12,163,12,0.17);
-    --watch-bg:   rgba(250,178,25,0.15);
-    --stop-bg:    rgba(208,59,59,0.17);
-    --ok-ink:     #4fc94f;
-    --watch-ink:  #f0bb4a;
-    --stop-ink:   #ef7d7d;
-    --r1: #184f95; --r2: #256abf; --r3: #3987e5; --r4: #6da7ec; --r5: #9ec5f4;
-    --bar-ink: #3987e5;
-    --bar-lost: #2d3b42;
-  }
+@media (prefers-color-scheme: dark){:root:where(:not([data-theme="light"])){
+  color-scheme:dark;
+  --paper:#0b1116; --plate:#121a20; --sunk:#0e161b;
+  --ink:#eef3f4; --ink2:#a3b5bb; --ink3:#77888e;
+  --rule:#26343b; --rule2:#1c272d; --grid:rgba(180,215,230,0.05);
+  --acc:#e58265; --acc-soft:rgba(229,130,101,0.13);
+  --hydro:#5fa8d8;
+  --ok:#4fc94f; --ok-bg:rgba(12,163,12,0.17);
+  --warn:#f0bb4a; --warn-bg:rgba(250,178,25,0.15);
+  --stop:#ef7d7d; --stop-bg:rgba(208,59,59,0.17);
+  --bar:#3987e5;
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#0b1116; --plate:#121a20; --sunk:#0e161b;
+  --ink:#eef3f4; --ink2:#a3b5bb; --ink3:#77888e;
+  --rule:#26343b; --rule2:#1c272d; --grid:rgba(180,215,230,0.05);
+  --acc:#e58265; --acc-soft:rgba(229,130,101,0.13);
+  --hydro:#5fa8d8;
+  --ok:#4fc94f; --ok-bg:rgba(12,163,12,0.17);
+  --warn:#f0bb4a; --warn-bg:rgba(250,178,25,0.15);
+  --stop:#ef7d7d; --stop-bg:rgba(208,59,59,0.17);
+  --bar:#3987e5;
 }
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --paper:      #0b1116;
-  --plate:      #121a20;
-  --plate-sunk: #0e161b;
-  --ink:        #eef3f4;
-  --ink-2:      #a3b5bb;
-  --ink-3:      #77888e;
-  --rule:       #26343b;
-  --rule-soft:  #1c272d;
-  --grid:       rgba(180,215,230,0.05);
-  --acc:        #e58265;
-  --acc-soft:   rgba(229,130,101,0.13);
-  --contour:    #c39b62;
-  --hydro:      #5fa8d8;
-  --hydro-soft: rgba(95,168,216,0.13);
-  --wood:       #6fa377;
-  --ok-bg:      rgba(12,163,12,0.17);
-  --watch-bg:   rgba(250,178,25,0.15);
-  --stop-bg:    rgba(208,59,59,0.17);
-  --ok-ink:     #4fc94f;
-  --watch-ink:  #f0bb4a;
-  --stop-ink:   #ef7d7d;
-  --r1: #184f95; --r2: #256abf; --r3: #3987e5; --r4: #6da7ec; --r5: #9ec5f4;
-  --bar-ink: #3987e5;
-  --bar-lost: #2d3b42;
-}
-
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  background-color: var(--paper);
-  background-image:
-    linear-gradient(var(--grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-  background-size: 42px 42px, 42px 42px;
-  color: var(--ink);
-  font-family: var(--sans);
-  font-size: 15px;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-}
-
-.wrap { max-width: 1240px; margin: 0 auto; padding: 0 20px 96px; }
-
-/* ── sheet collar ─────────────────────────────────────────── */
-.collar {
-  border-bottom: 3px double var(--ink);
-  padding: 30px 0 16px;
-  display: flex; flex-wrap: wrap; gap: 24px;
-  align-items: flex-end; justify-content: space-between;
-}
-.collar-l { flex: 1 1 440px; min-width: 0; }
-.eyebrow {
-  font-family: var(--mono);
-  font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--acc); margin: 0 0 10px;
-}
-h1 {
-  font-family: var(--serif);
-  font-size: clamp(30px, 5.2vw, 52px);
-  line-height: 1.02; font-weight: 400; letter-spacing: -0.015em;
-  margin: 0; text-wrap: balance;
-}
-h1 em { font-style: italic; color: var(--acc); }
-.collar-r {
-  font-family: var(--mono); font-size: 11px; line-height: 1.85;
-  color: var(--ink-2); text-align: right; flex: 0 1 auto; min-width: 0;
-  overflow-wrap: anywhere;
-}
-@media (max-width: 700px) { .collar-r { text-align: left; font-size: 10.5px; } }
-.collar-r b { color: var(--ink); font-weight: 500; }
-
-/* ── verdict ──────────────────────────────────────────────── */
-.verdict {
-  margin: 30px 0 0; padding: 24px 26px;
-  background: var(--plate); border: 1px solid var(--rule);
-  border-left: 3px solid var(--acc);
-}
-.verdict p { margin: 0; font-family: var(--serif); font-size: clamp(18px, 2.4vw, 25px); line-height: 1.4; text-wrap: pretty; }
-.verdict p + p { margin-top: 14px; font-family: var(--sans); font-size: 15px; color: var(--ink-2); line-height: 1.65; }
-.verdict strong { color: var(--acc); font-weight: 600; }
-
-/* ── stat row ─────────────────────────────────────────────── */
-.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(178px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-top: 1px; }
-.stat { background: var(--plate); padding: 18px 20px 16px; }
-.stat-k { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 8px; }
-.stat-v { font-family: var(--serif); font-size: 34px; line-height: 1; letter-spacing: -0.02em; }
-.stat-v small { font-size: 15px; color: var(--ink-2); letter-spacing: 0; }
-.stat-n { font-size: 12px; color: var(--ink-2); margin-top: 7px; line-height: 1.45; }
-
-/* ── plates ───────────────────────────────────────────────── */
-.plate { margin-top: 56px; }
-.plate-head { display: flex; gap: 16px; align-items: baseline; border-bottom: 1px solid var(--ink); padding-bottom: 9px; margin-bottom: 8px; }
-.plate-no { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.16em; color: var(--acc); flex: 0 0 auto; padding-top: 4px; }
-h2 { font-family: var(--serif); font-size: clamp(22px, 3vw, 31px); font-weight: 400; line-height: 1.14; letter-spacing: -0.01em; margin: 0; flex: 1 1 auto; text-wrap: balance; }
-.plate-dek { font-size: 14.5px; color: var(--ink-2); max-width: 74ch; margin: 14px 0 22px; line-height: 1.65; }
-.plate-dek strong { color: var(--ink); font-weight: 600; }
-h3 { font-family: var(--sans); font-size: 12px; font-weight: 600; letter-spacing: 0.11em; text-transform: uppercase; color: var(--ink-2); margin: 30px 0 12px; }
-
-.card { background: var(--plate); border: 1px solid var(--rule); padding: 20px 22px; }
-
-/* ── controls ─────────────────────────────────────────────── */
-.bar { display: flex; flex-wrap: wrap; gap: 20px 26px; align-items: flex-end; padding: 16px 20px; background: var(--plate-sunk); border: 1px solid var(--rule); margin-bottom: 14px; }
-.chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.chip {
-  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.07em; text-transform: uppercase;
-  padding: 6px 11px; background: transparent; color: var(--ink-2);
-  border: 1px solid var(--rule); cursor: pointer; line-height: 1.3;
-}
-.chip:hover { border-color: var(--acc); color: var(--ink); }
-.chip[aria-pressed="true"] { background: var(--acc); border-color: var(--acc); color: #fff; }
-:root[data-theme="dark"] .chip[aria-pressed="true"] { color: #10171c; }
-.ctl { display: flex; flex-direction: column; gap: 5px; min-width: 132px; }
-.ctl label { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--ink-3); display: flex; justify-content: space-between; gap: 10px; }
-.ctl label b { color: var(--acc); font-weight: 500; }
-input[type=range] { width: 100%; accent-color: var(--acc); margin: 0; height: 20px; }
-.mini { font-family: var(--mono); font-size: 10.5px; color: var(--ink-3); letter-spacing: 0.04em; }
-:focus-visible { outline: 2px solid var(--acc); outline-offset: 2px; }
-
-/* ── tables ───────────────────────────────────────────────── */
-.scroll { overflow-x: auto; border: 1px solid var(--rule); background: var(--plate); }
-table { border-collapse: collapse; width: 100%; font-size: 13.5px; min-width: 900px; }
-thead th {
-  font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.11em; text-transform: uppercase;
-  color: var(--ink-3); font-weight: 400; text-align: left;
-  padding: 11px 12px; border-bottom: 1px solid var(--ink); white-space: nowrap;
-  background: var(--plate); position: sticky; top: 0; z-index: 2;
-}
-thead th.srt { cursor: pointer; }
-thead th.srt:hover { color: var(--acc); }
-thead th.num, td.num { text-align: right; font-variant-numeric: tabular-nums; font-family: var(--mono); }
-tbody td { padding: 11px 12px; border-bottom: 1px solid var(--rule-soft); vertical-align: top; }
-tbody tr:last-child td { border-bottom: 0; }
-tbody tr.dim td { opacity: 0.5; }
-.rk { font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
-.addr { font-weight: 600; }
-.sub { font-size: 11.5px; color: var(--ink-3); margin-top: 2px; }
-.note { font-size: 12px; color: var(--ink-2); line-height: 1.45; }
-
-/* column balance — keep the site name readable, stop flags from hogging width */
-#siteTable { min-width: 1080px; }
-#siteTable th:nth-child(2), #siteTable td:nth-child(2) { min-width: 208px; }
-#siteTable th:nth-child(6), #siteTable td:nth-child(6) { min-width: 132px; }
-#siteTable th:nth-child(8), #siteTable td:nth-child(8) { width: 152px; }
-#siteTable th:nth-child(9), #siteTable td:nth-child(9) { min-width: 250px; }
-#costarTable th:nth-child(1), #costarTable td:nth-child(1) { min-width: 220px; }
-#costarTable th:nth-child(8), #costarTable td:nth-child(8) { min-width: 230px; }
-
-/* score bar in-cell */
-.sbar { display: flex; align-items: center; gap: 8px; }
-.sbar-t { width: 62px; height: 7px; background: var(--plate-sunk); border-radius: 4px; overflow: hidden; flex: 0 0 auto; }
-/* must be block: the track is a flex item, but it is not itself a flex container,
-   so an inline child would collapse to zero height */
-.sbar-f { display: block; height: 100%; background: var(--bar-ink); border-radius: 4px; }
-.sbar b { font-family: var(--mono); font-size: 12.5px; font-weight: 500; font-variant-numeric: tabular-nums; }
-
-/* gross vs net bar */
-.gn { display: flex; height: 9px; width: 100%; min-width: 96px; gap: 2px; align-items: stretch; }
-.gn i { display: block; border-radius: 0 3px 3px 0; }
-.gn i:first-child { border-radius: 3px 0 0 3px; background: var(--bar-ink); }
-.gn i:last-child { background: var(--bar-lost); }
-/* a lone segment is both first and last child — :last-child would otherwise
-   paint the whole bar in the "discounted" grey */
-.gn i:only-child { border-radius: 3px; background: var(--bar-ink); }
-
-/* pills — glyph + text, never colour alone */
-.pill { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 9px 3px 7px; border-radius: 2px; white-space: nowrap; line-height: 1.5; }
-.pill.ok, .pill.go { background: var(--ok-bg); color: var(--ok-ink); }
-.pill.watch { background: var(--watch-bg); color: var(--watch-ink); }
-.pill.stop { background: var(--stop-bg); color: var(--stop-ink); }
-.pill.mute { background: var(--plate-sunk); color: var(--ink-3); }
-/* shape channel drawn in CSS, not glyphs — so meaning never rides on colour
-   and never depends on the document charset */
-.pill i { display: inline-block; flex: 0 0 auto; font-style: normal; }
-.pill.ok i, .pill.go i { width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-bottom: 7px solid currentColor; }
-.pill.watch i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
-.pill.stop i { width: 7px; height: 7px; background: currentColor; }
-.pill.mute i { width: 7px; height: 7px; border-radius: 50%; border: 1.5px solid currentColor; }
-/* descriptive pills carry a sentence, so they must wrap instead of running
-   past the viewport — the shape marker stays aligned to the first line */
-.pill.wrap { white-space: normal; align-items: flex-start; max-width: 100%; text-transform: none; letter-spacing: 0.02em; font-size: 11px; line-height: 1.45; padding: 5px 10px 6px 8px; }
-.pill.wrap i { margin-top: 5px; }
-.flags { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; }
-
-/* ── funnel ───────────────────────────────────────────────── */
-.fun { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
-.fun-row { background: var(--plate); padding: 13px 18px; display: grid; grid-template-columns: 190px 1fr 132px; gap: 16px; align-items: center; }
-.fun-lab { font-size: 13px; line-height: 1.35; }
-.fun-lab span { display: block; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 2px; }
-.fun-track { height: 22px; background: var(--plate-sunk); position: relative; }
-.fun-fill { height: 100%; border-radius: 0 3px 3px 0; transition: width .35s cubic-bezier(.4,0,.2,1); }
-.fun-val { font-family: var(--mono); font-size: 17px; text-align: right; font-variant-numeric: tabular-nums; }
-.fun-val span { display: block; font-size: 10px; color: var(--ink-3); letter-spacing: 0.08em; }
-@media (max-width: 700px) { .fun-row { grid-template-columns: 1fr 96px; } .fun-track { display: none; } }
-
-/* ── assemblage ───────────────────────────────────────────── */
-.asm { display: grid; grid-template-columns: minmax(0,1fr) minmax(280px, 380px); gap: 26px; align-items: start; }
-@media (max-width: 860px) { .asm { grid-template-columns: 1fr; } }
-.asm-fig { background: var(--plate); border: 1px solid var(--rule); padding: 20px; }
-.asm-fig svg { width: 100%; height: auto; display: block; }
-.asm-cap { font-family: var(--mono); font-size: 10.5px; color: var(--ink-3); letter-spacing: 0.05em; margin-top: 12px; line-height: 1.6; }
-.readout { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
-.readout div { background: var(--plate); padding: 13px 16px; display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
-.readout dt { font-family: var(--mono); font-size: 10px; letter-spacing: 0.11em; text-transform: uppercase; color: var(--ink-3); }
-.readout dd { margin: 0; font-family: var(--serif); font-size: 24px; line-height: 1; }
-.readout dd small { font-family: var(--mono); font-size: 11px; color: var(--ink-2); letter-spacing: 0; }
-
-/* ── channel ladder ───────────────────────────────────────── */
-.lad { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
-details.ch { background: var(--plate); }
-details.ch > summary {
-  padding: 14px 18px; cursor: pointer; display: grid;
-  grid-template-columns: 30px 1fr auto auto; gap: 14px; align-items: center;
-  list-style: none;
-}
-details.ch > summary::-webkit-details-marker { display: none; }
-details.ch > summary:hover { background: var(--plate-sunk); }
-details.ch[open] > summary { background: var(--plate-sunk); border-bottom: 1px solid var(--rule); }
-.ch-n { font-family: var(--mono); font-size: 12px; color: var(--acc); font-variant-numeric: tabular-nums; }
-.ch-t { font-weight: 600; font-size: 14.5px; line-height: 1.3; }
-.ch-t span { display: block; font-weight: 400; font-size: 12.5px; color: var(--ink-2); margin-top: 2px; }
-.ch-y { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; color: var(--ink-3); text-align: right; white-space: nowrap; }
-.ch-y b { display: block; font-size: 14px; color: var(--ink); letter-spacing: 0; }
-.ch-body { padding: 16px 18px 20px 62px; font-size: 13.5px; line-height: 1.65; color: var(--ink-2); }
-.ch-body strong { color: var(--ink); }
-.ch-body ul { margin: 8px 0 0; padding-left: 18px; }
-.ch-body li { margin-bottom: 5px; }
-.ch-body a { color: var(--hydro); text-decoration-thickness: 1px; text-underline-offset: 2px; }
-.ch-do { margin-top: 12px; padding: 11px 14px; background: var(--acc-soft); border-left: 2px solid var(--acc); font-size: 13px; color: var(--ink); }
-.ch-do b { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--acc); display: block; margin-bottom: 4px; }
-code { font-family: var(--mono); font-size: 12px; background: var(--plate-sunk); padding: 1.5px 5px; border: 1px solid var(--rule-soft); }
-
-/* ── county board ─────────────────────────────────────────── */
-.cty { display: grid; grid-template-columns: repeat(auto-fill, minmax(212px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
-.cty-c { background: var(--plate); padding: 14px 16px 15px; display: flex; flex-direction: column; gap: 8px; }
-.cty-h { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-.cty-n { font-family: var(--serif); font-size: 19px; line-height: 1.1; }
-.cty-s { font-family: var(--mono); font-size: 15px; font-variant-numeric: tabular-nums; color: var(--acc); }
-.cty-lf { font-size: 11.5px; color: var(--ink-2); line-height: 1.4; }
-.cty-w { font-size: 11.5px; color: var(--ink-2); line-height: 1.45; }
-
-/* ── typologies ───────────────────────────────────────────── */
-.typ { display: grid; grid-template-columns: repeat(auto-fill, minmax(258px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
-.typ-c { background: var(--plate); padding: 17px 18px 19px; }
-.typ-k { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--acc); margin-bottom: 7px; }
-.typ-t { font-family: var(--serif); font-size: 18.5px; line-height: 1.18; margin-bottom: 8px; }
-.typ-b { font-size: 13px; color: var(--ink-2); line-height: 1.58; }
-.typ-b b { color: var(--ink); font-weight: 600; }
-
-/* ── reframes ─────────────────────────────────────────────── */
-.rf { display: grid; gap: 14px; }
-.rf-c { background: var(--plate); border: 1px solid var(--rule); border-left: 3px solid var(--contour); padding: 18px 22px; display: grid; grid-template-columns: 1fr; gap: 8px; }
-.rf-was { font-size: 13px; color: var(--ink-3); }
-.rf-was b { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--ink-3); margin-right: 8px; }
-.rf-is { font-family: var(--serif); font-size: 19px; line-height: 1.35; text-wrap: pretty; }
-.rf-why { font-size: 13.5px; color: var(--ink-2); line-height: 1.6; }
-
-/* ── sprint ───────────────────────────────────────────────── */
-.spr { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
-.spr-r { background: var(--plate); padding: 16px 20px; display: grid; grid-template-columns: 92px 1fr; gap: 20px; }
-@media (max-width: 620px) { .spr-r { grid-template-columns: 1fr; gap: 8px; } }
-.spr-d { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.11em; text-transform: uppercase; color: var(--acc); padding-top: 3px; }
-.spr-t { font-weight: 600; font-size: 14.5px; margin-bottom: 6px; }
-.spr-b { font-size: 13.5px; color: var(--ink-2); line-height: 1.62; }
-.spr-b ul { margin: 6px 0 0; padding-left: 18px; }
-.spr-b li { margin-bottom: 4px; }
-
-/* ── colophon ─────────────────────────────────────────────── */
-.colo { margin-top: 60px; border-top: 3px double var(--ink); padding-top: 22px; font-size: 12.5px; color: var(--ink-2); line-height: 1.7; }
-.colo h3 { margin-top: 0; }
-.colo ul { padding-left: 18px; margin: 0 0 14px; }
-.colo li { margin-bottom: 5px; }
-.colo a { color: var(--hydro); }
-.colo .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 26px; }
-
-/* ── jump nav ─────────────────────────────────────────────── */
-.nav { display: flex; flex-wrap: wrap; gap: 5px; padding: 14px 0 0; }
-.nav a {
-  font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--ink-2); text-decoration: none; padding: 5px 9px;
-  border: 1px solid var(--rule-soft); background: var(--plate);
-}
-.nav a:hover { border-color: var(--acc); color: var(--acc); }
-.nav a b { color: var(--acc); font-weight: 500; margin-right: 5px; }
-
-/* ── incentives ───────────────────────────────────────────── */
-.inc { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
-.inc-c { background: var(--plate); padding: 20px 22px 22px; }
-.inc-h { display: flex; gap: 18px; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
-.inc-tier { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--acc); margin-bottom: 5px; }
-.inc-t { font-family: var(--serif); font-size: 21px; line-height: 1.2; }
-.inc-v { font-family: var(--mono); font-size: 12px; color: var(--ink-2); text-align: right; white-space: nowrap; padding-top: 14px; }
-.inc-b { font-size: 13.5px; line-height: 1.65; color: var(--ink-2); }
-.inc-b strong, .inc-w strong { color: var(--ink); }
-.inc-w { margin-top: 13px; padding: 12px 15px; background: var(--hydro-soft); border-left: 2px solid var(--hydro); font-size: 13px; line-height: 1.6; color: var(--ink); }
-.inc-w b { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--hydro); display: block; margin-bottom: 4px; }
-
-/* ── contact detail rows ──────────────────────────────────── */
-.cx { margin: 8px 0; padding-left: 13px; border-left: 1px solid var(--rule); font-size: 12.5px; line-height: 1.7; color: var(--ink); }
-.cx b { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.13em; text-transform: uppercase; color: var(--ink-3); display: block; margin-bottom: 2px; }
-#contacts .ch-y b { font-size: 10px; letter-spacing: 0.1em; color: var(--acc); }
-
-/* ── asks ─────────────────────────────────────────────────── */
-.asks { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
-.ask-c { background: var(--plate); padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 11px; }
-.ask-h { display: flex; gap: 12px; justify-content: space-between; align-items: flex-start; }
-.ask-who { font-weight: 600; font-size: 14px; line-height: 1.3; }
-.ask-goal { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
-.ask-s { margin: 0; font-family: var(--serif); font-size: 14.5px; line-height: 1.55; color: var(--ink-2); }
-.copy {
-  font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase;
-  padding: 5px 9px; background: transparent; color: var(--ink-2);
-  border: 1px solid var(--rule); cursor: pointer; flex: 0 0 auto; white-space: nowrap; line-height: 1.4;
-}
-.copy:hover { border-color: var(--acc); color: var(--acc); }
-.copy.done { background: var(--ok-bg); border-color: var(--ok-ink); color: var(--ok-ink); }
-
-/* county table v2 — owners/section bar reads "less is better" */
-#c2Table { min-width: 1220px; }
-#c2Table th:nth-child(2), #c2Table td:nth-child(2) { min-width: 132px; }
-#c2Table th:nth-child(12), #c2Table td:nth-child(12) { min-width: 260px; }
-#c2Table th:nth-child(11), #c2Table td:nth-child(11) { min-width: 150px; }
-#cogTable { min-width: 860px; }
-#schemaTable { min-width: 780px; }
-
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+*{box-sizing:border-box}
+body{margin:0;background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:42px 42px,42px 42px;
+  color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1280px;margin:0 auto;padding:0 20px 90px}
+.top{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;justify-content:space-between;padding:26px 0 14px;border-bottom:3px double var(--ink)}
+.eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--acc);margin:0 0 8px}
+h1{font-family:var(--serif);font-size:clamp(26px,4.4vw,40px);line-height:1.03;font-weight:400;letter-spacing:-.015em;margin:0}
+.top-r{font-family:var(--mono);font-size:10.5px;line-height:1.8;color:var(--ink2);text-align:right;flex:0 1 auto;min-width:0;overflow-wrap:anywhere}
+.top-r b{color:var(--ink);font-weight:500}
+@media(max-width:700px){.top-r{text-align:left}}
+.refresh{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:7px 12px;background:var(--acc);color:#fff;border:1px solid var(--acc);cursor:pointer;margin-top:8px}
+:root[data-theme="dark"] .refresh{color:#10171c}
+.refresh:hover{opacity:.88}
+.refresh[disabled]{opacity:.5;cursor:default}
+.tabs{display:flex;flex-wrap:wrap;gap:4px;margin:16px 0 0;border-bottom:1px solid var(--rule)}
+.tab{font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;padding:10px 14px;background:transparent;border:1px solid transparent;border-bottom:none;color:var(--ink2);cursor:pointer}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{background:var(--plate);border-color:var(--rule);color:var(--acc);margin-bottom:-1px}
+.tab b{background:var(--acc);color:#fff;border-radius:9px;padding:1px 6px;font-size:9.5px;margin-left:7px;font-weight:500}
+:root[data-theme="dark"] .tab b{color:#10171c}
+.panel{display:none;padding-top:26px}
+.panel.on{display:block}
+h2{font-family:var(--serif);font-size:clamp(20px,2.7vw,27px);font-weight:400;line-height:1.15;margin:0 0 6px}
+.dek{font-size:14px;color:var(--ink2);max-width:76ch;margin:0 0 20px;line-height:1.62}
+.dek strong{color:var(--ink);font-weight:600}
+h3{font-family:var(--sans);font-size:11.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--ink2);margin:30px 0 11px}
+.card{background:var(--plate);border:1px solid var(--rule);padding:20px 22px}
+.mini{font-family:var(--mono);font-size:10.5px;color:var(--ink3);letter-spacing:.04em;line-height:1.6}
+code{font-family:var(--mono);font-size:12px;background:var(--sunk);padding:1.5px 5px;border:1px solid var(--rule2)}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.stat{background:var(--plate);padding:15px 17px 14px}
+.stat-k{font-family:var(--mono);font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink3);margin-bottom:7px}
+.stat-v{font-family:var(--serif);font-size:29px;line-height:1;letter-spacing:-.02em}
+.stat-n{font-size:11.5px;color:var(--ink2);margin-top:6px;line-height:1.4}
+.bar{display:flex;flex-wrap:wrap;gap:16px 22px;align-items:flex-end;padding:14px 18px;background:var(--sunk);border:1px solid var(--rule);margin-bottom:14px}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{font-family:var(--mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;padding:6px 10px;background:transparent;color:var(--ink2);border:1px solid var(--rule);cursor:pointer;line-height:1.3}
+.chip:hover{border-color:var(--acc);color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#fff}
+:root[data-theme="dark"] .chip[aria-pressed="true"]{color:#10171c}
+.scroll{overflow-x:auto;border:1px solid var(--rule);background:var(--plate)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+thead th{font-family:var(--mono);font-size:9px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink3);font-weight:400;text-align:left;padding:10px 12px;border-bottom:1px solid var(--ink);white-space:nowrap;background:var(--plate)}
+thead th.srt{cursor:pointer}
+thead th.srt:hover{color:var(--acc)}
+th.num,td.num{text-align:right;font-variant-numeric:tabular-nums;font-family:var(--mono)}
+tbody td{padding:10px 12px;border-bottom:1px solid var(--rule2);vertical-align:top}
+tbody tr:last-child td{border-bottom:0}
+tbody tr.dim td{opacity:.5}
+.rk{font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.nm{font-weight:600}
+.sub{font-size:11.5px;color:var(--ink3);margin-top:2px}
+.note{font-size:12px;color:var(--ink2);line-height:1.45}
+.sbar{display:flex;align-items:center;gap:8px}
+.sbar-t{width:54px;height:7px;background:var(--sunk);border-radius:4px;overflow:hidden;flex:0 0 auto}
+.sbar-f{display:block;height:100%;background:var(--bar);border-radius:4px}
+.sbar b{font-family:var(--mono);font-size:12.5px;font-weight:500;font-variant-numeric:tabular-nums}
+.pill{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px 3px 7px;border-radius:2px;white-space:nowrap;line-height:1.5}
+.pill i{display:inline-block;flex:0 0 auto;font-style:normal}
+.pill.ok{background:var(--ok-bg);color:var(--ok)}
+.pill.ok i{width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-bottom:7px solid currentColor}
+.pill.warn{background:var(--warn-bg);color:var(--warn)}
+.pill.warn i{width:7px;height:7px;border-radius:50%;background:currentColor}
+.pill.stop{background:var(--stop-bg);color:var(--stop)}
+.pill.stop i{width:7px;height:7px;background:currentColor}
+.pill.mute{background:var(--sunk);color:var(--ink3)}
+.pill.mute i{width:7px;height:7px;border-radius:50%;border:1.5px solid currentColor}
+.pills{display:flex;flex-wrap:wrap;gap:4px}
+.find{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.f{background:var(--plate);padding:16px 19px;display:grid;grid-template-columns:3px 1fr;gap:14px}
+.f-sev{border-radius:2px}
+.f-sev.critical{background:var(--stop)} .f-sev.high{background:var(--warn)}
+.f-sev.medium{background:var(--hydro)} .f-sev.low{background:var(--ink3)}
+.f-h{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:baseline;justify-content:space-between;margin-bottom:5px}
+.f-t{font-weight:600;font-size:14.5px;line-height:1.3}
+.f-cat{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink3)}
+.f-d{font-size:13.5px;color:var(--ink2);line-height:1.6}
+.f-e{margin-top:8px;font-family:var(--mono);font-size:11px;color:var(--ink3);letter-spacing:.03em}
+.f-e span{display:inline-block;background:var(--sunk);border:1px solid var(--rule2);padding:1px 6px;margin:2px 3px 0 0}
+.brief-h{font-family:var(--serif);font-size:clamp(18px,2.4vw,23px);line-height:1.4;margin:0 0 16px;text-wrap:pretty}
+.blk{margin-bottom:18px}
+.blk-k{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--acc);margin-bottom:8px}
+.blk ul{margin:0;padding-left:18px}
+.blk li{margin-bottom:7px;font-size:13.5px;color:var(--ink2);line-height:1.6}
+.pt{margin-bottom:13px}
+.pt-t{font-weight:600;font-size:14px;margin-bottom:3px}
+.pt-d{font-size:13.5px;color:var(--ink2);line-height:1.6}
+.tl{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.tl-r{background:var(--plate);padding:14px 18px;display:grid;grid-template-columns:92px 1fr;gap:18px}
+@media(max-width:620px){.tl-r{grid-template-columns:1fr;gap:6px}}
+.tl-d{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--acc);padding-top:2px}
+.tl-t{font-weight:600;font-size:14px;margin-bottom:4px}
+.tl-b{font-size:13px;color:var(--ink2);line-height:1.55}
+.tl-o{margin-top:6px;font-size:12.5px;color:var(--ink);padding-left:11px;border-left:2px solid var(--rule)}
+.lad{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule)}
+details.ch{background:var(--plate)}
+details.ch>summary{padding:13px 18px;cursor:pointer;display:grid;grid-template-columns:1fr auto auto;gap:14px;align-items:center;list-style:none}
+details.ch>summary::-webkit-details-marker{display:none}
+details.ch>summary:hover{background:var(--sunk)}
+details.ch[open]>summary{background:var(--sunk);border-bottom:1px solid var(--rule)}
+.ch-t{font-weight:600;font-size:14px;line-height:1.3}
+.ch-t span{display:block;font-weight:400;font-size:12px;color:var(--ink2);margin-top:2px}
+.ch-body{padding:15px 18px 18px;font-size:13.5px;line-height:1.62;color:var(--ink2)}
+.cx{margin:8px 0;padding-left:13px;border-left:1px solid var(--rule);font-size:12.5px;line-height:1.7;color:var(--ink)}
+.cx b{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink3);display:block;margin-bottom:2px}
+.ch-do{margin-top:11px;padding:11px 14px;background:var(--acc-soft);border-left:2px solid var(--acc);font-size:13px;color:var(--ink)}
+.ch-do b{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);display:block;margin-bottom:4px}
+.msg{padding:40px 22px;text-align:center;font-family:var(--mono);font-size:12px;color:var(--ink3);letter-spacing:.05em;line-height:1.7}
+.msg.err{color:var(--stop)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
-
+</head>
+<body>
 <div class="wrap">
 
-<header class="collar">
-  <div class="collar-l">
-    <p class="eyebrow">Site acquisition · reconnaissance sheet</p>
-    <h1>Iowa hyperscale land.<br>Finding <em>the rest</em>.</h1>
+<header class="top">
+  <div>
+    <p class="eyebrow">Iowa · hyperscale land · working desk</p>
+    <h1>Site Desk</h1>
   </div>
-  <div class="collar-r">
-    <b>PREPARED FOR</b> &nbsp;Kinzie Real Estate Solutions<br>
-    <b>DATE</b> &nbsp;2026-08-03<br>
-    <b>INPUTS</b> &nbsp;Iowa Survey Draft.xlsx · CoStar Sites — IA.xlsx<br>
-    <b>ROWS INGESTED</b> &nbsp;18 &nbsp;·&nbsp; <b>PRIOR EFFORT</b> &nbsp;30+ hrs<br>
-    <b>SCREEN</b> &nbsp;Land-only. Power &amp; generation assumed solved.
+  <div class="top-r">
+    <b>DATA</b> <span id="mCounts">loading…</span><br>
+    <b>LAST DATA UPDATE</b> <span id="mUpdated">—</span><br>
+    <b>ANALYSIS RUN</b> <span id="mRun">—</span><br>
+    <button class="refresh" id="btnRefresh" type="button">Refresh &amp; re-analyse</button>
   </div>
 </header>
-<nav class="nav" aria-label="Jump to plate">
-  <a href="#p1"><b>01</b>Your 18 rows</a>
-  <a href="#p2"><b>02</b>Topography trap</a>
-  <a href="#p3"><b>03</b>Universe sizing</a>
-  <a href="#p4"><b>04</b>Assemblage</a>
-  <a href="#p5"><b>05</b>15 channels</a>
-  <a href="#p6"><b>06</b>Where to point</a>
-  <a href="#p7"><b>07</b>Off-market types</a>
-  <a href="#p8"><b>08</b>Reframes</a>
-  <a href="#p9"><b>09</b>30 days</a>
-  <a href="#p10"><b>10</b>Incentives</a>
-  <a href="#p11"><b>11</b>County data</a>
-  <a href="#p12"><b>12</b>Who to call</a>
-  <a href="#p13"><b>13</b>What to say</a>
-  <a href="#p14"><b>14</b>Build the data</a>
-</nav>
 
-<section class="verdict">
-  <p>You did not run out of sites. You ran out of <strong>listings</strong> — and public listings systematically select for the wrong ground.</p>
-  <p>Every 500+ acre tract in your file sits in a landform region Iowa geologists classify as <em>dissected</em>: Southern Iowa Drift Plain, cut by streams, which is precisely <em>why</em> the tracts are big, cheap and available — nobody wants to farm them. Iowa's flat, buildable 500-acre blocks are prime tiled row-crop ground worth $12–16k/acre. That land is never listed in big blocks. It is held, farmed, and sold by auction or handshake. To find it you stop searching for sites and start searching for <em>ground</em>.</p>
-</section>
-
-<div class="stats">
-  <div class="stat">
-    <div class="stat-k">Your rows ≥ 500 acres</div>
-    <div class="stat-v">8 <small>of 18</small></div>
-    <div class="stat-n">Six CoStar rows have no acreage recorded at all. One tract is double-counted.</div>
-  </div>
-  <div class="stat">
-    <div class="stat-k">Shortlist clearing 500 ac</div>
-    <div class="stat-v">1 <small>of 5</small></div>
-    <div class="stat-n">Your "very best" survey draft: median 442 ac. Two are under 250.</div>
-  </div>
-  <div class="stat">
-    <div class="stat-k">Iowa farms ≥ 500 acres</div>
-    <div class="stat-v">17,041</div>
-    <div class="stat-n">9,690 at 500–999 ac plus 7,351 at 1,000+. USDA 2022 Census, Table 1.</div>
-  </div>
-  <div class="stat">
-    <div class="stat-k">Sections in Iowa</div>
-    <div class="stat-v">~55,200</div>
-    <div class="stat-n">One PLSS section = one square mile = <b>640 acres</b>. Your target fits inside one.</div>
-  </div>
-  <div class="stat">
-    <div class="stat-k">Counties now closed</div>
-    <div class="stat-v">9 <small>+1 drafting</small></div>
-    <div class="stat-n">Moratoria passed in 2026. One of your five sites is in the drafting county.</div>
-  </div>
-  <div class="stat">
-    <div class="stat-k">Top-ranked site in your file</div>
-    <div class="stat-v" style="font-size:26px">Lohrville</div>
-    <div class="stat-n">613 ac, Calhoun Co., flat, and your own sheet records <b>no county zoning</b>. You annotated it with one word: “Auction”.</div>
-  </div>
+<div class="tabs" role="tablist">
+  <button class="tab" role="tab" aria-selected="true" data-p="screen">Target screen</button>
+  <button class="tab" role="tab" aria-selected="false" data-p="pipeline">Pipeline <b id="tPipe">0</b></button>
+  <button class="tab" role="tab" aria-selected="false" data-p="analyst">Analyst <b id="tFind">0</b></button>
+  <button class="tab" role="tab" aria-selected="false" data-p="execution">Execution</button>
+  <button class="tab" role="tab" aria-selected="false" data-p="progress">Progress</button>
+  <button class="tab" role="tab" aria-selected="false" data-p="data">Data</button>
 </div>
 
-<!-- ══════════════════════════════ PLATE 1 ══════════════════════════════ -->
-<section class="plate" id="p1">
-  <div class="plate-head">
-    <div class="plate-no">PLATE 01</div>
-    <h2>What your 30 hours actually produced</h2>
-  </div>
-  <p class="plate-dek">All 18 rows from both workbooks, normalised onto one land-only screen. <strong>Net buildable</strong> discounts gross acreage for the hydrology you yourself recorded — because a hyperscale campus needs contiguous dry flat ground, not gross deed acres. Move the weights to see the ranking respond; every sub-score is exposed in the table so you can overrule mine.</p>
+<div id="boot" class="msg">Loading project data…</div>
 
-  <div class="bar">
-    <div class="chips" id="siteChips" role="group" aria-label="Filter sites">
-      <button class="chip" aria-pressed="true" data-f="all">All qualifying</button>
-      <button class="chip" aria-pressed="false" data-f="500">≥ 500 net-eligible</button>
-      <button class="chip" aria-pressed="false" data-f="short">Your shortlist</button>
-      <button class="chip" aria-pressed="false" data-f="flag">Flagged</button>
-    </div>
-    <div class="ctl"><label for="wScale">Scale <b id="vScale">30</b></label><input type="range" id="wScale" min="0" max="50" value="30"></div>
-    <div class="ctl"><label for="wTopo">Topography <b id="vTopo">20</b></label><input type="range" id="wTopo" min="0" max="50" value="20"></div>
-    <div class="ctl"><label for="wHydro">Hydrology <b id="vHydro">20</b></label><input type="range" id="wHydro" min="0" max="50" value="20"></div>
-    <div class="ctl"><label for="wCont">Contiguity <b id="vCont">15</b></label><input type="range" id="wCont" min="0" max="50" value="15"></div>
-    <div class="ctl"><label for="wEnt">Entitlement <b id="vEnt">15</b></label><input type="range" id="wEnt" min="0" max="50" value="15"></div>
-  </div>
-
-  <div class="scroll">
-    <table id="siteTable">
-      <thead><tr>
-        <th>#</th>
-        <th class="srt" data-s="addr">Site</th>
-        <th class="srt num" data-s="ac">Gross ac</th>
-        <th class="srt num" data-s="net">Net buildable</th>
-        <th>Gross → net</th>
-        <th class="srt" data-s="landform">Landform region</th>
-        <th class="srt num" data-s="score">Screen score</th>
-        <th>Flags</th>
-        <th>What your sheet says</th>
-      </tr></thead>
-      <tbody></tbody>
-    </table>
-  </div>
-  <p class="mini" style="margin-top:10px">Net buildable = gross × (1 − hydrology haircut): 45% where you recorded multiple watercourses, 35% mapped 1% ‑annual‑chance floodplain, 25% a single river intersection, 22% ponds/timber recreational, 15% floodplain fringe or small water bodies, 5% clean. Where you captured a real tillable figure it overrides the haircut — Hwy 169 is <b>530 tillable of 1,232</b>. These are screening estimates from your own notes, not surveys.</p>
-
-  <h3>Six rows you cannot yet score</h3>
-  <div class="scroll">
-    <table id="costarTable">
-      <thead><tr>
-        <th>CoStar row</th><th>City</th><th>County</th><th>Proposed use on record</th><th>Flood</th><th>Price</th><th>Broker</th><th>Action</th>
-      </tr></thead>
-      <tbody></tbody>
-    </table>
-  </div>
-  <p class="mini" style="margin-top:10px">Your CoStar export carried 23 columns and <b>not one of them was acreage</b> — including Energy Star and LEED certification, which are meaningless on raw land. Re-run the export with Land Acres / Lot Size and drop the building fields.</p>
-</section>
-
-<!-- ══════════════════════════════ PLATE 2 ══════════════════════════════ -->
-<section class="plate" id="p2">
-  <div class="plate-head">
-    <div class="plate-no">PLATE 02</div>
-    <h2>The topography trap</h2>
-  </div>
-  <p class="plate-dek">Group the same sites by Iowa landform region and the bias in the search method becomes visible. <strong>Nine of your twelve acreage-known sites sit in the two worst regions in the state for a slab</strong> — and your single best-terrain site is an auction property you wrote one word about.</p>
-  <div id="landformStrips"></div>
-  <p class="mini" style="margin-top:14px">Landform assignments follow the Iowa Geological Survey's <em>Landform Regions of Iowa</em> classification, applied by county and township. Bars are net buildable acres; the hairline marks the 500-acre threshold.</p>
-</section>
-
-<!-- ══════════════════════════════ PLATE 3 ══════════════════════════════ -->
-<section class="plate" id="p3">
-  <div class="plate-head">
-    <div class="plate-no">PLATE 03</div>
-    <h2>How much ground is actually out there</h2>
-  </div>
-  <p class="plate-dek">The reason this feels impossible is that you have been measuring the wrong universe. There are not forty candidate sites in Iowa — there are thousands of qualifying <em>ownership blocks</em>, and a few dozen listings. Set your own screening assumptions; the arithmetic is transparent.</p>
-
-  <div class="bar">
-    <div class="ctl" style="min-width:196px"><label for="fLand">In acceptable landform <b id="vLand">32%</b></label><input type="range" id="fLand" min="5" max="80" value="32"></div>
-    <div class="ctl" style="min-width:196px"><label for="fCont">Contiguous, not scattered <b id="vCont2">45%</b></label><input type="range" id="fCont" min="10" max="90" value="45"></div>
-    <div class="ctl" style="min-width:196px"><label for="fPol">Outside closed counties <b id="vPol">80%</b></label><input type="range" id="fPol" min="30" max="100" value="80"></div>
-    <div class="ctl" style="min-width:196px"><label for="fDry">Clears flood &amp; wetland <b id="vDry">55%</b></label><input type="range" id="fDry" min="10" max="95" value="55"></div>
-    <div class="ctl" style="min-width:196px"><label for="fResp">Owner will engage <b id="vResp">12%</b></label><input type="range" id="fResp" min="1" max="60" value="12"></div>
-  </div>
-
-  <div class="fun" id="funnel"></div>
-
-  <div class="card" style="margin-top:14px">
-    <h3 style="margin-top:0">Read that bottom line against your own result</h3>
-    <p style="margin:0 0 10px; font-size:14px; line-height:1.65; color:var(--ink-2)">Thirty hours of listing search produced <b style="color:var(--ink)">8</b> tracts at or above 500 gross acres, clustered in four counties — three of them in Ringgold alone. That is not a market with no supply. That is a market you were fishing with the wrong net: you were searching the sliver of Iowa farmland that happens to be publicly advertised, which is roughly <span id="listShare">a fraction of one percent</span> of the qualifying ownership blocks the screen above implies.</p>
-    <p style="margin:0; font-size:14px; line-height:1.65; color:var(--ink-2)">The channels in Plate 05 are ordered by qualified sites per hour of your time. The first three do not involve a listing site at all.</p>
-  </div>
-</section>
-
-<!-- ══════════════════════════════ PLATE 4 ══════════════════════════════ -->
-<section class="plate" id="p4">
-  <div class="plate-head">
-    <div class="plate-no">PLATE 04</div>
-    <h2>Drop the solo-site constraint</h2>
-  </div>
-  <p class="plate-dek">You said it yourself: <em>"this is the very best I could find for solo sites."</em> That constraint is the expensive one. Iowa was surveyed on the Public Land Survey grid — <strong>a section is 640 acres</strong>, a quarter-section 160, and gravel roads run the section lines. Your entire acreage target fits inside a single section. Nobody assembles hyperscale campuses from one listing: Meta at Altoona is 520 acres, QTS at Cedar Rapids 612, Google's proposed Palo site 545 — all assembled or park-based.</p>
-
-  <div class="asm">
-    <div class="asm-fig">
-      <div id="asmSvg"></div>
-      <p class="asm-cap" id="asmCap"></p>
-    </div>
-    <div>
-      <div class="bar" style="margin-bottom:14px; padding:16px 18px">
-        <div class="ctl" style="min-width:100%"><label for="aTgt">Target footprint <b id="vTgt">640 ac</b></label><input type="range" id="aTgt" min="300" max="2000" step="20" value="640"></div>
-        <div class="ctl" style="min-width:100%"><label for="aOwn">Acres per owner <b id="vOwn">200 ac</b></label><input type="range" id="aOwn" min="80" max="640" step="20" value="200"></div>
-      </div>
-      <dl class="readout" id="asmOut"></dl>
-      <p class="mini" style="margin-top:12px">Average Iowa farm is <b>345 acres</b>, median <b>130</b> (29,978,165 farmland acres across 86,911 farms, USDA 2022). Ownership is more fragmented than operation — most large operators rent — so the acres-per-owner slider defaults below the average deliberately. Plate 11 gives you the real median by county.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════ PLATE 5 ══════════════════════════════ -->
-<section class="plate" id="p5">
-  <div class="plate-head">
-    <div class="plate-no">PLATE 05</div>
-    <h2>Fifteen channels, ranked by yield per hour</h2>
-  </div>
-  <p class="plate-dek">CoStar, LandWatch and Land.com are channels 12, 13 and 14 on this list, and you spent thirty hours in them. Open each row for the specific query, the source, and the first move.</p>
-  <div class="lad" id="ladder"></div>
-</section>
-
-<!-- ══════════════════════════════ PLATE 6 ══════════════════════════════ -->
-<section class="plate" id="p6">
-  <div class="plate-head">
-    <div class="plate-no">PLATE 06</div>
-    <h2>Where to point the screen</h2>
-  </div>
-  <p class="plate-dek">Twenty-eight counties triaged on land-only criteria: landform quality, hydrology exposure, and ordinance status. <strong>Not one of your twelve sites is in a top-eight county.</strong> Verify every ordinance status directly with the county before spending diligence dollars — this list moved nine times in 2026.</p>
-  <div class="bar">
-    <div class="chips" id="ctyChips" role="group" aria-label="Filter counties">
-      <button class="chip" aria-pressed="true" data-t="all">All 28</button>
-      <button class="chip" aria-pressed="false" data-t="go">Hunt here</button>
-      <button class="chip" aria-pressed="false" data-t="watch">Verify first</button>
-      <button class="chip" aria-pressed="false" data-t="stop">Closed / avoid</button>
-      <button class="chip" aria-pressed="false" data-t="yours">Counties in your file</button>
-    </div>
-  </div>
-  <div class="cty" id="ctyBoard"></div>
-</section>
-
-<!-- ══════════════════════════════ PLATE 7 ══════════════════════════════ -->
-<section class="plate" id="p7">
-  <div class="plate-head">
-    <div class="plate-no">PLATE 07</div>
-    <h2>Large contiguous land that never appears on a listing site</h2>
-  </div>
-  <p class="plate-dek">Twelve categories of 500+ acre Iowa holdings that are structurally invisible to CoStar, because the owner is not a seller, is not a broker's client, or is not a person. Several come with industrial zoning, rail and water already attached.</p>
-  <div class="typ" id="typologies"></div>
-</section>
-
-<!-- ══════════════════════════════ PLATE 8 ══════════════════════════════ -->
-<section class="plate" id="p8">
-  <div class="plate-head">
-    <div class="plate-no">PLATE 08</div>
-    <h2>Six reframes</h2>
-  </div>
-  <p class="plate-dek">The mechanical changes that turn a thirty-hour dead end into a repeatable pipeline.</p>
-  <div class="rf" id="reframes"></div>
-</section>
-
-<!-- ══════════════════════════════ PLATE 9 ══════════════════════════════ -->
-<section class="plate" id="p9">
-  <div class="plate-head">
-    <div class="plate-no">PLATE 09</div>
-    <h2>The next thirty days</h2>
-  </div>
-  <p class="plate-dek">Sequenced so the cheap, high-yield work happens before any windshield time. Week one is a desk exercise and should out-produce your thirty hours by an order of magnitude.</p>
-  <div class="spr" id="sprint"></div>
-</section>
-
-<!-- ══════════════════════════════ PLATE 10 ══════════════════════════════ -->
-<section class="plate" id="p10">
-  <div class="plate-head">
-    <div class="plate-no">PLATE 10</div>
-    <h2>The incentive stack, and the one line in it that picks your county</h2>
-  </div>
-  <p class="plate-dek">Most of Iowa's data-centre incentive is statutory and uniform, which means it cannot differentiate one site from another — assume every candidate gets it. <strong>One provision does differentiate, and it points hard at rural Iowa.</strong></p>
-  <div class="inc" id="incentives"></div>
-</section>
-
-<!-- ══════════════════════════════ PLATE 11 ══════════════════════════════ -->
-<section class="plate" id="p11">
-  <div class="plate-head">
-    <div class="plate-no">PLATE 11</div>
-    <h2>County board, rebuilt on hard data</h2>
-  </div>
-  <p class="plate-dek">I pulled the USDA 2022 Census county tables and parsed all 99 Iowa counties, so assemblage is now measured rather than guessed. The key column is <strong>owners per section</strong> — 640 acres divided by the county's median farm size, or roughly how many signatures a full-section footprint needs. <strong>Kossuth County now ranks first and was not on the earlier list at all.</strong> Your two Davis County sites sit in the worst assemblage county on the board.</p>
-
-  <div class="bar">
-    <div class="chips" id="c2Chips" role="group" aria-label="Filter counties">
-      <button class="chip" aria-pressed="true" data-t="all">All 48</button>
-      <button class="chip" aria-pressed="false" data-t="open">Open for business</button>
+<section class="panel" data-p="screen">
+  <h2>Target screen</h2>
+  <p class="dek">Every screened Iowa county scored on the four things that decide whether a 640-acre footprint is buildable and gettable: landform, assemblage difficulty, ordinance status, and depth of the large-holding pool. <strong>Owners per section</strong> is 640 divided by the county median farm size — roughly how many signatures a full section needs. Counties where a live site sits are marked.</p>
+  <div class="stats" id="screenStats"></div>
+  <div class="bar" style="margin-top:14px">
+    <div class="chips" id="scChips" role="group" aria-label="Filter counties">
+      <button class="chip" aria-pressed="true" data-t="all">All</button>
+      <button class="chip" aria-pressed="false" data-t="open">Open</button>
       <button class="chip" aria-pressed="false" data-t="easy">Easiest assemblage</button>
-      <button class="chip" aria-pressed="false" data-t="deep">Deepest target pool</button>
-      <button class="chip" aria-pressed="false" data-t="closed">Closed / avoid</button>
-      <button class="chip" aria-pressed="false" data-t="yours">In your file</button>
+      <button class="chip" aria-pressed="false" data-t="deep">Deepest pool</button>
+      <button class="chip" aria-pressed="false" data-t="held">Where you hold</button>
+      <button class="chip" aria-pressed="false" data-t="gap">Top 12, no position</button>
+      <button class="chip" aria-pressed="false" data-t="closed">Closed</button>
     </div>
   </div>
-
-  <div class="scroll">
-    <table id="c2Table">
-      <thead><tr>
-        <th>#</th>
-        <th class="srt" data-s="n">County</th>
-        <th class="srt num" data-s="sc">Score</th>
-        <th class="srt num" data-s="ops">Owners / section</th>
-        <th>Assemblage</th>
-        <th class="srt num" data-s="ge">Farms ≥500 ac</th>
-        <th class="srt num" data-s="k1k">≥1,000 ac</th>
-        <th class="srt num" data-s="med">Median farm</th>
-        <th class="srt" data-s="lf">Landform</th>
-        <th>Ordinance</th>
-        <th>Regional contact</th>
-        <th>Read</th>
-      </tr></thead>
-      <tbody></tbody>
-    </table>
-  </div>
-  <p class="mini" style="margin-top:10px"><b>Owners per section = 640 ÷ county median farm size (USDA 2022).</b> This is an optimistic floor: the Census counts <em>operations</em>, and a large operator often farms rented ground across several owners, so true ownership is more fragmented than operation. Calibrate the multiplier against your first county's parcel dissolve, then apply it statewide. Score weights landform 30, assemblage 28, ordinance status 27, target-pool depth 15.</p>
+  <div class="scroll"><table id="scTable" style="min-width:1180px"><thead><tr>
+    <th>#</th><th class="srt" data-s="name">County</th><th class="srt num" data-s="score">Score</th>
+    <th class="srt num" data-s="owners_per_section">Owners/sec</th><th class="srt num" data-s="farms_ge500">Farms ≥500</th>
+    <th class="srt num" data-s="farms_ge1000">≥1,000</th><th class="srt num" data-s="median_farm_ac">Median farm</th>
+    <th class="srt" data-s="landform">Landform</th><th>Ordinance</th><th>Position</th><th>Read</th>
+  </tr></thead><tbody></tbody></table></div>
+  <p class="mini" style="margin-top:10px">Owners per section is an optimistic floor — the census counts operations, and large operators farm rented ground across several owners. Calibrate against a real parcel dissolve before trusting it. Score weights: landform 30, assemblage 28, ordinance 27, pool depth 15.</p>
 </section>
 
-<!-- ══════════════════════════════ PLATE 12 ══════════════════════════════ -->
-<section class="plate" id="p12">
-  <div class="plate-head">
-    <div class="plate-no">PLATE 12</div>
-    <h2>Who to call, in order</h2>
+<section class="panel" data-p="pipeline">
+  <h2>Pipeline</h2>
+  <p class="dek">Every site on record, with the county screen joined on. <strong>Net buildable</strong> discounts gross acreage for recorded hydrology; where a real tillable figure exists it overrides the estimate.</p>
+  <div class="stats" id="pipeStats"></div>
+  <div class="bar" style="margin-top:14px">
+    <div class="chips" id="pipChips" role="group" aria-label="Filter sites">
+      <button class="chip" aria-pressed="true" data-t="all">All</button>
+      <button class="chip" aria-pressed="false" data-t="live">Live</button>
+      <button class="chip" aria-pressed="false" data-t="ge500">≥500 net</button>
+      <button class="chip" aria-pressed="false" data-t="auction">Auction clock</button>
+      <button class="chip" aria-pressed="false" data-t="incomplete">No acreage</button>
+      <button class="chip" aria-pressed="false" data-t="risk">Ordinance risk</button>
+      <button class="chip" aria-pressed="false" data-t="dead">Dead</button>
+    </div>
   </div>
-  <p class="plate-dek">Ranked by acres reachable per hour of your time. The first two calls between them cover roughly 250 utilities and nine of your top-ranked counties — and one of them is a contact you already have and have not used.</p>
+  <div class="scroll"><table id="pipTable" style="min-width:1240px"><thead><tr>
+    <th>ID</th><th class="srt" data-s="name">Site</th><th class="srt num" data-s="acres_gross">Gross</th>
+    <th class="srt num" data-s="acres_net">Net</th><th class="srt" data-s="county">County</th>
+    <th class="srt num" data-s="_cscore">Cty score</th><th class="srt num" data-s="_ops">Owners/sec</th>
+    <th>Status</th><th>Owner</th><th>Flags</th><th>Notes</th>
+  </tr></thead><tbody></tbody></table></div>
+</section>
+
+<section class="panel" data-p="analyst">
+  <h2>Analyst</h2>
+  <p class="dek">Runs on every load and every refresh. It reads the whole dataset — sites, counties, contacts, activity — cross-references the private records against the public screen, and reports what the numbers say. <strong>Findings are derived, not stored.</strong> Change the data and they change.</p>
+  <div class="stats" id="anStats"></div>
+  <h3>Findings</h3>
+  <div class="bar">
+    <div class="chips" id="anChips" role="group" aria-label="Filter findings">
+      <button class="chip" aria-pressed="true" data-t="all">All</button>
+      <button class="chip" aria-pressed="false" data-t="critical">Critical</button>
+      <button class="chip" aria-pressed="false" data-t="high">High</button>
+      <button class="chip" aria-pressed="false" data-t="medium">Medium</button>
+      <button class="chip" aria-pressed="false" data-t="low">Low</button>
+    </div>
+  </div>
+  <div class="find" id="findings"></div>
+  <h3>Written brief</h3>
+  <div class="card" id="brief"></div>
+</section>
+
+<section class="panel" data-p="execution">
+  <h2>Execution</h2>
+  <p class="dek">Contacts ranked by acres reachable per hour, each showing the sites and counties it covers in the current dataset. The ask is written to be read aloud.</p>
+  <div class="bar">
+    <div class="chips" id="exChips" role="group" aria-label="Filter contacts">
+      <button class="chip" aria-pressed="true" data-t="all">All</button>
+      <button class="chip" aria-pressed="false" data-t="1">Tier 1</button>
+      <button class="chip" aria-pressed="false" data-t="covers">Covers a live site</button>
+      <button class="chip" aria-pressed="false" data-t="untouched">Not contacted</button>
+    </div>
+  </div>
   <div class="lad" id="contacts"></div>
-
-  <h3>Every county in Iowa maps to one regional council — and they know the ordinance truth</h3>
-  <div class="scroll">
-    <table id="cogTable">
-      <thead><tr><th>Council of Governments</th><th>Base</th><th>Phone</th><th>Counties served</th></tr></thead>
-      <tbody></tbody>
-    </table>
-  </div>
 </section>
 
-<!-- ══════════════════════════════ PLATE 13 ══════════════════════════════ -->
-<section class="plate" id="p13">
-  <div class="plate-head">
-    <div class="plate-no">PLATE 13</div>
-    <h2>What to actually say</h2>
-  </div>
-  <p class="plate-dek">Six asks, written to be read aloud. The landowner letter is the one that matters most — it is deliberately short, names a price posture, and promises not to call again, because that last sentence is what gets it read.</p>
-  <div class="asks" id="asks"></div>
-</section>
-
-<!-- ══════════════════════════════ PLATE 14 ══════════════════════════════ -->
-<section class="plate" id="p14">
-  <div class="plate-head">
-    <div class="plate-no">PLATE 14</div>
-    <h2>Build the dataset nobody sells you</h2>
-  </div>
-  <p class="plate-dek">You are right that this does not exist on the market. That is the opportunity, not the obstacle — the reason there is no product is that it takes assembling free public layers nobody has bothered to join. Here is the schema and the pipeline. <strong>Nineteen fields; only one of them cannot be downloaded.</strong></p>
-
-  <h3>The pipeline — ground first, ownership second, policy third</h3>
-  <div class="spr" id="pipeline"></div>
-
-  <h3>The record — one row per contiguous holding</h3>
-  <div class="scroll">
-    <table id="schemaTable">
-      <thead><tr><th>Field</th><th>Source</th><th>Why it earns its column</th></tr></thead>
-      <tbody></tbody>
-    </table>
-  </div>
-  <div class="card" style="margin-top:14px">
-    <h3 style="margin-top:0">What finished looks like</h3>
-    <p style="margin:0;font-size:14px;line-height:1.65;color:var(--ink-2)">A table you can sort by <b style="color:var(--ink)">buildable_acres</b> and <b style="color:var(--ink)">assemblage_owner_count</b> together, filtered to counties where <b style="color:var(--ink)">dc_ordinance_status = open</b>, with a named owner and a mailing address on every row. At that point site-finding stops being research and becomes a mail-merge — and the 30 hours you spent on listing sites becomes about 30 minutes a week of alerts.</p>
-  </div>
-</section>
-
-<footer class="colo">
-  <h3>Sources, assumptions, and what to distrust</h3>
-  <div class="grid2">
-    <div>
-      <p style="margin-top:0"><b style="color:var(--ink)">Hard numbers, cited.</b></p>
-      <ul>
-        <li>Iowa farm-size distribution — 9,690 farms at 500–999 ac · 7,351 at 1,000+ ac (17,041 total ≥500) · 86,911 farms · 29,978,165 farmland acres · average 345 ac · median 130 ac. Parsed directly from <a href="https://www.nass.usda.gov/Publications/AgCensus/2022/Full_Report/Volume_1,_Chapter_2_County_Level/Iowa/st19_2_001_001.pdf">USDA 2022 Census of Agriculture, Iowa County Data, Table 1</a> — the same extraction supplies every county figure in Plate 11.</li>
-        <li>PLSS geometry — 1 section = 1 sq mi = 640 ac; Iowa land area ~55,200 sq mi, hence ~55,200 sections.</li>
-        <li>Moratoria — Linn (18 mo, eff. 1 Jul 2026), Plymouth, Sioux, Woodbury, Clarke, Dubuque (12 mo), Johnson, Madison, and Des Moines County (12 mo, 19 May 2026). Taylor County drafted an ordinance 8 Jun 2026: <a href="https://kscj.com/2026/07/08/eight-iowa-counties-have-moratoriums-on-data-center-development/">KSCJ, 8 Jul 2026</a> · <a href="https://www.linncountyiowa.gov/1862/Data-Centers-in-Unincorporated-Linn-Coun">Linn County</a> · <a href="https://taylorcounty.iowa.gov/temporary-moratorium-ordinance-for-data-center-development-etc/">Taylor County notice</a>.</li>
-        <li>Comparable campus footprints — Meta Altoona ~520 ac; QTS Cedar Rapids 612 ac inside Alliant's 1,391-ac Big Cedar Industrial Center; Google's proposed Palo site 545 ac; Microsoft Van Meter 221+ ac.</li>
-        <li>Mills Crossings Mega Site, Glenwood — 1,600+ ac, <a href="https://opportunityiowa.gov/business/buildings-sites/iowa-certified-site-program">Iowa Certified Site</a>.</li>
-        <li>Statewide 1 m LiDAR bare-earth DEM, free, by county or HUC12: <a href="https://www.gis.iastate.edu/current-projects/dem/">ISU GIS Facility</a> · <a href="https://geodata.iowa.gov/pages/lidar">Iowa Geospatial Data Clearinghouse</a> · <a href="https://www.geotree.uni.edu/en/extension/iowa-lidar-mapping-project/">UNI GeoTREE</a>.</li>
-        <li>Landform regions: Iowa Geological Survey, <a href="https://iowageologicalsurvey.uiowa.edu/iowa-geology/landforms-iowa">Landforms of Iowa</a>; Des Moines Lobe relief &lt;20 ft over most of its area, prairie-pothole drainage.</li>
-        <li><b>Per-county farm counts, medians and size brackets in Plate 11</b> — parsed from the USDA county PDF above for all 99 counties; median farm size drives the owners-per-section figure.</li>
-        <li>Data centre incentives — <a href="https://revenue.iowa.gov/taxes/tax-guidance/sales-use-excise-tax/data-centers">Iowa Dept. of Revenue, Data Center Sales and Use Tax Incentives</a> ($200M / six-year threshold, registration, 31 Jan annual report, new certificate from 1 Feb 2026); HF 976 signed 6 Jun 2025 setting the 15-year (city under 30,000) versus 10-year (over 30,000) energy exemption — <a href="https://nyemaster.com/news/immediate-iowa-tax-law-changes-for-data/">Nyemaster Goode</a> · <a href="https://www.brownwinick.com/insights/iowa-sales-tax-changes-for-data-centers">BrownWinick</a>. Partial industrial exemption — <a href="https://www.legis.iowa.gov/docs/code/427B.1.pdf">Iowa Code 427B.1</a> and the <a href="https://iowaleague.org/resource/property-tax-abatements-and-exemptions/">Iowa League of Cities</a> summary.</li>
-        <li>Councils of Governments, counties served and phone numbers — <a href="https://www.iowacog.com/find-your-cog">ICOG, Find Your COG</a>. IADG scope and numbers — <a href="https://www.iadg.com/about-us/">iadg.com</a>. IEDA address and main line — <a href="https://opportunityiowa.gov/contact">opportunityiowa.gov</a>. Mid Iowa Growth Partnership staff and address — <a href="https://www.midiowagrowth.com/contact-us/">midiowagrowth.com</a> and <a href="https://www.greaterfortdodge.com/staff-board-members/">Greater Fort Dodge Growth Alliance</a>.</li>
-      </ul>
-    </div>
-    <div>
-      <p style="margin-top:0"><b style="color:var(--ink)">My judgment, not fact.</b></p>
-      <ul>
-        <li><b>Screen scores and all five sub-scores are mine</b>, derived from the fields in your two workbooks. Where your sheet was blank I scored conservatively. Every sub-score is visible in Plate 01 so you can overwrite it — treat them as a starting rank order, not a valuation.</li>
-        <li><b>Hydrology haircuts are estimates</b> keyed to your own notes, not to delineations. A wetland determination and a FEMA LOMR can move any of them by hundreds of acres in either direction.</li>
-        <li><b>County scores in Plate 06</b> weight landform and ordinance status. They are a desk screen for where to point a GIS query — not a substitute for calling the zoning administrator, which you should do before every site visit.</li>
-        <li><b>The Plate 03 funnel is a sizing argument, not a count.</b> Its purpose is to establish the order of magnitude of what you have not looked at. Its sliders are yours to set.</li>
-        <li><b>Landform assignments are county-level.</b> Several Iowa counties straddle two regions — Dallas, Polk, Greene, Butler and Woodbury among them — so confirm at township level before you rely on it.</li>
-        <li><b>Counties without countywide zoning</b> are the single highest-leverage screen on this sheet and no published list exists — I looked hard, including the ISU Extension zoning guide, which covers cities only. What is documented: roughly half of Iowa's 99 counties have adopted county zoning, so the unzoned pool is large; Iowa County is unzoned outside two-mile city rings and the Amana district; Washington County rescinded its ordinance in 2013; Chickasaw is reported unzoned; and your own Lohrville listing records no zoning in Calhoun. Everything else is a phone call. Plate 13 has the script.</li>
-        <li><b>Owners per section is a floor, not a count.</b> It divides 640 by the county median <em>operation</em> size. Large operators farm rented ground across several owners, so true ownership is more fragmented and the real signature count is higher. Calibrate the multiplier on your first county's parcel dissolve before trusting it statewide.</li>
-        <li><b>The county score in Plate 11 weights landform 30, assemblage 28, ordinance 27, pool depth 15.</b> Those weights are my judgment. The underlying farm data is USDA's; the landform and ordinance inputs are mine.</li>
-        <li><b>Contacts are publicly listed business contacts</b> for people whose role is to field exactly this enquiry. Verify before you dial — staff turn over, and the moratorium list moved nine times in 2026.</li>
-        <li><b>The HF 976 city-population test needs tax counsel.</b> The statute keys the 15-versus-10-year energy exemption to the population of the city where the centre is located. How that applies to a site in unincorporated county territory with no city of record is exactly the question to put to counsel before you choose between annexation and staying in the county.</li>
-      </ul>
+<section class="panel" data-p="progress">
+  <h2>Progress</h2>
+  <p class="dek">A record of what has been done. Append-only and retrospective.</p>
+  <div class="stats" id="prStats"></div>
+  <h3>Status distribution</h3>
+  <div class="scroll"><table id="stTable" style="min-width:620px"><thead><tr><th>Status</th><th class="num">Sites</th><th>Share</th><th class="num">Gross acres</th><th class="num">Net acres</th></tr></thead><tbody></tbody></table></div>
+  <h3>Log</h3>
+  <div class="bar">
+    <div class="chips" id="prChips" role="group" aria-label="Filter log">
+      <button class="chip" aria-pressed="true" data-t="all">All</button>
+      <button class="chip" aria-pressed="false" data-t="outreach">Outreach</button>
+      <button class="chip" aria-pressed="false" data-t="document">Documents</button>
+      <button class="chip" aria-pressed="false" data-t="data">Data</button>
+      <button class="chip" aria-pressed="false" data-t="analysis">Analysis</button>
     </div>
   </div>
-  <p style="margin:18px 0 0; font-family:var(--mono); font-size:10.5px; letter-spacing:0.08em; color:var(--ink-3)">Broker names and numbers reproduced from your Iowa Survey Draft. Ordinance status verified to 3 Aug 2026 and changing fast.</p>
-</footer>
+  <div class="tl" id="timeline"></div>
+</section>
+
+<section class="panel" data-p="data">
+  <h2>Data</h2>
+  <p class="dek">Everything in the project and where it came from. Send any file — spreadsheet, PDF, notes, a call log, a parcel export, a photo of a plat book page — and it gets normalised into this schema and pushed. The site updates in about thirty seconds and every number above re-derives.</p>
+  <h3>Ingested</h3>
+  <div class="scroll"><table id="docTable" style="min-width:900px"><thead><tr><th>Document</th><th>Received</th><th class="num">Rows</th><th>Contained</th><th>Gaps</th></tr></thead><tbody></tbody></table></div>
+  <h3>Files behind this page</h3>
+  <div class="scroll"><table id="srcTable" style="min-width:760px"><thead><tr><th>File</th><th class="num">Records</th><th>What it holds</th></tr></thead><tbody></tbody></table></div>
+  <h3>The one field that cannot be downloaded</h3>
+  <div class="card">
+    <p style="margin:0;font-size:14px;line-height:1.65;color:var(--ink2)">No published list exists of which Iowa counties have countywide zoning. Roughly half do. What is documented: Iowa County is unzoned outside two-mile city rings and the Amana district, Washington County rescinded its ordinance in 2013, Chickasaw is reported unzoned, and the Lohrville listing records no zoning in Calhoun. Everything else is a phone call to the zoning administrator — county sites follow the pattern <code>&lt;county&gt;county.iowa.gov</code>. Each answer collected drops into <code>counties.json</code> and re-scores the screen.</p>
+  </div>
+</section>
+
 </div>
 
 <script>
-/* ═══════════════════════════════════════════════════════════════════
-   DATA — transcribed from the two supplied workbooks.
-   Sub-scores (topo/hydro/cont/ent) are my land-only screen judgments.
-   ═══════════════════════════════════════════════════════════════════ */
-const HAIRCUT = { multi:.45, flood100:.35, single:.25, rec:.22, fringe:.15, clean:.05 };
-
-const SITES = [
-  { id:1, addr:"U.S. Hwy 169", city:"Redding", county:"Ringgold", ac:1232, tillable:530,
-    src:"Survey draft + LandWatch (same tract, counted twice)", shortlist:true,
-    landform:"Southern Iowa Drift Plain", cut:"multi",
-    topo:25, hydro:20, cont:60, ent:55,
-    flags:[["watch","Dup row"],["stop","2 rivers through"],["watch","Multi-tract"]],
-    note:"Split into multiple tracts, parties in unison. 530 tillable acres of 1,232 · 10-ac pond · hunting lease to January. Nick Hopp · 319.204.6121" },
-
-  { id:2, addr:"2416 County Hwy P27", city:"Mount Ayr", county:"Ringgold", ac:1110.9,
-    src:"LandWatch", shortlist:false, landform:"Southern Iowa Drift Plain", cut:"fringe",
-    topo:25, hydro:70, cont:80, ent:55,
-    flags:[["watch","925 ac leased to Sept"]],
-    note:"A-1 Agricultural. No wetland. 1% annual flood hazard around the pond, FEMA zone only in Tract 8. Available March." },
-
-  { id:3, addr:"520th & 120th Ave", city:"Albert City", county:"Buena Vista", ac:775,
-    src:"Land.com", shortlist:false, landform:"Des Moines Lobe", cut:"clean",
-    topo:70, hydro:75, cont:80, ent:60,
-    flags:[["ok","No wetland"],["watch","At auction"]],
-    note:"Agricultural. Closest to transmission and substation of anything in your file — ~3 mi and ~7 mi. For auction." },
-
-  { id:4, addr:"Lohrville tract", city:"Lohrville", county:"Calhoun", ac:613,
-    src:"Land.com · ID L-2600389", shortlist:false, landform:"Des Moines Lobe", cut:"clean",
-    topo:70, hydro:75, cont:80, ent:85,
-    flags:[["ok","NO COUNTY ZONING"],["watch","At auction"]],
-    note:"Your own sheet records “No zoning”. No wetland. Transmission noted as far — irrelevant under your own power assumption. For auction." },
-
-  { id:5, addr:"US 59", city:"Sanborn", county:"O'Brien", ac:564,
-    src:"Land.com", shortlist:false, landform:"Northwest Iowa Plains", cut:"clean",
-    topo:85, hydro:80, cont:80, ent:55,
-    flags:[["ok","Best terrain in file"],["watch","At auction"],["watch","Sioux Co. closed"]],
-    note:"Agricultural, no wetland, transmission very close. You wrote one word about it: “Auction”." },
-
-  { id:6, addr:"25416 Nuthatch Ave", city:"Bloomfield", county:"Davis", ac:534,
-    src:"LandWatch · MLS Davis 534", shortlist:false, landform:"Southern Iowa Drift Plain", cut:"fringe",
-    topo:20, hydro:45, cont:80, ent:60,
-    flags:[["watch","Water on top tract"]],
-    note:"Flood status unclear — appears to carry parts of both 0.2% and 1% annual chance." },
-
-  { id:7, addr:"14018 Wheat Ave", city:"Floris", county:"Davis", ac:610,
-    src:"LandWatch · Whitetail Properties", shortlist:false, landform:"Southern Iowa Drift Plain", cut:"rec",
-    topo:20, hydro:40, cont:80, ent:60,
-    flags:[["stop","Recreational ground"]],
-    note:"Marketed as a “legacy caliber hunting property with cabin and ponds”. 1% annual flood hazard. On-site electric and water." },
-
-  { id:8, addr:"Oregon Ave", city:"Bedford", county:"Taylor", ac:466,
-    src:"Survey draft", shortlist:true, landform:"Southern Iowa Drift Plain", cut:"single",
-    topo:25, hydro:45, cont:80, ent:20,
-    flags:[["stop","Moratorium drafted"],["watch","River intersection"]],
-    note:"0.2% annual chance. Would require a new substation built — moot under your power assumption. Taylor County drafted a data-centre + solar moratorium 8 Jun 2026." },
-
-  { id:9, addr:"1544 280th St", city:"Redding", county:"Ringgold", ac:442,
-    src:"Survey draft", shortlist:true, landform:"Southern Iowa Drift Plain", cut:"single",
-    topo:25, hydro:45, cont:85, ent:55,
-    flags:[["stop","Under 500 gross"],["watch","River intersects lot"]],
-    note:"River intersects portions of the lot. Jared Luebbers · 515.517.8649" },
-
-  { id:10, addr:"Veterans Memorial Hwy", city:"Council Bluffs", county:"Pottawattamie", ac:243,
-    src:"Survey draft", shortlist:true, landform:"Missouri Alluvial Plain", cut:"flood100",
-    topo:55, hydro:25, cont:80, ent:70,
-    flags:[["stop","243 ac only"],["stop","1% annual chance"],["ok","Proven entitlement"]],
-    note:"2.5 miles from the Google data centre — the strongest political comp in your file, on the smallest usable parcel." },
-
-  { id:11, addr:"0 Ave & Douglas Pkwy #T", city:"Waukee", county:"Dallas", ac:181,
-    src:"Survey draft", shortlist:true, landform:"Des Moines Lobe / SIDP margin", cut:"clean",
-    topo:60, hydro:80, cont:75, ent:70,
-    flags:[["stop","181 ac only"],["watch","Metro competition"]],
-    note:"No hydrology or flood data captured. Incorporated Waukee, so an annexation path exists — but this is a building pad, not a campus." }
-];
-
-const COSTAR = [
-  { name:"Polk City Iowa Area Land", city:"Polk City", county:"Polk", use:"MultiFamily", flood:"stop|In SFHA · 100-yr", price:"$12,477,015", br:"Ferguson CRE · Mitch Phillips", act:"Discard. Floodplain plus a residential entitlement basis." },
-  { name:"Mona Rail Site · 1350 500th St", city:"Saint Ansgar", county:"Mitchell", use:"Industrial", flood:"ok|Not in SFHA", price:"—", br:"Iowa Area Development Group · Bruce Hansen", act:"Pull acreage today. Industrial + rail + no SFHA is the best profile in this table." },
-  { name:"Iowa Falls / Hardin County Industrial", city:"Iowa Falls", county:"Hardin", use:"Industrial park", flood:"watch|100-yr & 500-yr present", price:"—", br:"Iowa Area Development Group · Bruce Hansen", act:"Pull acreage and the flood footprint. Hardin is a Plate 06 hunt county." },
-  { name:"SE Des Moines Industrial Park · 3600–4500 Army Post Rd", city:"Des Moines", county:"Polk", use:"—", flood:"ok|Not in SFHA", price:"—", br:"JLL · Austin Hedstrom", act:"Pull acreage. Almost certainly too small, but JLL is a channel worth opening." },
-  { name:"Haynes Family Farm · 27257 258th St", city:"Bellevue", county:"Jackson", use:"Agricultural", flood:"stop|In SFHA · 100-yr", price:"$5,800,000", br:"SVN CREATE · Harrison Haynes", act:"Discard. Paleozoic Plateau karst and in the floodway." },
-  { name:"Hall Farm · 2610 NE 118th Ave", city:"Ankeny", county:"Polk", use:"Commercial / hospital / retail", flood:"ok|Not in SFHA", price:"—", br:"Denny Elwell Company · Blake Brown", act:"Discard as a campus. Retail-basis metro land at retail pricing." }
-];
-
-const LADDER = [
-  { t:"Statewide LiDAR slope screen — find the ground, then find the owner",
-    s:"Free · 1 m bare-earth DEM · all 99 counties",
-    y:"100s", yl:"blocks",
-    b:`Iowa has complete statewide 1-metre LiDAR bare-earth elevation, free, downloadable by county or HUC12. This inverts your entire method: instead of asking <em>which sites are for sale</em>, ask <em>where in Iowa is there a 640-acre contiguous block under 2% slope, outside the 100- and 500-year floodplain, outside National Wetlands Inventory polygons, and outside city limits.</em> That query returns ground, not listings. Ownership comes afterwards, from parcel data.
-    <ul><li>Slope raster from the DEM, reclass to ≤2% and ≤5%</li><li>Erase FEMA NFHL 1% and 0.2% zones, NWI wetlands, NHD streams with a buffer</li><li>Erase incorporated boundaries and existing built footprint</li><li>Region-group the survivors, keep patches ≥ 500 ac, rank by compactness</li></ul>`,
-    do:"Download the DEM for your eight Plate 06 hunt counties from ISU GIS Facility. One GIS analyst, two days, produces more qualified candidates than thirty hours of CoStar. Cost: staff time only." },
-
-  { t:"Parcel data, dissolved by owner",
-    s:"Statewide parcel layer · Beacon / Schneider · Regrid",
-    y:"1,000s", yl:"parcels",
-    b:`A statewide Iowa parcel layer exists — Iowa HSEMD publishes one through the Geospatial Data Clearinghouse, ICITA shares county data at iowagisdata.org, and Regrid sells all 99 counties cleaned. The move most people miss: <strong>dissolve parcels on owner name, then filter</strong>. A 520-acre holding split across four tax parcels is invisible to an acreage filter and obvious to a dissolve. Intersect the result with the Plate 05 · 01 buildable raster and you have a ranked target list with names and mailing addresses attached.
-    <ul><li>Filter: total owner acreage ≥ 500 in one contiguous group</li><li>Flag absentee owners — mailing address outside the county or state</li><li>Flag entity owners: TRUST, ESTATE, LLC, FARMS INC, LP</li></ul>`,
-    do:"Buy or pull the parcel layer for your hunt counties, dissolve by owner, join to the buildable raster. Output is a mail-merge list, which is channel 07." },
-
-  { t:"Farmland auction pipeline — before the auction",
-    s:"Peoples · Hertz · Sullivan · Steffes · Farmers National",
-    y:"20–50", yl:"/quarter",
-    b:`Most large Iowa farms trade by auction, and they surface 30–60 days before the sale date — often never reaching CoStar at all. Three of your own best-scoring sites came from auction listings you barely annotated. The real prize is one layer earlier: these firms hold <strong>signed listing agreements not yet marketed</strong>, and a buyer who can close on 600 acres at above-ag pricing is a call they will take.
-    <ul><li>Peoples Company (absorbed Murray Wise Associates)</li><li>Hertz Farm Management · hertz.ag</li><li>Sullivan Auctioneers · Steffes Group · Farmers National Company</li><li>Iowa Land Company</li></ul>`,
-    do:"Call the land brokerage lead at each of the five firms. One sentence: “I buy 500 to 1,200 contiguous acres, all cash, flat ground, and I will pay above ag value. What is in your pipeline that has not been marketed yet?”" },
-
-  { t:"Iowa Certified Sites — pre-vetted, diligence complete",
-    s:"IEDA · opportunityiowa.gov",
-    y:"5–15", yl:"sites",
-    b:`The state runs a certification program that completes Phase I environmental, geotech, archaeological and cultural review, utility verification and zoning confirmation <em>before</em> a prospect ever looks. You missed the largest one in Iowa: <strong>Mills Crossings Mega Site at Glenwood, 1,600+ acres</strong>, minutes from I-29 and I-80 via US-34. That is bigger than every site in your file except one, with the diligence already paid for. Bondurant alone now holds seven certified sites.`,
-    do:"Work the full certified-site register, filter to 300+ acres, then ask each sponsoring city what adjacent land they can assemble. A certified 200-acre core plus 400 adjacent acres beats a raw 600." },
-
-  { t:"Utility and railroad industrial site programs",
-    s:"Alliant · MidAmerican · BNSF · Union Pacific",
-    y:"10–25", yl:"sites",
-    b:`Utilities and Class I railroads assemble and bank large industrial land specifically to attract load. Alliant Energy's Big Cedar Industrial Center at Cedar Rapids is <strong>1,391 acres</strong> — QTS took 612 of it. BNSF publishes an Iowa certified-site list. These sites come with industrial zoning, rail and a counterparty whose business model is your project. Your own power assumption does not make the utility irrelevant here: they are the <em>landowner</em>.`,
-    do:"Request the industrial site inventory from Alliant Energy and MidAmerican Energy economic development, plus the BNSF and UP site development teams. Free, and they answer." },
-
-  { t:"County and regional economic development inventories",
-    s:"99 county EDCs · 16 regional COGs",
-    y:"30–80", yl:"sites",
-    b:`County and regional development groups keep landowner-consented site inventories that are never syndicated — the owner agreed to be shown to prospects, not advertised. Iowa Area Development Group already appears twice in your CoStar export, which means you have touched this channel by accident without working it. These bodies also tell you the ordinance reality before you spend a dollar.`,
-    do:"For your eight hunt counties: email the county EDC director and the regional COG asking for every site over 300 acres, listed or not. Ask the same call what the board's posture on data centres is." },
-
-  { t:"Direct owner solicitation on the GIS-derived list",
-    s:"Certified mail · absentee-owner filter",
-    y:"High", yl:"conversion",
-    b:`This is where channels 01 and 02 cash out. You now hold a list of named owners of qualifying buildable blocks. Nearly none of them are “for sale”, and nearly all of them are for sale at hyperscale land pricing — a multiple of ag value on ground they are netting a few hundred dollars an acre from. Absentee owners, trusts and estates convert far better than resident operators.
-    <ul><li>Certified mail, one page, a real number, a stated price range per acre</li><li>Follow with a phone call — the letter opens the door, the call closes it</li><li>Lead with an option agreement, not a purchase — channel 15</li></ul>`,
-    do:"Mail the top 150 absentee and entity owners from the dissolve. At a 12% engagement rate that is 18 conversations, which is more than thirty hours of CoStar gave you." },
-
-  { t:"Estate, trust and probate signal",
-    s:"County recorder · ISU Extension ownership survey",
-    y:"Medium", yl:"high intent",
-    b:`A very large share of Iowa farmland is held by owners over 65, and by trusts and estates on their behalf. Those are the highest-propensity sellers in the state: no operator attachment, multiple heirs who want cash rather than a co-owned quarter-section, and a fiduciary obliged to take the best price. Recorder filings and the ISU Extension farmland ownership work tell you where the cohort is concentrated.`,
-    do:"Filter the parcel dissolve for owner names containing TRUST, ESTATE, LIFE ESTATE, or multiple surnames, then check recorder activity in the last 36 months. Prioritise these in the channel 07 mailing." },
-
-  { t:"Retiring and converting generation sites",
-    s:"Utility surplus real estate",
-    y:"3–8", yl:"sites",
-    b:`Even with your own generation, a retiring plant site is an unusually good land package: large contiguous acreage, industrial zoning already in place, water rights and intake, rail, heavy road access, a graded pad, and a corporate seller with a surplus-property mandate rather than a farming family's attachment. Google's proposed Palo site sits next to Duane Arnold for exactly these reasons.`,
-    do:"Contact the surplus real estate group at MidAmerican Energy and Alliant Energy. Ask what non-operating generation and former plant land they hold in Iowa." },
-
-  { t:"Quarry, mine and reclaimed land",
-    s:"Iowa DNR mines & minerals",
-    y:"5–12", yl:"sites",
-    b:`Limestone and aggregate operators hold very large contiguous industrial-zoned tracts, and reclaimed and permitted-but-unmined ground is often flat, already disturbed — so no prime-farmland conversion friction — and held by a company that understands land transactions. The mined portion is unusable; the buffer and reserve holdings around it frequently are not.`,
-    do:"Pull the DNR mining permit layer, dissolve by operator, and call the land departments at the three largest Iowa aggregate companies." },
-
-  { t:"Institutional and corporate agricultural landowners",
-    s:"Farmland funds · seed research farms · co-ops",
-    y:"Medium", yl:"per call",
-    b:`One conversation can reach 10,000 acres. Farmland investment funds, seed company research farms, packer and co-op land banks and university farms all hold large contiguous blocks under a single decision-maker with a fiduciary duty to consider a premium bid. This channel has the best acres-per-phone-call ratio on the entire sheet.`,
-    do:"Build a list of every institutional farmland owner with Iowa holdings and send one letter each stating your acreage requirement and price range. Ten letters, potentially 100,000 acres screened." },
-
-  { t:"Ethanol and biodiesel plant adjacency",
-    s:"40+ Iowa plants",
-    y:"10–20", yl:"sites",
-    b:`Iowa has more than forty ethanol and biodiesel plants. Each one is industrial-zoned, on rail, with a large water permit, heavy power service, and surrounded by ag ground held by relatively few owners who are already comfortable with industrial neighbours. The precedent argument at a county board meeting is materially easier next door to an existing plant than in a clean township.`,
-    do:"Map the plants, buffer 2 miles, intersect with the channel 01 buildable raster. Rank by how few owners the resulting blocks touch." },
-
-  { t:"Public-entity and institutional land",
-    s:"County farms · Section 16 school land · DNR & USACE surplus · airport buffer",
-    y:"5–15", yl:"parcels",
-    b:`Counties own farms. School trust land survives in Section 16 of many townships. DNR, USACE and DOT hold surplus. Airports hold large buffer and avigation-easement ground that is flat by definition, cleared, and useless for anything tall. Public sellers are slow and procurement-bound, but they are motivated, transparently priced, and they do not have a hunting lease.`,
-    do:"For each hunt county, ask the auditor what county-owned farm ground exists, and ask the regional airport authority about buffer land. Both are public-records requests." },
-
-  { t:"Listing aggregators — where you have been",
-    s:"CoStar · LandWatch · Land.com · Whitetail · MLS",
-    y:"8", yl:"in 30 hrs",
-    b:`Not useless — worth roughly two hours a week on saved alerts rather than thirty hours of manual sweeping. Two mechanical fixes to what you already have: your CoStar export carried Energy Star and LEED columns and <strong>no acreage column</strong>, and “land” filters on these platforms exclude the auction and pre-market inventory where the large tracts actually move.
-    <ul><li>Re-run the CoStar export with Land Acres, Lot Size and Zoning; drop the building fields</li><li>Set standing alerts at ≥ 400 acres so assemblage candidates surface</li><li>Search adjacent-parcel combinations, not single listings</li></ul>`,
-    do:"Convert manual searching to alerts and reclaim twenty-eight hours a week for channels 01 through 07." },
-
-  { t:"Option agreements instead of purchases",
-    s:"Structure, not a source",
-    y:"Force multiplier", yl:"",
-    b:`A structural point that changes how many sites you need to find. You do not have to locate the one perfect fee-simple 600-acre listing. Tie up three or four assemblages under 12–24 month option agreements at low per-acre option consideration, run diligence on all of them in parallel, and exercise the winner. Owners sign options far more readily than purchase contracts, and assemblage across four owners only works if each signs an option contingent on the others.`,
-    do:"Get an assemblage option template drafted — cross-contingent, with a survey and title condition and a rezoning contingency. That document is the product; everything above it is lead generation." }
-];
-
-const COUNTIES = [
-  { n:"Calhoun",     s:88, t:"go",    lf:"Des Moines Lobe", w:"Your own Lohrville listing records no county zoning. Flat, low relief, agricultural. Verify the zoning point in writing.", yours:true },
-  { n:"O'Brien",     s:86, t:"go",    lf:"Northwest Iowa Plains", w:"Best terrain class in Iowa: gently rolling deep loess, well drained, sparse streams. Sioux County next door has closed — move early.", yours:true },
-  { n:"Hardin",      s:84, t:"go",    lf:"Des Moines Lobe / Iowan Surface", w:"Flat, an existing industrial park in your own CoStar export, and no ordinance action recorded.", yours:true },
-  { n:"Grundy",      s:83, t:"go",    lf:"Iowan Surface", w:"Among the flattest well-drained ground in the state with very little floodplain. Small county, low political noise." },
-  { n:"Wright",      s:82, t:"go",    lf:"Des Moines Lobe", w:"Low relief, large field blocks, minimal incorporated area competing for land." },
-  { n:"Franklin",    s:82, t:"go",    lf:"Des Moines Lobe", w:"Flat, I-35 corridor for construction logistics, no ordinance action recorded." },
-  { n:"Hamilton",    s:81, t:"go",    lf:"Des Moines Lobe", w:"Low relief and large ownership blocks. Screen hard for prairie potholes and NWI polygons." },
-  { n:"Cherokee",    s:80, t:"go",    lf:"Northwest Iowa Plains", w:"Excellent terrain class. Adjacent to two closed counties, so confirm board posture before diligence." },
-  { n:"Butler",      s:79, t:"go",    lf:"Iowan Surface / DM Lobe", w:"Straddles two good regions. Confirm at township level — the western half is flatter." },
-  { n:"Benton",      s:78, t:"go",    lf:"Iowan Surface", w:"Gently rolling, well drained, fibre-rich corridor. Linn County next door is closed, which cuts both ways." },
-  { n:"Sac",         s:78, t:"go",    lf:"Des Moines Lobe / NW Plains", w:"Good terrain, few streams, adjacent to your Albert City and Lohrville candidates." },
-  { n:"Ida",         s:77, t:"go",    lf:"Northwest Iowa Plains", w:"Strong terrain class, very rural, low land competition." },
-  { n:"Tama",        s:76, t:"go",    lf:"Iowan Surface", w:"Well-drained gently rolling ground. Check the Meskwaki Settlement boundary in your screen." },
-  { n:"Buchanan",    s:76, t:"go",    lf:"Iowan Surface", w:"Good terrain, existing fibre. Screen the Wapsipinicon corridor out." },
-  { n:"Pocahontas",  s:75, t:"go",    lf:"Des Moines Lobe", w:"Very flat. Heaviest pothole and tile-drainage exposure in this tier — the wetland screen matters most here." },
-  { n:"Humboldt",    s:75, t:"go",    lf:"Des Moines Lobe", w:"Flat, rural, no ordinance action recorded. Des Moines River corridor to exclude." },
-  { n:"Chickasaw",   s:74, t:"go",    lf:"Iowan Surface", w:"Reported to have no countywide zoning ordinance — verify directly. Combined with good terrain that is a rare pairing." },
-  { n:"Carroll",     s:73, t:"go",    lf:"Des Moines Lobe margin", w:"Reasonable terrain, US-30 access, large farm operations." },
-  { n:"Greene",      s:72, t:"go",    lf:"Des Moines Lobe / SIDP", w:"Northern half is the target. Raccoon River corridor to exclude." },
-  { n:"Mitchell",    s:71, t:"watch", lf:"Iowan Surface", w:"Good terrain and the Mona Rail Site from your CoStar export sits here. Screen for karst on the eastern edge.", yours:true },
-  { n:"Boone",       s:70, t:"watch", lf:"Des Moines Lobe", w:"Flat and well served, but metro-adjacent land competition and a dissected Des Moines River valley through the middle." },
-  { n:"Buena Vista", s:69, t:"watch", lf:"Des Moines Lobe", w:"Your Albert City tract is here and scores well. Storm Lake and pothole hydrology are the constraints.", yours:true },
-  { n:"Pottawattamie", s:62, t:"watch", lf:"Loess Hills / Missouri Alluvial", w:"Proven data-centre entitlement path and real fibre, but the flat ground is floodplain and the dry ground is 15% slope.", yours:true },
-  { n:"Dallas",      s:58, t:"watch", lf:"DM Lobe / SIDP margin", w:"Real fibre and power, genuine metro competition, and Madison County next door has closed. Buildable, expensive, contested.", yours:true },
-  { n:"Ringgold",    s:34, t:"stop",  lf:"Southern Iowa Drift Plain", w:"Three of your sites, all cut by watercourses. Dissected terrain, and Clarke and Taylor bracket it with ordinance action.", yours:true },
-  { n:"Davis",       s:32, t:"stop",  lf:"Southern Iowa Drift Plain", w:"Two of your sites. Recreational and timber ground with pond hydrology — the opposite of a slab.", yours:true },
-  { n:"Taylor",      s:22, t:"stop",  lf:"Southern Iowa Drift Plain", w:"Moratorium ordinance drafted 8 Jun 2026. Your Bedford site is here. Verify status before any further spend.", yours:true },
-  { n:"Linn · Johnson · Dubuque · Madison · Clarke · Sioux · Plymouth · Woodbury · Des Moines", s:0, t:"stop", lf:"Various", w:"Moratoria passed in 2026. Do not spend diligence dollars in unincorporated areas of any of these until the ordinance lapses." }
-];
-
-const TYPOLOGIES = [
-  { k:"Category 01", t:"Retiring generation sites", b:"Land, water rights and intake, rail, heavy road, graded pads, industrial zoning, and a <b>corporate seller with a surplus-property mandate</b> rather than a family with a hunting lease." },
-  { k:"Category 02", t:"Quarry buffer and reserve holdings", b:"Aggregate companies hold enormous contiguous industrial-zoned tracts. The mined pit is useless; the <b>unmined reserve and buffer around it is flat, disturbed ground</b> with no prime-farmland friction." },
-  { k:"Category 03", t:"Seed company research farms", b:"Corn and soybean research stations occupy large, deliberately uniform, deliberately flat, well-drained blocks under <b>one corporate decision-maker</b>. Selected for exactly the soil qualities you want." },
-  { k:"Category 04", t:"Farmland investment funds", b:"Institutional owners with a fiduciary duty to consider a premium bid and no emotional attachment. <b>One letter can screen tens of thousands of acres.</b>" },
-  { k:"Category 05", t:"Airport buffer and avigation land", b:"Flat by definition, cleared by regulation, and structurally worthless for anything tall. Held by an <b>authority that answers public-records requests</b> and needs revenue." },
-  { k:"Category 06", t:"County farms and Section 16 school land", b:"Counties own working farms; school trust land survives in Section 16 of many townships. Slow, procurement-bound, <b>transparently priced, and genuinely motivated</b>." },
-  { k:"Category 07", t:"Ethanol and biodiesel adjacency", b:"Forty-plus plants, each industrial-zoned with rail, water permits and heavy power. <b>The precedent argument at a county board is far easier</b> next to an existing plant." },
-  { k:"Category 08", t:"Large livestock and CAFO operations", b:"Confinement operators hold big contiguous blocks plus a manure-easement land base under few owners. <b>Already the least popular neighbour in the township</b> — a data centre reads as an upgrade." },
-  { k:"Category 09", t:"Co-op and packer land banks", b:"Grain co-ops and protein processors bank land near facilities. Board-governed, so <b>they will actually take a meeting about a premium offer</b>." },
-  { k:"Category 10", t:"University and extension farms", b:"ISU and community colleges hold research and teaching farms — flat, documented soils, complete records, and a state institution that can be approached through the legislature." },
-  { k:"Category 11", t:"Failed solar and wind project land", b:"Options and easements assembled for renewables that never reached financial close. <b>The assemblage work is already done</b> and the developer holds the owner relationships. Buy the option package." },
-  { k:"Category 12", t:"Trust and estate holdings", b:"Multiple heirs, no operator attachment, a fiduciary obliged to take the best price, and a strong preference for cash over a co-owned quarter-section. <b>The highest-conversion cohort in Iowa.</b>" }
-];
-
-const REFRAMES = [
-  { was:"Search for sites that are for sale", is:"Search for ground that is buildable, then find out who owns it",
-    why:"Listings are a biased sample. In Iowa the tracts that reach the open market in 500+ acre blocks are disproportionately dissected, stream-cut, timbered or recreational — that is <em>why</em> they are large, cheap and unwanted. The flat ground is prime row crop at $12–16k an acre and it does not list. Statewide 1 m LiDAR plus FEMA and NWI turns that around in two days of desk work." },
-  { was:"Find one solo 500+ acre listing", is:"Assemble 3 or 4 parcels inside a single 640-acre section",
-    why:"Iowa is on the PLSS grid: a section is 640 acres, a quarter 160, and roads follow section lines. Your whole footprint fits in one section. Meta at Altoona is 520 acres, QTS at Cedar Rapids 612, Google's proposed Palo site 545 — assembled or park-based, not one farm listing. Keeping the solo constraint cuts your universe by roughly two orders of magnitude." },
-  { was:"Rank by gross deed acreage", is:"Rank by net buildable acreage",
-    why:"Your 1,232-acre trophy carries 530 tillable acres and two rivers. Your 610-acre Floris tract is marketed as a hunting property with ponds and a cabin. Gross acreage on dissected ground is a vanity metric — it is the contiguous dry flat polygon that has to hold the campus, and it is often under half the deed." },
-  { was:"Power and fibre are the binding constraints", is:"County ordinance status is the binding constraint",
-    why:"You have told me power is solved, so the risk migrates to entitlement. Nine Iowa counties passed moratoria during 2026 and a tenth drafted one — including the county holding one of your five shortlisted sites. Screen ordinance status <em>before</em> terrain, and prefer counties with no countywide zoning or an incorporated-city annexation path." },
-  { was:"Unlisted means unavailable", is:"At hyperscale land pricing, almost everything is available",
-    why:"There are 17,041 Iowa farm operations at 500 acres or more and a few dozen listings. An owner netting a few hundred dollars an acre in cash rent is not “not selling” — nobody has offered them a multiple of ag value. The constraint is not supply. It is that you have only been talking to people who already hired a broker." },
-  { was:"Buy the perfect site", is:"Option four good ones and let diligence pick",
-    why:"Options are cheap, owners sign them far more readily than purchase contracts, and cross-contingent options are the only mechanism that makes a four-owner assemblage work at all. Tie up several, run wetland delineation, geotech, title and rezoning in parallel, exercise the survivor. Stop hunting for certainty you can buy for a few dollars an acre." }
-];
-
-const SPRINT = [
-  { d:"Days 1–3", t:"Fix the instruments", b:`<ul>
-    <li>Re-run the CoStar export with Land Acres, Lot Size and Zoning; delete Energy Star and LEED. Six of your rows are currently unscoreable.</li>
-    <li>Confirm ordinance status in writing for Taylor, Ringgold, Calhoun and O'Brien. Your Bedford site may already be dead.</li>
-    <li>Rebuild the site sheet on net buildable acres, and de-duplicate the Hwy 169 tract.</li>
-    <li>Start the 99-county zoning-status list. Calhoun and Chickasaw are reportedly unzoned; verify and find the rest.</li></ul>` },
-  { d:"Days 4–10", t:"Build the buildable-ground raster", b:`<ul>
-    <li>Pull 1 m LiDAR DEM for the nineteen Plate 06 hunt counties from ISU GIS Facility or UNI GeoTREE. Free.</li>
-    <li>Slope ≤ 2% and ≤ 5%; erase FEMA 1% and 0.2%, NWI wetlands, NHD streams with buffer, incorporated boundaries.</li>
-    <li>Region-group, keep patches ≥ 500 acres, rank by compactness. This is your real site list.</li>
-    <li>Pull the parcel layer, dissolve on owner name, join to the patches. Flag absentee, trust and entity owners.</li></ul>` },
-  { d:"Days 4–10", t:"Open the human channels in parallel", b:`<ul>
-    <li>Five calls: Peoples Company, Hertz, Sullivan, Steffes, Farmers National. Ask for unmarketed pipeline.</li>
-    <li>Two emails: Alliant Energy and MidAmerican economic development, for industrial site inventory and surplus generation land.</li>
-    <li>Pull the full Iowa Certified Site register. Start with Mills Crossings at Glenwood, 1,600+ acres.</li>
-    <li>Nineteen emails: county EDC directors, every site over 300 acres, listed or not.</li></ul>` },
-  { d:"Days 11–20", t:"Mail the owners", b:`<ul>
-    <li>Top 150 absentee and entity owners from the dissolve. Certified mail, one page, a real number, a stated price range per acre.</li>
-    <li>Phone follow-up seven days later. The letter opens the door; the call closes it.</li>
-    <li>Ten institutional letters — farmland funds, seed research farms, co-op and packer land banks.</li>
-    <li>Have the cross-contingent assemblage option template drafted now, so you are not writing it under time pressure.</li></ul>` },
-  { d:"Days 21–30", t:"Convert to options", b:`<ul>
-    <li>Rank every live conversation on net buildable acres, owner count, and ordinance risk.</li>
-    <li>Target four assemblages under option, not one purchase contract.</li>
-    <li>Order wetland delineation and preliminary geotech on the top two only. That is where diligence money starts.</li>
-    <li>Reserve two hours a week for listing alerts. Not thirty.</li></ul>` }
-];
-
-/* ═══════════════════════════════════════════════════════════════════
-   EXPANSION DATA — incentives, contacts, dataset schema, scripts
-   ═══════════════════════════════════════════════════════════════════ */
-const COUNTIES2 = [
-  {n:"Kossuth",lf:"Des Moines Lobe",ord:"open",cog:"MIDAS",sc:88,lfs:82,asm:87,pool:99,farms:1342,avg:436,med:228,ge:396,k1k:143,pct:29.5,ops:2.8,note:"Largest county in Iowa by area. Biggest pool of 500+ ac operations in the state."},
-  {n:"Cherokee",lf:"Northwest Iowa Plains",ord:"open",cog:"SIMPC",sc:85,lfs:95,asm:88,pool:51,farms:814,avg:402,med:237,ge:204,k1k:76,pct:25.1,ops:2.7,note:"Best terrain class plus the 3rd-highest median farm size on this board."},
-  {n:"Wright",lf:"Des Moines Lobe",ord:"open",cog:"MIDAS",sc:81,lfs:82,asm:84,pool:58,farms:734,avg:504,med:217,ge:232,k1k:106,pct:31.6,ops:2.9,note:"Highest share of large operations among the hunt counties. I-35 corridor."},
-  {n:"Sac",lf:"Des Moines Lobe / NW Plains",ord:"open",cog:"REGION12",sc:79,lfs:88,asm:71,pool:54,farms:863,avg:399,med:170,ge:216,k1k:94,pct:25.0,ops:3.8,note:"Adjacent to your Albert City and Lohrville candidates."},
-  {n:"Clay",lf:"Des Moines Lobe / NW Plains",ord:"open",cog:"NWIPDC",sc:79,lfs:88,asm:76,pool:50,farms:730,avg:420,med:185,ge:198,k1k:88,pct:27.1,ops:3.5,note:"Spencer regional hub. Strong farm sizes."},
-  {n:"O'Brien",lf:"Northwest Iowa Plains",ord:"open",cog:"NWIPDC",sc:79,lfs:95,asm:69,pool:46,farms:880,avg:305,med:165,ge:185,k1k:57,pct:21.0,ops:3.9,note:"Best terrain in the state. Sioux County next door is closed \u2014 move early.",y:1},
-  {n:"Ida",lf:"Northwest Iowa Plains",ord:"open",cog:"SIMPC",sc:79,lfs:95,asm:76,pool:31,farms:456,avg:462,med:185,ge:124,k1k:47,pct:27.2,ops:3.5,note:"Strong terrain, very rural, least land competition on the board."},
-  {n:"Benton",lf:"Iowan Surface",ord:"open",cog:"ECICOG",sc:79,lfs:88,asm:67,pool:61,farms:1090,avg:346,med:160,ge:244,k1k:95,pct:22.4,ops:4.0,note:"Good terrain and fibre. Linn County next door is closed."},
-  {n:"Grundy",lf:"Iowan Surface",ord:"open",cog:"INRCOG",sc:78,lfs:88,asm:72,pool:48,farms:670,avg:479,med:174,ge:192,k1k:80,pct:28.7,ops:3.7,note:"Flattest well-drained ground in Iowa with very little floodplain."},
-  {n:"Buena Vista",lf:"Des Moines Lobe",ord:"open",cog:"NWIPDC",sc:78,lfs:82,asm:77,pool:50,farms:774,avg:417,med:189,ge:200,k1k:76,pct:25.8,ops:3.4,note:"Your Albert City tract is here. Storm Lake and pothole hydrology are the constraints.",y:1},
-  {n:"Crawford",lf:"NW Plains / Loess margin",ord:"open",cog:"REGION12",sc:77,lfs:74,asm:80,pool:56,farms:951,avg:462,med:200,ge:226,k1k:107,pct:23.8,ops:3.2,note:"High median farm size. Confirm slope on the western edge."},
-  {n:"Tama",lf:"Iowan Surface",ord:"open",cog:"REGION6",sc:77,lfs:88,asm:64,pool:56,farms:1056,avg:341,med:153,ge:225,k1k:95,pct:21.3,ops:4.2,note:"Well-drained rolling ground. Check the Meskwaki Settlement boundary."},
-  {n:"Webster",lf:"Des Moines Lobe",ord:"open",cog:"MIDAS",sc:76,lfs:82,asm:67,pool:55,farms:907,avg:393,med:160,ge:218,k1k:97,pct:24.0,ops:4.0,note:"Fort Dodge base for contractors and the MIGP regional office."},
-  {n:"Palo Alto",lf:"Des Moines Lobe",ord:"open",cog:"NWIPDC",sc:76,lfs:82,asm:72,pool:49,farms:842,avg:428,med:174,ge:197,k1k:90,pct:23.4,ops:3.7,note:"Flat with high median farm size. Screen the Des Moines River headwaters."},
-  {n:"Calhoun",lf:"Des Moines Lobe",ord:"unzoned?",cog:"MIDAS",sc:75,lfs:82,asm:59,pool:49,farms:765,avg:401,med:144,ge:195,k1k:96,pct:25.5,ops:4.4,note:"Your Lohrville listing records no county zoning. Verify in writing.",y:1},
-  {n:"Pocahontas",lf:"Des Moines Lobe",ord:"open",cog:"MIDAS",sc:75,lfs:82,asm:65,pool:52,farms:802,avg:394,med:155,ge:206,k1k:89,pct:25.7,ops:4.1,note:"Very flat. Heaviest pothole exposure in this tier."},
-  {n:"Franklin",lf:"Des Moines Lobe",ord:"open",cog:"NIACOG",sc:74,lfs:82,asm:59,pool:54,farms:849,avg:394,med:143,ge:217,k1k:96,pct:25.6,ops:4.5,note:"Flat, I-35 corridor for construction logistics."},
-  {n:"Cerro Gordo",lf:"Des Moines Lobe",ord:"open",cog:"NIACOG",sc:74,lfs:82,asm:60,pool:53,farms:800,avg:421,med:145,ge:211,k1k:84,pct:26.4,ops:4.4,note:"Mason City labour and rail. Slightly more incorporated competition."},
-  {n:"Hancock",lf:"Des Moines Lobe",ord:"open",cog:"NIACOG",sc:74,lfs:82,asm:63,pool:49,farms:860,avg:393,med:151,ge:197,k1k:67,pct:22.9,ops:4.2,note:"Flat, rural, no ordinance action recorded."},
-  {n:"Carroll",lf:"Des Moines Lobe margin",ord:"open",cog:"REGION12",sc:74,lfs:78,asm:67,pool:52,farms:1069,avg:322,med:160,ge:208,k1k:64,pct:19.5,ops:4.0,note:"US-30 access and large operations."},
-  {n:"Humboldt",lf:"Des Moines Lobe",ord:"open",cog:"MIDAS",sc:73,lfs:82,asm:67,pool:34,farms:580,avg:385,med:160,ge:136,k1k:67,pct:23.4,ops:4.0,note:"Flat and rural. Exclude the Des Moines River corridor."},
-  {n:"Mitchell",lf:"Iowan Surface",ord:"open",cog:"NIACOG",sc:72,lfs:88,asm:54,pool:40,farms:798,avg:321,med:135,ge:162,k1k:59,pct:20.3,ops:4.7,note:"Your Mona Rail Site sits here. Watch karst on the eastern edge.",y:1},
-  {n:"Chickasaw",lf:"Iowan Surface",ord:"unzoned?",cog:"INRCOG",sc:72,lfs:88,asm:44,pool:41,farms:1009,avg:271,med:120,ge:163,k1k:64,pct:16.2,ops:5.3,note:"Reported to have no countywide zoning \u2014 verify. Small median farm size hurts assemblage."},
-  {n:"Marshall",lf:"Iowan Surface / DM Lobe",ord:"open",cog:"REGION6",sc:71,lfs:85,asm:47,pool:54,farms:898,avg:371,med:123,ge:214,k1k:85,pct:23.8,ops:5.2,note:"Decent farm sizes, existing industrial base at Marshalltown."},
-  {n:"Hardin",lf:"Des Moines Lobe / Iowan Surface",ord:"open",cog:"REGION6",sc:70,lfs:85,asm:44,pool:50,farms:839,avg:398,med:120,ge:202,k1k:93,pct:24.1,ops:5.3,note:"Existing industrial park already in your CoStar export.",y:1},
-  {n:"Hamilton",lf:"Des Moines Lobe",ord:"open",cog:"MIDAS",sc:68,lfs:82,asm:44,pool:48,farms:770,avg:477,med:120,ge:194,k1k:101,pct:25.2,ops:5.3,note:"Low relief, large blocks. Screen prairie potholes hard."},
-  {n:"Shelby",lf:"Southern Iowa Drift / Loess",ord:"open",cog:"SWIPCO",sc:68,lfs:40,asm:83,pool:56,farms:865,avg:393,med:211,ge:225,k1k:73,pct:26.0,ops:3.0,note:"2nd-highest median farm size on the board, but check terrain township by township."},
-  {n:"Buchanan",lf:"Iowan Surface",ord:"open",cog:"INRCOG",sc:68,lfs:88,asm:32,pool:53,farms:1121,avg:323,med:105,ge:212,k1k:85,pct:18.9,ops:6.1,note:"Good terrain and fibre. Exclude the Wapsipinicon corridor."},
-  {n:"Winnebago",lf:"Des Moines Lobe",ord:"open",cog:"NIACOG",sc:68,lfs:82,asm:52,pool:30,farms:548,avg:361,med:131,ge:122,k1k:52,pct:22.3,ops:4.9,note:"Flat and rural. Small county, fewer targets."},
-  {n:"Greene",lf:"Des Moines Lobe / SIDP",ord:"open",cog:"REGION12",sc:67,lfs:64,asm:61,pool:46,farms:759,avg:420,med:148,ge:186,k1k:94,pct:24.5,ops:4.3,note:"Northern half is the target. Exclude the Raccoon River corridor."},
-  {n:"Butler",lf:"Iowan Surface / DM Lobe",ord:"open",cog:"INRCOG",sc:65,lfs:85,asm:32,pool:42,farms:1063,avg:308,med:105,ge:170,k1k:68,pct:16.0,ops:6.1,note:"Straddles two good regions. Western half is flatter."},
-  {n:"Plymouth",lf:"Northwest Iowa Plains",ord:"closed",cog:"SIMPC",sc:65,lfs:95,asm:82,pool:87,farms:1285,avg:423,med:206,ge:348,k1k:140,pct:27.1,ops:3.1,note:"Moratorium. 348 large operations sitting behind a closed door."},
-  {n:"Worth",lf:"Des Moines Lobe",ord:"open",cog:"NIACOG",sc:63,lfs:82,asm:36,pool:26,farms:538,avg:303,med:110,ge:104,k1k:45,pct:19.3,ops:5.8,note:"Flat, but small county and modest farm sizes."},
-  {n:"Boone",lf:"Des Moines Lobe",ord:"open",cog:"VERIFY",sc:56,lfs:82,asm:0,pool:46,farms:1008,avg:331,med:79,ge:186,k1k:96,pct:18.5,ops:8.1,note:"Flat and well served, but fragmented ownership and the Des Moines River valley cuts it."},
-  {n:"Story",lf:"Des Moines Lobe",ord:"open",cog:"VERIFY",sc:55,lfs:82,asm:0,pool:38,farms:1067,avg:280,med:80,ge:151,k1k:70,pct:14.2,ops:8.0,note:"Flat, but Ames metro fragmentation \u2014 8 owners per section."},
-  {n:"Pottawattamie",lf:"Loess Hills / Missouri Alluvial",ord:"watch",cog:"SWIPCO",sc:54,lfs:38,asm:65,pool:80,farms:1203,avg:468,med:156,ge:318,k1k:189,pct:26.4,ops:4.1,note:"Proven entitlement path and big farms, but flat ground is floodplain and dry ground is steep.",y:1},
-  {n:"Sioux",lf:"Northwest Iowa Plains",ord:"closed",cog:"NWIPDC",sc:54,lfs:95,asm:53,pool:70,farms:1672,avg:291,med:133,ge:281,k1k:104,pct:16.8,ops:4.8,note:"Moratorium. 281 large operations, closed."},
-  {n:"Ringgold",lf:"Southern Iowa Drift Plain",ord:"watch",cog:"SICOG",sc:47,lfs:22,asm:80,pool:40,farms:612,avg:509,med:200,ge:162,k1k:83,pct:26.5,ops:3.2,note:"Three of your sites. Big marginal farms, dissected terrain, bracketed by ordinance action.",y:1},
-  {n:"Woodbury",lf:"Loess Hills / NW Plains",ord:"closed",cog:"SIMPC",sc:44,lfs:50,asm:67,pool:67,farms:1005,avg:466,med:160,ge:268,k1k:128,pct:26.7,ops:4.0,note:"Moratorium."},
-  {n:"Taylor",lf:"Southern Iowa Drift Plain",ord:"drafting",cog:"SICOG",sc:38,lfs:22,asm:77,pool:36,farms:596,avg:498,med:190,ge:143,k1k:77,pct:24.0,ops:3.4,note:"Moratorium drafted 8 Jun 2026. Your Bedford site is here.",y:1},
-  {n:"Davis",lf:"Southern Iowa Drift Plain",ord:"open",cog:"AREA15",sc:37,lfs:22,asm:9,pool:26,farms:941,avg:227,med:86,ge:102,k1k:42,pct:10.8,ops:7.4,note:"Two of your sites. Worst assemblage profile on the board: 7.4 owners per section.",y:1},
-  {n:"Dallas",lf:"DM Lobe / SIDP margin",ord:"watch",cog:"REGION12",sc:35,lfs:58,asm:0,pool:37,farms:901,avg:319,med:63,ge:148,k1k:81,pct:16.4,ops:10.2,note:"Real fibre and power, severe metro fragmentation, Madison County next door closed.",y:1},
-  {n:"Linn",lf:"Iowan Surface",ord:"closed",cog:"ECICOG",sc:34,lfs:88,asm:0,pool:49,farms:1416,avg:239,med:79,ge:196,k1k:84,pct:13.8,ops:8.1,note:"18-month moratorium effective 1 Jul 2026."},
-  {n:"Clarke",lf:"Southern Iowa Drift Plain",ord:"closed",cog:"SICOG",sc:25,lfs:22,asm:55,pool:22,farms:649,avg:274,med:136,ge:86,k1k:35,pct:13.3,ops:4.7,note:"Moratorium. Borders Ringgold."},
-  {n:"Dubuque",lf:"Paleozoic Plateau",ord:"closed",cog:"ECICOG",sc:24,lfs:18,asm:44,pool:44,farms:1554,avg:205,med:119,ge:178,k1k:37,pct:11.5,ops:5.4,note:"12-month moratorium. Karst terrain regardless."},
-  {n:"Des Moines",lf:"Mississippi Alluvial",ord:"closed",cog:"SEIRPC",sc:18,lfs:35,asm:15,pool:20,farms:648,avg:230,med:90,ge:82,k1k:24,pct:12.7,ops:7.1,note:"12-month moratorium adopted 19 May 2026."},
-  {n:"Johnson",lf:"Southern Iowa Drift Plain",ord:"closed",cog:"ECICOG",sc:13,lfs:22,asm:5,pool:36,farms:1212,avg:214,med:83,ge:142,k1k:46,pct:11.7,ops:7.7,note:"Moratorium."},
-  {n:"Madison",lf:"Southern Iowa Drift Plain",ord:"closed",cog:"SICOG",sc:12,lfs:22,asm:0,pool:34,farms:1133,avg:275,med:70,ge:135,k1k:66,pct:11.9,ops:9.1,note:"Moratorium."},
-];
-const COGS = {
-  MIDAS:    {n:"MIDAS Council of Governments", city:"Fort Dodge", ph:"(515) 576-7183", cty:"Calhoun · Hamilton · Humboldt · Pocahontas · Webster · Wright"},
-  NWIPDC:   {n:"Northwest Iowa Planning & Development Commission", city:"Spencer", ph:"(712) 262-7225", cty:"Buena Vista · Clay · Dickinson · Emmet · Lyon · O'Brien · Osceola · Palo Alto · Sioux"},
-  NIACOG:   {n:"North Iowa Area Council of Governments", city:"Mason City", ph:"(641) 423-0491", cty:"Cerro Gordo · Floyd · Franklin · Hancock · Kossuth · Mitchell · Winnebago · Worth"},
-  INRCOG:   {n:"Iowa Northland Regional Council of Governments", city:"Waterloo", ph:"(319) 235-0311", cty:"Black Hawk · Bremer · Buchanan · Butler · Chickasaw · Grundy"},
-  REGION6:  {n:"Region 6 Resource Partners", city:"Marshalltown", ph:"(641) 752-0717", cty:"Hardin · Marshall · Poweshiek · Tama"},
-  REGION12: {n:"Region XII Council of Governments", city:"Carroll", ph:"(712) 792-9914", cty:"Audubon · Carroll · Crawford · Dallas · Greene · Guthrie · Sac"},
-  SIMPC:    {n:"Siouxland Interstate Metropolitan Planning Council", city:"Sioux City", ph:"(712) 279-6286", cty:"Cherokee · Ida · Monona · Plymouth · Woodbury"},
-  ECICOG:   {n:"East Central Iowa Council of Governments", city:"Cedar Rapids", ph:"(319) 365-9941", cty:"Benton · Iowa · Johnson · Jones · Linn · Washington"},
-  SWIPCO:   {n:"Southwest Iowa Planning Council", city:"Atlantic", ph:"(712) 243-4196", cty:"Cass · Fremont · Harrison · Mills · Montgomery · Page · Pottawattamie · Shelby"},
-  SICOG:    {n:"Southern Iowa Council of Governments", city:"Creston", ph:"(641) 782-8491", cty:"Adair · Adams · Clarke · Decatur · Madison · Ringgold · Taylor · Union"},
-  AREA15:   {n:"Area 15 Regional Planning Commission", city:"Ottumwa", ph:"(641) 684-6551", cty:"Davis · Jefferson · Keokuk · Lucas · Mahaska · Monroe · Van Buren · Wapello · Wayne"},
-  SEIRPC:   {n:"Southeast Iowa Regional Planning Commission", city:"West Burlington", ph:"(319) 753-5107", cty:"Des Moines · Henry · Lee · Louisa"},
-  VERIFY:   {n:"Not on the ICOG roster — confirm the servicing COG", city:"—", ph:"Ask IEDA", cty:"Boone · Story"}
-};
-
-const INCENTIVES = [
-  { tier:"State · automatic", t:"Sales & use tax exemption — Iowa Code 423.3(95)",
-    v:"Uniform statewide",
-    b:`Exempts the purchase price of computers, equipment, and — subject to the 2025 limits below — electricity and backup power generation fuel. Requires a <strong>minimum $200 million investment</strong> at the Iowa location within the first six years of operation. Registration with the Department of Revenue plus an annual report due 31 January; miss the filing and you forfeit the exemption for that year. A new exemption certificate is required for energy purchases from 1 February 2026. Iowa DOR has also held that <em>both</em> property owners and tenants can claim it.`,
-    why:"Because it is uniform, this does not help you choose a county. Assume every candidate gets it and do not let a community sell it to you as a local concession." },
-
-  { tier:"State · geography-dependent", t:"HF 976 — the energy exemption now depends on city size",
-    v:"15 yrs vs 10 yrs",
-    b:`Signed 6 June 2025. New and expanding data centres no longer get an indefinite exemption on electricity and backup fuel. The duration is set by the population of the city where the centre sits: <strong>15 years under 30,000 people, 10 years over 30,000</strong>. Facilities operating before 6 June 2025 that add no property keep the old unlimited treatment.`,
-    why:"This is the most important incentive fact on the sheet. The State of Iowa now pays a 50% longer energy-tax holiday for going rural — five extra years — which points at exactly the small-city and rural counties in Plate 11. It also means the annex-into-a-small-city question is now a tax question, not just an entitlement question. Ask tax counsel specifically how the test applies to a site in unincorporated county territory with no city of record." },
-
-  { tier:"Local · negotiated", t:"Partial industrial property tax exemption — Iowa Code 427B",
-    v:"5 years, sliding",
-    b:`Enacted by city ordinance (or county resolution) after a public hearing on not less than 30 days' notice. Exempts a declining share of the <em>value added</em> by qualifying industrial improvements — a common schedule is 75 / 60 / 45 / 30 / 15 percent across five years. Applies to industrial buildings, warehouse and distribution, and research-service facilities.`,
-    why:"This is genuinely negotiable and genuinely differentiating. A county or city that has already adopted a 427B ordinance is signalling posture. Ask every candidate community whether the ordinance exists today — adopting one for you is a public hearing and a political fight you would rather not need." },
-
-  { tier:"Local · negotiated", t:"Tax increment financing — Iowa Code 403",
-    v:"Site-specific",
-    b:`Delivered as public infrastructure — road, water, sewer, and substation-adjacent civil work — or as forgivable loans and property tax rebates. Requires an urban renewal area and a plan adopted by the city or county.`,
-    why:"On a raw 640-acre assemblage, the infrastructure form is worth more than the rebate form. Roads and water to a section corner is real money. Ask what urban renewal areas already exist and whether your target section can be annexed into one." },
-
-  { tier:"Local · statutory", t:"Data center business property exemption",
-    v:"Assessor-administered",
-    b:`Certain property other than land and buildings purchased by a data center business is exempt. Administered locally — an application must be filed with the county assessor <strong>by 1 February</strong> of the first year claimed.`,
-    why:"A deadline, not a negotiation. Put it on the closing checklist; the assessor is also your best early read on how the county thinks about the asset class." },
-
-  { tier:"State · discretionary", t:"High Quality Jobs Program and 260E training",
-    v:"Application-based",
-    b:`IEDA's High Quality Jobs Program offers tax credits and direct financial assistance against qualifying investment and wage thresholds. Iowa's 260E New Jobs Training programme funds workforce training through the community college system.`,
-    why:"Hyperscale campuses employ few people relative to capital, so job-based programmes tend to score poorly. Worth an application, but do not let it drive site choice, and do not let a community treat it as their contribution." }
-];
-
-const CONTACTS = [
-  { tier:1, k:"Utility development · the single highest-leverage call",
-    n:"Iowa Area Development Group (IADG)", who:"Economic development arm of roughly 250 Iowa utilities — 150+ member-owned rural electric cooperatives, municipal utilities and independent broadband companies",
-    ph:"800-888-4743 · 515-223-4817", web:"iadg.com",
-    ask:"Every 300+ acre site their member utilities know of, listed or not, in the Plate 11 counties — plus which county boards are receptive.",
-    note:"IADG already appears twice in your own CoStar export (Bruce Hansen, on the Mona Rail Site and the Iowa Falls industrial site). You have touched this channel by accident without working it. Their members serve precisely the rural counties you should be hunting." },
-
-  { tier:1, k:"Regional development · covers 9 of your top counties",
-    n:"Mid Iowa Growth Partnership / Greater Fort Dodge Growth Alliance", who:"Regional partnership covering Calhoun, Hamilton, Hardin, Humboldt, Kossuth, Palo Alto, Pocahontas, Webster and Wright",
-    ph:"Astra Ferris, CEO · 515-955-5500 · astra@greaterfortdodge.com<br>Jefferson Fosbender, Economic Development Director · 515-227-7124 · jefferson@greaterfortdodge.com",
-    web:"midiowagrowth.com · 24 N 9th St, Suite A, Fort Dodge, IA 50501",
-    ask:"Their full land inventory over 300 acres across all nine counties, county-by-county ordinance posture, and which cities hold adoptable 427B ordinances and existing urban renewal areas.",
-    note:"Their nine-county footprint overlaps the top of the Plate 11 board almost exactly — including Kossuth, which now ranks first. One meeting covers a third of your hunt list." },
-
-  { tier:1, k:"State",
-    n:"Iowa Economic Development Authority", who:"Certified Sites programme, regional business development managers, HQJP",
-    ph:"515.348.6200 · info@iowaeda.com", web:"opportunityiowa.gov · 1963 Bell Ave, Suite 200, Des Moines, IA 50315",
-    ask:"The complete certified-site register filtered above 300 acres, the name of the regional business development manager for each hunt county, and any confidential large-site inventory.",
-    note:"Start with Mills Crossings Mega Site at Glenwood — 1,600+ acres, certified, diligence already paid for, and larger than anything in your file." },
-
-  { tier:1, k:"Investor-owned utilities · they own land",
-    n:"MidAmerican Energy · Alliant Energy", who:"Economic development and surplus real estate groups",
-    ph:"MidAmerican 1-800-799-4443", web:"midamericanenergy.com/economic-development · EconomicAdvantage365",
-    ask:"Industrial site inventory, certified sites, and non-operating or former generation land held as surplus.",
-    note:"Alliant owns the 1,391-acre Big Cedar Industrial Center at Cedar Rapids, of which QTS took 612 acres. Your own power assumption does not make utilities irrelevant here — in this channel they are the landowner, not the supplier." },
-
-  { tier:2, k:"Farm auction and land brokerage · the pre-market pipeline",
-    n:"Peoples Company · Hertz Farm Management · Sullivan Auctioneers · Steffes Group · Farmers National Company · Iowa Land Company",
-    who:"Where large Iowa farms actually trade. Peoples Company absorbed Murray Wise Associates; Hertz is licensed across twelve states",
-    ph:"Call the land brokerage lead at each", web:"peoplescompany.com · hertz.ag · sullivanauctioneers.com · steffesgroup.com · farmersnational.com · iowalandcompany.com",
-    ask:"“I buy 500 to 1,200 contiguous acres, all cash, flat ground, and I will pay above agricultural value. What is in your pipeline that has not been marketed yet?”",
-    note:"Three of your best-scoring sites came from auction listings you annotated with one word. The prize is one layer earlier: signed listing agreements not yet marketed." },
-
-  { tier:2, k:"Brokers already in your own file",
-    n:"Contacts you have already earned", who:"From Iowa Survey Draft and the CoStar export",
-    ph:"Jared Luebbers 515.517.8649 (Redding 442 ac) · Nick Hopp 319.204.6121 (Hwy 169, 1,232 ac) · Bruce Hansen, Iowa Area Development Group (two sites) · Mitch Phillips, Ferguson CRE · Austin Hedstrom, JLL · Harrison Haynes, SVN CREATE · Blake Brown, Denny Elwell Company",
-    web:"—",
-    ask:"Not the listing they showed you — what else they know of. Every one of these people has a mental list of large tracts whose owners would sell at the right number.",
-    note:"Bruce Hansen is the same IADG in tier 1. Call him first: he is both a broker contact you already have and the door into 250 utilities." },
-
-  { tier:3, k:"Regional planning · one call per region, ordinance truth",
-    n:"Iowa's Councils of Governments", who:"Every county in the state is covered by one. They know the ordinance posture and hold landowner-consented inventories",
-    ph:"See the region table below", web:"iowacog.com/find-your-cog",
-    ask:"Every site over 300 acres, listed or not; current county zoning and data-centre ordinance status; and which cities have adopted 427B.",
-    note:"COGs are also Economic Development Districts under the US EDA, so they hold grant and infrastructure levers a private assembler cannot reach alone." },
-
-  { tier:4, k:"Data and GIS · build the raster and the parcel dissolve",
-    n:"Land data sources", who:"Everything needed for the Plate 05 channel 01 and 02 work",
-    ph:"—",
-    web:"ISU GIS Facility gis.iastate.edu/current-projects/dem (1 m DEM) · UNI GeoTREE geotree.uni.edu (raw LiDAR + slope tools) · geodata.iowa.gov (clearinghouse, FEMA, parcels) · iowagisdata.org (ICITA county GIS) · beacon.schneidercorp.com (parcel viewer) · iowaassessors.com · regrid.com (all 99 counties, commercial) · USDA NASS county profiles · icip.iastate.edu/tables/agriculture",
-    ask:"Nothing — download it. The DEM and the FEMA and NWI layers are free.",
-    note:"Iowa's statewide 1-metre LiDAR is the reason this whole strategy is executable from a desk. Very few states have this coverage free." },
-
-  { tier:4, k:"Courthouse · the universal fallback for any county",
-    n:"County offices", who:"Zoning administrator, assessor, auditor, recorder",
-    ph:"Iowa county sites follow the pattern <code>&lt;county&gt;county.iowa.gov</code>",
-    web:"Drake Law Library Iowa county ordinances guide · libguides.law.drake.edu",
-    ask:"Zoning administrator: does the county have a countywide zoning ordinance, and is there any data-centre ordinance or moratorium pending? Auditor: what county-owned farm ground exists? Assessor: parcel and ownership data extract.",
-    note:"Four calls per county, and they answer. This is how you build the zoning-status column nobody sells." }
-];
-
-const SCHEMA = [
-  { f:"parcel_id / GEOID", src:"County parcel layer · Regrid · Beacon", why:"Primary key. Iowa has no single statewide id, so keep county FIPS + local parcel number." },
-  { f:"owner_name_raw / owner_normalised", src:"Assessor", why:"Normalisation is the whole game. “SMITH FAMILY TRUST” and “Smith Family Trust” must collapse before you dissolve." },
-  { f:"owner_type", src:"Derived from name", why:"INDIVIDUAL / TRUST / ESTATE / LLC / CORP / INSTITUTIONAL / PUBLIC. Trust and estate convert best." },
-  { f:"owner_mail_addr / absentee_flag", src:"Assessor", why:"Mailing address outside the county or state. Absentee owners respond at materially higher rates." },
-  { f:"deed_acres / gis_acres", src:"Assessor + polygon area", why:"Keep both. They disagree, and the disagreement is a title question worth knowing early." },
-  { f:"contig_group_id / contig_acres", src:"Your dissolve", why:"Group adjacent parcels under one normalised owner. This is the field that finds sites acreage filters miss." },
-  { f:"assemblage_owner_count", src:"Derived", why:"How many signatures a 640-acre footprint over this ground needs. Your single best ranking field." },
-  { f:"slope_pct_mean / pct_under_2", src:"1 m LiDAR DEM", why:"Share of the polygon under 2% slope. Drives the real buildable number." },
-  { f:"buildable_acres", src:"Raster intersect", why:"Slope-qualified, minus FEMA 1% and 0.2%, minus NWI wetlands, minus stream buffers. The only acreage figure that matters." },
-  { f:"fema_pct / nwi_pct", src:"FEMA NFHL · National Wetlands Inventory", why:"Quantified, not a yes/no. Your current sheet records prose like “river intersects”; this replaces it with a number." },
-  { f:"landform_region", src:"Iowa Geological Survey", why:"Assign at township level, not county — several counties straddle two regions." },
-  { f:"county_zoned / zoning_district", src:"Zoning administrator call", why:"The highest-leverage field on the sheet and the only one you cannot download. Roughly half of Iowa's counties have no countywide ordinance." },
-  { f:"dc_ordinance_status / moratorium_expiry", src:"County board minutes", why:"open / pending / moratorium, with a date. This field moved nine times in 2026 — timestamp every entry." },
-  { f:"nearest_city / city_population", src:"Census", why:"Under 30,000 means 15 years of energy tax exemption instead of 10. A tax field disguised as a geography field." },
-  { f:"has_427B_ordinance / urban_renewal_area", src:"City clerk · COG", why:"Whether the local abatement and TIF machinery already exists, or has to be created for you." },
-  { f:"annexation_feasible", src:"Judgment + city contact", why:"Contiguity to a city willing to annex is a route around a hostile county board." },
-  { f:"road_frontage_ft / section_line_access", src:"Parcel + road layer", why:"On the PLSS grid most section boundaries are gravel roads, so legal access is usually solved. Confirm it." },
-  { f:"lease_status / lease_expiry", src:"Owner conversation", why:"Your Mount Ayr candidate has 925 leased acres to September. Cash rent leases are a timing constraint on possession." },
-  { f:"contact_log / last_touch / disposition", src:"You", why:"This is a pipeline, not a spreadsheet. Without disposition tracking you will call the same owner twice and miss the one who said “maybe next year”." }
-];
-
-const PIPELINE = [
-  { s:"Stage 1", t:"Ground first", b:"Slope raster from the 1 m DEM for the hunt counties. Reclass ≤2% and ≤5%. Erase FEMA 1% and 0.2%, NWI wetlands, NHD streams with buffer, incorporated boundaries, existing built footprint. Region-group and keep patches ≥500 acres. <b>Output: candidate ground, no ownership yet.</b>" },
-  { s:"Stage 2", t:"Attach ownership", b:"Load the parcel layer. Normalise owner names hard — case, punctuation, ETAL, TRUSTEE, C/O. Dissolve on normalised owner, then group adjacent parcels into contiguous holdings. <b>Output: named holdings with acreage.</b>" },
-  { s:"Stage 3", t:"Intersect and score", b:"Join holdings to candidate ground. Compute buildable_acres, assemblage_owner_count, and the flags. Rank on buildable acres and owner count together — never acreage alone. <b>Output: a ranked target list.</b>" },
-  { s:"Stage 4", t:"Overlay policy", b:"Add county_zoned, dc_ordinance_status, nearest city population, and 427B status. Kill anything in a closed county before you spend another minute on it. <b>Output: a legally live target list.</b>" },
-  { s:"Stage 5", t:"Work it", b:"Absentee and entity owners first. Certified mail, then phone at day seven. Log every disposition. Institutional owners get one letter each and cover the most acres per hour. <b>Output: conversations.</b>" },
-  { s:"Stage 6", t:"Option, then diligence", b:"Cross-contingent options on three or four assemblages. Wetland delineation and geotech on the top two only. That is where diligence money starts, and not before. <b>Output: one closable site.</b>" }
-];
-
-const ASKS = [
-  { who:"County zoning administrator", goal:"Build the field nobody sells you",
-    s:`I'm evaluating large agricultural tracts in your county for an industrial end use. Three questions. First, does the county have a countywide zoning ordinance, or is unincorporated land unzoned? Second, is there any data-centre or large-load ordinance, overlay, or moratorium adopted or pending before the board? Third, if I brought a 600-acre rezoning application, what is the process and roughly what timeline?` },
-  { who:"Farm auction / land brokerage lead", goal:"Reach the unmarketed pipeline",
-    s:`I buy 500 to 1,200 contiguous acres in Iowa, all cash, and I need flat ground — not recreational or timber. I will pay above agricultural value. Two questions. What do you have under listing agreement that hasn't been marketed yet? And who do you know holding a section or more of flat ground who would sell at the right number?` },
-  { who:"County or regional EDC director", goal:"Off-market inventory plus posture",
-    s:`I'm assembling land for a large industrial project and I need 500-plus contiguous acres of flat, non-floodplain ground. I'm not asking what's listed. I'm asking what your landowners have consented to be shown. I also need to understand your board's posture on data centres and whether any city here has a 427B abatement ordinance or an existing urban renewal area.` },
-  { who:"Landowner — absentee or entity", goal:"Open a door, don't pitch",
-    s:`I'm writing because you own roughly [ACRES] acres in [TOWNSHIP], [COUNTY]. I'm a buyer looking for large contiguous tracts of level ground in this area, and I pay substantially above agricultural value. I'm not asking you to list the property or to pay a commission. I'd like fifteen minutes to tell you what I can pay per acre so you can decide whether it's worth a conversation. If the answer is no, I won't contact you again.` },
-  { who:"Utility economic development", goal:"They own land and they want load",
-    s:`I represent a large-load industrial project seeking 500-plus acres in Iowa. I'd like your industrial site inventory, any certified sites, and separately, any surplus or non-operating land your company holds — including former generation sites. I'd also value your read on which county boards in your service territory are receptive right now.` },
-  { who:"Institutional farmland owner", goal:"Most acres screened per hour",
-    s:`I'm seeking 500 to 1,200 contiguous acres of level Iowa farmland for an industrial end use, at a price well above agricultural value. Given your Iowa holdings, I'd like to know whether any contiguous block of that size in your portfolio could be considered for sale, and who I should speak with about a premium offer on a specific parcel.` }
-];
-
-/* ═══════════════════════════════════════════════════════════════════
-   HELPERS
-   ═══════════════════════════════════════════════════════════════════ */
-const $ = s => document.querySelector(s);
-const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const fmt = n => Math.round(n).toLocaleString('en-US');
-const pill = (cls, txt) => `<span class="pill ${cls}"><i aria-hidden="true"></i>${esc(txt)}</span>`;
-
-SITES.forEach(s => {
-  s.net = s.tillable != null ? s.tillable : s.ac * (1 - HAIRCUT[s.cut]);
-  s.scale = Math.min(100, s.net / 500 * 100);
-});
-
-let W = { scale:30, topo:20, hydro:20, cont:15, ent:15 };
-let sortKey = 'score', sortDir = -1, siteFilter = 'all';
-
-function score(s) {
-  const tot = W.scale + W.topo + W.hydro + W.cont + W.ent;
-  if (!tot) return 0;
-  return (s.scale*W.scale + s.topo*W.topo + s.hydro*W.hydro + s.cont*W.cont + s.ent*W.ent) / tot;
-}
-
-/* ── PLATE 1 ──────────────────────────────────────────────── */
-function renderSites() {
-  const rows = SITES
-    .map(s => ({ ...s, score: score(s) }))
-    .filter(s => {
-      if (siteFilter === '500') return s.net >= 500;
-      if (siteFilter === 'short') return s.shortlist;
-      if (siteFilter === 'flag') return s.flags.some(f => f[0] === 'stop');
-      return true;
-    })
-    .sort((a,b) => {
-      const av = a[sortKey], bv = b[sortKey];
-      if (typeof av === 'string') return av.localeCompare(bv) * (sortDir === -1 ? 1 : -1);
-      return (av - bv) * sortDir;
-    });
-
-  const maxAc = Math.max(...SITES.map(s => s.ac));
-  $('#siteTable tbody').innerHTML = rows.map((s, i) => {
-    const lost = s.ac - s.net;
-    const wNet = s.net / maxAc * 100, wLost = lost / maxAc * 100;
-    return `<tr${s.net < 500 ? ' class="dim"' : ''}>
-      <td class="rk">${i+1}</td>
-      <td><div class="addr">${esc(s.addr)}</div><div class="sub">${esc(s.city)} · ${esc(s.county)} Co. · ${esc(s.src)}</div></td>
-      <td class="num">${fmt(s.ac)}</td>
-      <td class="num"><b>${fmt(s.net)}</b></td>
-      <td><div class="gn" title="${fmt(s.net)} net buildable, ${fmt(lost)} discounted">
-          <i style="width:${wNet}%"></i>${lost > 0 ? `<i style="width:${wLost}%"></i>` : ''}</div></td>
-      <td style="font-size:12.5px">${esc(s.landform)}</td>
-      <td><div class="sbar"><b>${s.score.toFixed(0)}</b><span class="sbar-t"><span class="sbar-f" style="width:${s.score}%"></span></span></div>
-          <div class="sub" style="font-family:var(--mono);font-size:10px">sc ${s.scale.toFixed(0)} · tp ${s.topo} · hy ${s.hydro} · ct ${s.cont} · en ${s.ent}</div></td>
-      <td><div class="flags">${s.flags.map(f => pill(f[0], f[1])).join('')}</div></td>
-      <td class="note">${esc(s.note)}</td>
-    </tr>`;
-  }).join('');
-}
-
-$('#siteTable').querySelectorAll('th.srt').forEach(th => {
-  th.addEventListener('click', () => {
-    const k = th.dataset.s;
-    if (sortKey === k) sortDir *= -1; else { sortKey = k; sortDir = -1; }
-    renderSites();
-  });
-});
-$('#siteChips').addEventListener('click', e => {
-  const b = e.target.closest('.chip'); if (!b) return;
-  siteFilter = b.dataset.f;
-  $('#siteChips').querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === b)));
-  renderSites();
-});
-[['wScale','vScale','scale'],['wTopo','vTopo','topo'],['wHydro','vHydro','hydro'],['wCont','vCont','cont'],['wEnt','vEnt','ent']]
-  .forEach(([inp, out, key]) => {
-    $('#'+inp).addEventListener('input', e => { W[key] = +e.target.value; $('#'+out).textContent = e.target.value; renderSites(); });
-  });
-
-$('#costarTable tbody').innerHTML = COSTAR.map(c => {
-  const [fc, ft] = c.flood.split('|');
-  return `<tr>
-    <td><div class="addr">${esc(c.name)}</div></td>
-    <td style="font-size:12.5px">${esc(c.city)}</td>
-    <td style="font-size:12.5px">${esc(c.county)}</td>
-    <td style="font-size:12.5px">${esc(c.use)}</td>
-    <td>${pill(fc, ft)}</td>
-    <td class="num" style="font-size:12.5px">${esc(c.price)}</td>
-    <td style="font-size:12px">${esc(c.br)}</td>
-    <td class="note">${esc(c.act)}</td>
-  </tr>`;
-}).join('');
-
-/* ── PLATE 2 : landform strips (facetted, single hue) ─────── */
-(function () {
-  const order = ["Northwest Iowa Plains","Des Moines Lobe","Des Moines Lobe / SIDP margin","Missouri Alluvial Plain","Southern Iowa Drift Plain"];
-  const quality = {
-    "Northwest Iowa Plains": ["ok","Best available terrain — gently rolling deep loess, well drained, sparse streams"],
-    "Des Moines Lobe": ["ok","Flattest in Iowa, relief under 20 ft — but prairie potholes and tile drainage"],
-    "Des Moines Lobe / SIDP margin": ["watch","Transitional. Confirm at township level"],
-    "Missouri Alluvial Plain": ["watch","Very flat and entirely floodplain"],
-    "Southern Iowa Drift Plain": ["stop","Most dissected region in Iowa — steep, stream-cut, narrow ridges"]
-  };
-  const maxNet = Math.max(...SITES.map(s => s.net));
-  const groups = order.map(lf => ({ lf, sites: SITES.filter(s => s.landform === lf).sort((a,b) => b.net - a.net) })).filter(g => g.sites.length);
-
-  $('#landformStrips').innerHTML = groups.map(g => {
-    const [qc, qt] = quality[g.lf];
-    return `<div class="card" style="margin-bottom:1px">
-      <div style="display:flex;flex-wrap:wrap;gap:10px 16px;align-items:baseline;justify-content:space-between;margin-bottom:14px">
-        <div style="font-family:var(--serif);font-size:20px">${esc(g.lf)}
-          <span style="font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-left:8px">${g.sites.length} site${g.sites.length>1?'s':''}</span></div>
-        ${pill(qc + ' wrap', qt)}
-      </div>
-      <div style="display:grid;gap:9px">
-        ${g.sites.map(s => `
-          <div style="display:grid;grid-template-columns:minmax(120px,220px) 1fr 74px;gap:12px;align-items:center">
-            <div style="font-size:12.5px;line-height:1.3">${esc(s.city)}<span style="color:var(--ink-3)"> · ${esc(s.county)}</span></div>
-            <div style="position:relative;height:13px;background:var(--plate-sunk)">
-              <div style="position:absolute;inset:0 auto 0 0;width:${s.net/maxNet*100}%;background:var(--bar-ink);border-radius:0 3px 3px 0"></div>
-              <div style="position:absolute;top:-3px;bottom:-3px;left:${500/maxNet*100}%;width:1px;background:var(--acc)"></div>
-            </div>
-            <div style="font-family:var(--mono);font-size:12px;text-align:right;font-variant-numeric:tabular-nums;color:${s.net>=500?'var(--ink)':'var(--ink-3)'}">${fmt(s.net)}</div>
-          </div>`).join('')}
-      </div>
-    </div>`;
-  }).join('') + `<p class="mini" style="margin-top:10px">Vertical rule = 500 net buildable acres. Values right of the rule clear the threshold.</p>`;
-})();
-
-/* ── PLATE 3 : funnel ─────────────────────────────────────── */
-const FUN_STEPS = [
-  { k:"Universe",  l:"Iowa farm operations at 500+ acres", n:"USDA 2022 Census — a hard count", f:null },
-  { k:"Screen 1",  l:"In an acceptable landform region",   n:"NW Iowa Plains, Iowan Surface, drier Des Moines Lobe", f:'fLand' },
-  { k:"Screen 2",  l:"Contiguous rather than scattered",   n:"One block, not four rented quarters across a township", f:'fCont' },
-  { k:"Screen 3",  l:"Outside closed counties and city limits", n:"Nine moratoria and rising", f:'fPol' },
-  { k:"Screen 4",  l:"Clears floodplain, wetland and slope", n:"FEMA 1% and 0.2%, NWI, LiDAR slope", f:'fDry' },
-  { k:"Reachable", l:"Owner will engage on a premium offer", n:"Response rate on a targeted mailing", f:'fResp' }
-];
-const RAMP = ['--r5','--r5','--r4','--r3','--r2','--r1'];
-
-function renderFunnel() {
-  const base = 17041;
-  let v = base;
-  const vals = [base];
-  FUN_STEPS.slice(1).forEach(st => { v = v * (+$('#'+st.f).value / 100); vals.push(v); });
-
-  $('#funnel').innerHTML = FUN_STEPS.map((st, i) => `
-    <div class="fun-row">
-      <div class="fun-lab"><span>${esc(st.k)}</span>${esc(st.l)}</div>
-      <div class="fun-track"><div class="fun-fill" style="width:${Math.max(vals[i]/base*100, 0.4)}%;background:var(${RAMP[i]})"></div></div>
-      <div class="fun-val">${fmt(vals[i])}<span>${i === 0 ? 'operations' : 'blocks'}</span></div>
-    </div>`).join('') + `
-    <div class="fun-row" style="background:var(--plate-sunk)">
-      <div class="fun-lab"><span>Result</span><b>Live conversations available to you</b></div>
-      <div class="fun-track" style="background:transparent"></div>
-      <div class="fun-val" style="color:var(--acc);font-size:22px">${fmt(vals[vals.length-1])}<span style="color:var(--ink-3)">vs 8 found</span></div>
-    </div>`;
-
-  const pre = vals[vals.length - 2];
-  const share = pre > 0 ? (8 / pre * 100) : 0;
-  $('#listShare').textContent = share < 1 ? share.toFixed(2) + '%' : share.toFixed(1) + '%';
-}
-FUN_STEPS.slice(1).forEach(st => {
-  const out = { fLand:'vLand', fCont:'vCont2', fPol:'vPol', fDry:'vDry', fResp:'vResp' }[st.f];
-  $('#'+st.f).addEventListener('input', e => { $('#'+out).textContent = e.target.value + '%'; renderFunnel(); });
-});
-
-/* ── PLATE 4 : assemblage engine ──────────────────────────── */
-function renderAsm() {
-  const tgt = +$('#aTgt').value, per = +$('#aOwn').value;
-  $('#vTgt').textContent = fmt(tgt) + ' ac';
-  $('#vOwn').textContent = fmt(per) + ' ac';
-
-  const quarters = Math.ceil(tgt / 160);
-  const owners = Math.ceil(tgt / per);
-  const sections = tgt / 640;
-
-  // compact rectangle of quarter-sections
-  const cols = Math.ceil(Math.sqrt(quarters));
-  const rows = Math.ceil(quarters / cols);
-  const fill = new Set();
-  for (let i = 0; i < quarters; i++) fill.add((Math.floor(i / cols)) * 100 + (i % cols));
-
-  // draw a 6x6 quarter grid = 9 sections; overlay the footprint centred
-  const N = 6, cell = 62, pad = 26, W_ = N*cell + pad*2;
-  const offC = Math.max(0, Math.floor((N - cols) / 2)), offR = Math.max(0, Math.floor((N - rows) / 2));
-  let svg = `<svg viewBox="0 0 ${W_} ${W_}" role="img" aria-label="Public Land Survey grid: ${quarters} quarter-sections needed for ${fmt(tgt)} acres">`;
-  svg += `<rect x="${pad}" y="${pad}" width="${N*cell}" height="${N*cell}" fill="var(--plate-sunk)"/>`;
-  for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) {
-    const on = fill.has((r - offR) * 100 + (c - offC)) && r >= offR && c >= offC && (c - offC) < cols;
-    svg += `<rect x="${pad + c*cell}" y="${pad + r*cell}" width="${cell}" height="${cell}"
-      fill="${on ? 'var(--bar-ink)' : 'transparent'}" fill-opacity="${on ? 0.82 : 0}"
-      stroke="var(--rule)" stroke-width="1"/>`;
-    if (!on) svg += `<text x="${pad + c*cell + cell/2}" y="${pad + r*cell + cell/2 + 4}" text-anchor="middle"
-      font-family="ui-monospace,monospace" font-size="9" fill="var(--ink-3)">160</text>`;
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt=n=>n==null?'—':Math.round(n).toLocaleString('en-US');
+const pill=(c,t)=>`<span class="pill ${c}"><i aria-hidden="true"></i>${esc(t)}</span>`;
+const HAIRCUT={multi:.45,flood100:.35,single:.25,rec:.22,fringe:.15,clean:.05};
+const LIVE=['identified','screened','letter_sent','contacted','meeting','negotiating','optioned'];
+const ORDP={open:['ok','Open'],'unzoned?':['ok','Unzoned?'],watch:['warn','Verify'],drafting:['stop','Drafting'],closed:['stop','Closed']};
+let DB={},FIND=[],byCounty={};
+
+async function load(){
+  const bust='?t='+Date.now();
+  const names=['counties','sites','contacts','activity','documents','brief'];
+  const out={};
+  for(const n of names){
+    const r=await fetch('data/'+n+'.json'+bust,{cache:'no-store'});
+    if(!r.ok) throw new Error(n+'.json returned HTTP '+r.status);
+    out[n]=await r.json();
   }
-  // section lines (every 2 quarters) heavier, in accent
-  for (let i = 0; i <= N; i += 2) {
-    svg += `<line x1="${pad + i*cell}" y1="${pad}" x2="${pad + i*cell}" y2="${pad + N*cell}" stroke="var(--acc)" stroke-width="1.6"/>`;
-    svg += `<line x1="${pad}" y1="${pad + i*cell}" x2="${pad + N*cell}" y2="${pad + i*cell}" stroke="var(--acc)" stroke-width="1.6"/>`;
+  return out;
+}
+
+function derive(){
+  byCounty={};
+  DB.counties.counties.forEach(c=>{byCounty[c.name]=c;});
+  DB.sites.sites.forEach(s=>{
+    if(s.acres_net==null&&s.acres_gross!=null)
+      s.acres_net=Math.round(s.acres_gross*(1-(HAIRCUT[s.hydro_class]!=null?HAIRCUT[s.hydro_class]:.15)));
+    const c=byCounty[s.county];
+    s._cscore=c?c.score:null; s._ops=c?c.owners_per_section:null;
+    s._ord=c?c.ordinance:null; s._live=LIVE.indexOf(s.status)>=0;
+  });
+  const held={};
+  DB.sites.sites.filter(s=>s._live).forEach(s=>{held[s.county]=(held[s.county]||0)+1;});
+  DB.counties.counties.forEach(c=>{c._sites=held[c.name]||0;c._held=c._sites>0;});
+}
+
+function analyse(){
+  const F=[],S=DB.sites.sites,C=DB.counties.counties,K=DB.contacts.contacts,A=DB.activity.activity;
+  const live=S.filter(s=>s._live);
+  const add=(sev,cat,t,d,ev)=>F.push({sev:sev,cat:cat,t:t,d:d,ev:ev||[]});
+  const rank=C.slice().sort((a,b)=>b.score-a.score);
+  const top12=rank.slice(0,12);
+
+  const gaps=top12.filter(c=>!c._held);
+  if(gaps.length) add(gaps.length>=8?'critical':'high','coverage',
+    gaps.length+' of the top 12 counties hold no position',
+    'Highest-scoring counties with nothing on record: '+gaps.slice(0,6).map(c=>c.name+' ('+c.score+')').join(', ')+(gaps.length>6?', plus '+(gaps.length-6)+' more':'')+'. These score best on landform, assemblage and ordinance status combined.',
+    gaps.slice(0,8).map(c=>c.name));
+
+  const lowHeld=live.filter(s=>s._cscore!=null&&s._cscore<50);
+  if(lowHeld.length) add('high','position',
+    lowHeld.length+' live site'+(lowHeld.length>1?'s':'')+' in counties scoring under 50',
+    lowHeld.map(s=>s.name+' ('+s.county+' '+s._cscore+')').join('; ')+'. The same footprint at the top of the screen needs fewer owners on better ground.',
+    lowHeld.map(s=>s.id));
+
+  const hardAsm=live.filter(s=>s._ops!=null&&s._ops>=6);
+  if(hardAsm.length) add('high','assemblage',
+    hardAsm.length+' site'+(hardAsm.length>1?'s':'')+' in counties needing 6 or more owners per section',
+    hardAsm.map(s=>s.name+' — '+s.county+' at '+s._ops+' owners per section').join('; ')+'. The best counties sit near 2.7, so this is roughly triple the signature count for the same footprint.',
+    hardAsm.map(s=>s.id));
+
+  const ordRisk=live.filter(s=>s._ord==='drafting'||s._ord==='closed');
+  if(ordRisk.length) add('critical','ordinance',
+    ordRisk.length+' live site'+(ordRisk.length>1?'s':'')+' in a county that is closed or drafting',
+    ordRisk.map(s=>s.name+' — '+s.county+' ('+s._ord+')').join('; ')+'. Confirm current ordinance status before any further spend.',
+    ordRisk.map(s=>s.id));
+
+  const adj=live.filter(s=>(s.flags||[]).indexOf('adjacent_county_closed')>=0);
+  if(adj.length) add('medium','ordinance','Ordinance contagion risk on a neighbouring county',
+    adj.map(s=>s.name+' in '+s.county).join('; ')+' sits next to a county that has already closed. Restrictions tend to travel along county lines.',
+    adj.map(s=>s.id));
+
+  const noAc=S.filter(s=>s.acres_gross==null&&s.status!=='dead');
+  if(noAc.length) add('high','data',
+    noAc.length+' site'+(noAc.length>1?'s':'')+' cannot be ranked — no acreage on record',
+    noAc.map(s=>s.name).join('; ')+'. Without a lot size these are invisible to the screen. Acreage is one call to the listing contact or the county assessor.',
+    noAc.map(s=>s.id));
+
+  const noOwner=live.filter(s=>!s.owner);
+  if(noOwner.length) add(noOwner.length===live.length?'critical':'high','data',
+    'No owner recorded on '+noOwner.length+' of '+live.length+' live sites',
+    'Each is known only through a broker or a listing, so no direct approach is possible. Owner name and mailing address come from the county parcel layer.',
+    noOwner.slice(0,10).map(s=>s.id));
+
+  const bigCut=live.filter(s=>s.acres_gross&&s.acres_net&&(s.acres_gross-s.acres_net)/s.acres_gross>=.3);
+  if(bigCut.length) add('medium','hydrology',
+    bigCut.length+' site'+(bigCut.length>1?'s':'')+' lose 30% or more of gross acreage to hydrology',
+    bigCut.map(s=>s.name+' — '+fmt(s.acres_gross)+' gross to '+fmt(s.acres_net)+' net').join('; ')+'. Rank on the net figure; the gross number is not the campus.',
+    bigCut.map(s=>s.id));
+
+  const adv=live.filter(s=>s.status!=='identified');
+  if(live.length&&!adv.length) add('critical','pipeline','Nothing has moved past identified',
+    'All '+live.length+' live sites sit at the first stage — no letters out, no conversations open, no options drafted — so there is no conversion data to read yet.',[]);
+
+  const auction=live.filter(s=>(s.flags||[]).indexOf('at_auction')>=0);
+  if(auction.length) add('high','timing',
+    auction.length+' site'+(auction.length>1?'s are':' is')+' on an auction clock',
+    auction.map(s=>s.name+' ('+s.county+')').join('; ')+'. Auction ground moves on a fixed date rather than a negotiation — the only records here with an externally imposed deadline.',
+    auction.map(s=>s.id));
+
+  const unver=S.filter(s=>(s.flags||[]).indexOf('unzoned_unverified')>=0);
+  if(unver.length) add('high','verification','A zoning claim worth more than any other unverified fact on record',
+    unver.map(s=>s.name+' in '+s.county).join('; ')+' is recorded as having no county zoning. If true it removes the rezoning path entirely. One call to the zoning administrator settles it.',
+    unver.map(s=>s.id));
+
+  const t1=K.filter(c=>c.tier===1&&c.status==='not_contacted');
+  if(t1.length) add(t1.length>=4?'high':'medium','execution',
+    t1.length+' tier-1 contact'+(t1.length>1?'s have':' has')+' not been approached',
+    t1.map(c=>c.org.split(' /')[0]).join('; ')+'. These reach the most acres per hour of anything loaded.',
+    t1.map(c=>c.id));
+
+  const heldCounties=[];
+  live.forEach(s=>{if(s.county&&heldCounties.indexOf(s.county)<0)heldCounties.push(s.county);});
+  const uncovered=heldCounties.filter(cn=>!K.some(c=>c.status!=='not_contacted'&&(c.counties||'').indexOf(cn)>=0));
+  if(heldCounties.length&&uncovered.length===heldCounties.length)
+    add('medium','execution','No regional contact made in any county where a position is held',
+      'Positions sit in '+heldCounties.join(', ')+'. Each maps to a regional council that knows the ordinance posture and holds landowner-consented inventory.',
+      heldCounties);
+
+  const best=rank.filter(c=>!c._held&&(c.ordinance==='open'||c.ordinance==='unzoned?'))[0];
+  if(best) add('medium','opportunity',best.name+' is the strongest county with no position',
+    'Score '+best.score+'. '+fmt(best.farms_ge500)+' farms at 500+ acres, '+fmt(best.farms_ge1000)+' above 1,000, median '+fmt(best.median_farm_ac)+' acres — '+best.owners_per_section+' owners per section. '+best.note,
+    [best.name]);
+
+  const dup=S.filter(s=>(s.flags||[]).indexOf('duplicate_source')>=0);
+  if(dup.length) add('low','data','A tract is recorded from two sources',
+    dup.map(s=>s.name).join('; ')+' appears in more than one input file. Counted once here; watch for it re-entering on the next import.',
+    dup.map(s=>s.id));
+
+  if(A.length){
+    const last=A.map(a=>a.date).sort()[A.length-1];
+    const days=Math.floor((Date.now()-new Date(last+'T12:00:00Z').getTime())/864e5);
+    if(days>=14) add(days>=45?'high':'medium','momentum','No activity logged for '+days+' days',
+      'Last entry '+last+'. The log is append-only, so a gap here is a gap in the work, not in the record.',[]);
   }
-  svg += `<text x="${pad}" y="${pad - 10}" font-family="ui-monospace,monospace" font-size="10" fill="var(--acc)"
-    letter-spacing="1.4">SECTION LINES — 640 AC EACH · QUARTERS 160 AC</text></svg>`;
-
-  $('#asmSvg').innerHTML = svg;
-  $('#asmCap').textContent = `${quarters} quarter-sections shaded — ${fmt(quarters*160)} gross acres of survey grid to cover a ${fmt(tgt)}-acre footprint. Heavy rules are section lines; in Iowa they are usually gravel roads, which means legal access on most boundaries.`;
-
-  $('#asmOut').innerHTML = `
-    <div><dt>Sections needed</dt><dd>${sections.toFixed(2)}<small> of 640 ac</small></dd></div>
-    <div><dt>Quarter-sections</dt><dd>${quarters}<small> at 160 ac</small></dd></div>
-    <div><dt>Owners to assemble</dt><dd>${owners}<small> cross-contingent options</small></dd></div>
-    <div><dt>Spare inside the grid</dt><dd>${fmt(quarters*160 - tgt)}<small> ac for setbacks, laydown, substation</small></dd></div>`;
+  const order={critical:0,high:1,medium:2,low:3};
+  F.sort((a,b)=>order[a.sev]-order[b.sev]);
+  return F;
 }
-['aTgt','aOwn'].forEach(id => $('#'+id).addEventListener('input', renderAsm));
 
-/* ── PLATE 5 : ladder ─────────────────────────────────────── */
-$('#ladder').innerHTML = LADDER.map((c, i) => `
-  <details class="ch"${i < 2 ? ' open' : ''}>
-    <summary>
-      <span class="ch-n">${String(i+1).padStart(2,'0')}</span>
-      <span class="ch-t">${esc(c.t)}<span>${esc(c.s)}</span></span>
-      <span class="ch-y"><b>${esc(c.y)}</b>${esc(c.yl)}</span>
-      <span class="ch-n" aria-hidden="true">+</span>
-    </summary>
-    <div class="ch-body">${c.b}<div class="ch-do"><b>First move</b>${esc(c.do)}</div></div>
-  </details>`).join('');
-
-/* ── PLATE 6 : county board ───────────────────────────────── */
-let ctyFilter = 'all';
-function renderCty() {
-  $('#ctyBoard').innerHTML = COUNTIES.filter(c =>
-    ctyFilter === 'all' ? true : ctyFilter === 'yours' ? c.yours : c.t === ctyFilter
-  ).map(c => `
-    <div class="cty-c">
-      <div class="cty-h"><div class="cty-n">${esc(c.n)}</div>${c.s ? `<div class="cty-s">${c.s}</div>` : ''}</div>
-      <div>${pill(c.t, c.t === 'go' ? 'Hunt here' : c.t === 'watch' ? 'Verify first' : 'Closed / avoid')}${c.yours ? ' ' + pill('mute','In your file') : ''}</div>
-      <div class="cty-lf">${esc(c.lf)}</div>
-      <div class="cty-w">${esc(c.w)}</div>
-    </div>`).join('');
+function statCards(el,rows){
+  $(el).innerHTML=rows.map(r=>'<div class="stat"><div class="stat-k">'+esc(r[0])+'</div><div class="stat-v">'+r[1]+'</div><div class="stat-n">'+esc(r[2])+'</div></div>').join('');
 }
-$('#ctyChips').addEventListener('click', e => {
-  const b = e.target.closest('.chip'); if (!b) return;
-  ctyFilter = b.dataset.t;
-  $('#ctyChips').querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === b)));
-  renderCty();
-});
 
-/* ── PLATES 7–9 ───────────────────────────────────────────── */
-$('#typologies').innerHTML = TYPOLOGIES.map(t =>
-  `<div class="typ-c"><div class="typ-k">${esc(t.k)}</div><div class="typ-t">${esc(t.t)}</div><div class="typ-b">${t.b}</div></div>`).join('');
+let scSort='score',scDir=-1,scF='all';
+function renderScreen(){
+  const C=DB.counties.counties,rank=C.slice().sort((a,b)=>b.score-a.score);
+  const top12={};rank.slice(0,12).forEach(c=>{top12[c.name]=1;});
+  statCards('#screenStats',[
+    ['Counties screened',C.length,'Scored on public data'],
+    ['Open for business',C.filter(c=>c.ordinance==='open'||c.ordinance==='unzoned?').length,'No adopted or drafting ordinance'],
+    ['Top-12 held',rank.slice(0,12).filter(c=>c._held).length+' of 12','Where a live site sits'],
+    ['Easy assemblage',C.filter(c=>c.owners_per_section<=3.2&&c.ordinance!=='closed').length,'3.2 owners per section or fewer'],
+    ['Deepest pool',fmt(Math.max.apply(null,C.map(c=>c.farms_ge500))),'Most 500+ ac farms in one county']]);
 
-$('#reframes').innerHTML = REFRAMES.map((r, i) => `
-  <div class="rf-c">
-    <div class="rf-was"><b>Reframe ${String(i+1).padStart(2,'0')} — was</b>${esc(r.was)}</div>
-    <div class="rf-is">${esc(r.is)}</div>
-    <div class="rf-why">${r.why}</div>
-  </div>`).join('');
-
-$('#sprint').innerHTML = SPRINT.map(s =>
-  `<div class="spr-r"><div class="spr-d">${esc(s.d)}</div><div><div class="spr-t">${esc(s.t)}</div><div class="spr-b">${s.b}</div></div></div>`).join('');
-
-/* ── PLATE 10 : incentives ────────────────────────────────── */
-$('#incentives').innerHTML = INCENTIVES.map(i => `
-  <div class="inc-c">
-    <div class="inc-h">
-      <div>
-        <div class="inc-tier">${esc(i.tier)}</div>
-        <div class="inc-t">${esc(i.t)}</div>
-      </div>
-      <div class="inc-v">${esc(i.v)}</div>
-    </div>
-    <div class="inc-b">${i.b}</div>
-    <div class="inc-w"><b>What it means for site choice</b>${i.why}</div>
-  </div>`).join('');
-
-/* ── PLATE 11 : county board v2 ───────────────────────────── */
-const ORD_PILL = { open:['ok','Open'], 'unzoned?':['ok','Unzoned?'], watch:['watch','Verify'], drafting:['stop','Drafting'], closed:['stop','Closed'] };
-let c2Sort = 'sc', c2Dir = -1, c2Filter = 'all';
-function renderC2() {
-  const maxOps = 10.5;
-  const rows = COUNTIES2.filter(c => {
-    if (c2Filter === 'open') return c.ord === 'open' || c.ord === 'unzoned?';
-    if (c2Filter === 'easy') return c.ops <= 3.6 && c.ord !== 'closed' && c.ord !== 'drafting';
-    if (c2Filter === 'deep') return c.ge >= 200 && c.ord !== 'closed' && c.ord !== 'drafting';
-    if (c2Filter === 'closed') return c.ord === 'closed' || c.ord === 'drafting';
-    if (c2Filter === 'yours') return c.y;
+  const rows=C.filter(c=>{
+    if(scF==='open')return c.ordinance==='open'||c.ordinance==='unzoned?';
+    if(scF==='easy')return c.owners_per_section<=3.6&&c.ordinance!=='closed'&&c.ordinance!=='drafting';
+    if(scF==='deep')return c.farms_ge500>=200&&c.ordinance!=='closed'&&c.ordinance!=='drafting';
+    if(scF==='held')return c._held;
+    if(scF==='gap')return top12[c.name]&&!c._held;
+    if(scF==='closed')return c.ordinance==='closed'||c.ordinance==='drafting';
     return true;
-  }).slice().sort((a,b) => {
-    const av = a[c2Sort], bv = b[c2Sort];
-    if (typeof av === 'string') return av.localeCompare(bv) * (c2Dir === -1 ? 1 : -1);
-    return (av - bv) * c2Dir;
-  });
-  $('#c2Table tbody').innerHTML = rows.map((c, i) => {
-    const g = COGS[c.cog], op = ORD_PILL[c.ord];
-    // fewer owners is better, so invert the bar
-    const w = Math.max(4, (1 - (c.ops - 2.5) / (maxOps - 2.5)) * 100);
-    return `<tr${c.ord === 'closed' ? ' class="dim"' : ''}>
-      <td class="rk">${i+1}</td>
-      <td><div class="addr">${esc(c.n)}</div>${c.y ? `<div class="sub">In your file</div>` : ''}</td>
-      <td class="num"><div class="sbar"><b>${c.sc}</b><span class="sbar-t"><span class="sbar-f" style="width:${c.sc}%"></span></span></div></td>
-      <td class="num"><b>${c.ops.toFixed(1)}</b></td>
-      <td><div class="gn" title="${c.ops.toFixed(1)} owners per 640-acre section"><i style="width:${w}%"></i></div></td>
-      <td class="num">${fmt(c.ge)}</td>
-      <td class="num">${fmt(c.k1k)}</td>
-      <td class="num">${fmt(c.med)}</td>
-      <td style="font-size:12px">${esc(c.lf)}</td>
-      <td>${pill(op[0], op[1])}</td>
-      <td style="font-size:11.5px">${esc(g.n.replace(/ Council of Governments| Regional Planning Commission| Planning & Development Commission/,''))}<div class="sub" style="font-family:var(--mono)">${esc(g.ph)}</div></td>
-      <td class="note">${esc(c.note)}</td>
-    </tr>`;
+  }).sort((a,b)=>{const x=a[scSort],y=b[scSort];
+    return typeof x==='string'?x.localeCompare(y)*(scDir===-1?1:-1):(x-y)*scDir;});
+
+  $('#scTable tbody').innerHTML=rows.map((c,i)=>{
+    const op=ORDP[c.ordinance]||['mute',c.ordinance];
+    const w=Math.max(4,Math.min(100,(1-(c.owners_per_section-2.5)/8)*100));
+    return '<tr'+(c.ordinance==='closed'?' class="dim"':'')+'>'+
+      '<td class="rk">'+(i+1)+'</td>'+
+      '<td><div class="nm">'+esc(c.name)+'</div></td>'+
+      '<td class="num"><div class="sbar"><b>'+c.score+'</b><span class="sbar-t"><span class="sbar-f" style="width:'+c.score+'%"></span></span></div></td>'+
+      '<td class="num"><b>'+c.owners_per_section+'</b><div class="sbar" style="margin-top:4px;justify-content:flex-end"><span class="sbar-t"><span class="sbar-f" style="width:'+w+'%"></span></span></div></td>'+
+      '<td class="num">'+fmt(c.farms_ge500)+'</td><td class="num">'+fmt(c.farms_ge1000)+'</td><td class="num">'+fmt(c.median_farm_ac)+'</td>'+
+      '<td style="font-size:12px">'+esc(c.landform)+'</td>'+
+      '<td>'+pill(op[0],op[1])+'</td>'+
+      '<td>'+(c._held?pill('ok',c._sites+' site'+(c._sites>1?'s':'')):'<span class="mini">—</span>')+'</td>'+
+      '<td class="note" style="min-width:250px">'+esc(c.note)+'</td></tr>';
   }).join('');
 }
-$('#c2Table').querySelectorAll('th.srt').forEach(th => th.addEventListener('click', () => {
-  const k = th.dataset.s;
-  if (c2Sort === k) c2Dir *= -1; else { c2Sort = k; c2Dir = (k === 'ops' || k === 'n') ? 1 : -1; }
-  renderC2();
-}));
-$('#c2Chips').addEventListener('click', e => {
-  const b = e.target.closest('.chip'); if (!b) return;
-  c2Filter = b.dataset.t;
-  $('#c2Chips').querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c === b)));
-  renderC2();
+
+let pipSort='acres_net',pipDir=-1,pipF='all';
+function renderPipe(){
+  const S=DB.sites.sites,live=S.filter(s=>s._live);
+  statCards('#pipeStats',[
+    ['Sites tracked',S.length,'All records'],
+    ['Live',live.length,'Not dead or declined'],
+    ['At 500+ net',live.filter(s=>(s.acres_net||0)>=500).length,'Clear the threshold on buildable acres'],
+    ['Net acres held',fmt(live.reduce((a,s)=>a+(s.acres_net||0),0)),'Sum of buildable estimates'],
+    ['Missing acreage',S.filter(s=>s.acres_gross==null&&s.status!=='dead').length,'Cannot be ranked yet']]);
+
+  const rows=S.filter(s=>{
+    if(pipF==='live')return s._live;
+    if(pipF==='ge500')return (s.acres_net||0)>=500;
+    if(pipF==='auction')return (s.flags||[]).indexOf('at_auction')>=0;
+    if(pipF==='incomplete')return s.acres_gross==null;
+    if(pipF==='risk')return s._ord==='drafting'||s._ord==='closed'||(s.flags||[]).indexOf('adjacent_county_closed')>=0;
+    if(pipF==='dead')return !s._live;
+    return true;
+  }).sort((a,b)=>{const x=a[pipSort],y=b[pipSort];
+    if(x==null)return 1; if(y==null)return -1;
+    return typeof x==='string'?x.localeCompare(y)*(pipDir===-1?1:-1):(x-y)*pipDir;});
+
+  $('#pipTable tbody').innerHTML=rows.map(s=>{
+    const lost=(s.acres_gross&&s.acres_net)?s.acres_gross-s.acres_net:0;
+    const op=s._ord?(ORDP[s._ord]||['mute',s._ord]):null;
+    const fl=(s.flags||[]).map(f=>pill(/risk|floodplain|sfha|under_500|severe|recreational|karst|acreage_missing/.test(f)?'stop':/auction|lease|duplicate|unverified|unresolved|multi|adjacent/.test(f)?'warn':'ok',f.replace(/_/g,' '))).join('');
+    return '<tr'+(!s._live?' class="dim"':'')+'>'+
+      '<td class="rk">'+esc(s.id)+'</td>'+
+      '<td><div class="nm">'+esc(s.name)+'</div><div class="sub">'+esc(s.city||'')+(s.source?' · '+esc(s.source):'')+'</div></td>'+
+      '<td class="num">'+fmt(s.acres_gross)+'</td>'+
+      '<td class="num"><b>'+fmt(s.acres_net)+'</b>'+(lost?'<div class="sub" style="font-family:var(--mono)">−'+fmt(lost)+'</div>':'')+'</td>'+
+      '<td>'+esc(s.county||'—')+(op?'<div class="sub">'+esc(op[1])+'</div>':'')+'</td>'+
+      '<td class="num">'+(s._cscore==null?'—':s._cscore)+'</td>'+
+      '<td class="num">'+(s._ops==null?'—':s._ops)+'</td>'+
+      '<td>'+pill(s._live?(s.status==='identified'?'mute':'ok'):'stop',s.status.replace(/_/g,' '))+'</td>'+
+      '<td style="font-size:12px">'+(s.owner?esc(s.owner):'<span class="mini">unknown</span>')+'</td>'+
+      '<td><div class="pills">'+fl+'</div></td>'+
+      '<td class="note" style="min-width:240px">'+esc(s.notes||'')+'</td></tr>';
+  }).join('');
+}
+
+let anF='all';
+function renderAnalyst(){
+  const sev=s=>FIND.filter(f=>f.sev===s).length;
+  statCards('#anStats',[
+    ['Findings',FIND.length,'Derived this run'],
+    ['Critical',sev('critical'),'Blocking or contradictory'],
+    ['High',sev('high'),'Materially affects ranking'],
+    ['Medium',sev('medium'),'Worth a decision'],
+    ['Low',sev('low'),'Housekeeping']]);
+  $('#tFind').textContent=FIND.length;
+  const rows=FIND.filter(f=>anF==='all'||f.sev===anF);
+  $('#findings').innerHTML=rows.length?rows.map(f=>
+    '<div class="f"><div class="f-sev '+f.sev+'"></div><div>'+
+    '<div class="f-h"><div class="f-t">'+esc(f.t)+'</div><div class="f-cat">'+esc(f.sev)+' · '+esc(f.cat)+'</div></div>'+
+    '<div class="f-d">'+esc(f.d)+'</div>'+
+    (f.ev.length?'<div class="f-e">'+f.ev.map(e=>'<span>'+esc(e)+'</span>').join('')+'</div>':'')+
+    '</div></div>').join(''):'<div class="msg">Nothing at this severity.</div>';
+
+  const b=DB.brief;
+  $('#brief').innerHTML=
+    '<div class="mini" style="margin-bottom:12px">Written '+esc(b.generated)+' · from '+esc(Object.keys(b.generated_from).map(k=>b.generated_from[k]+' '+k).join(' · '))+'</div>'+
+    '<p class="brief-h">'+esc(b.headline)+'</p>'+
+    '<div class="blk"><div class="blk-k">State of play</div><ul>'+b.state_of_play.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul></div>'+
+    '<div class="blk"><div class="blk-k">What the data says</div>'+b.what_the_data_says.map(p=>'<div class="pt"><div class="pt-t">'+esc(p.point)+'</div><div class="pt-d">'+esc(p.detail)+'</div></div>').join('')+'</div>'+
+    '<div class="blk"><div class="blk-k">Watchlist</div><ul>'+b.watchlist.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul></div>'+
+    '<div class="ch-do"><b>If nothing else</b>'+esc(b.if_nothing_else)+'</div>';
+}
+
+let exF='all';
+function renderExec(){
+  const S=DB.sites.sites;
+  const rows=DB.contacts.contacts.filter(c=>{
+    if(exF==='1')return c.tier===1;
+    if(exF==='covers')return (c.covers_sites||[]).some(id=>S.some(s=>s.id===id&&s._live));
+    if(exF==='untouched')return c.status==='not_contacted';
+    return true;
+  });
+  $('#contacts').innerHTML=rows.map((c,i)=>{
+    const cov=(c.covers_sites||[]).map(id=>S.filter(s=>s.id===id)[0]).filter(Boolean);
+    return '<details class="ch"'+(i<2?' open':'')+'>'+
+      '<summary><span class="ch-t">'+esc(c.org)+(c.person?' — '+esc(c.person):'')+'<span>'+esc(c.role||'')+'</span></span>'+
+      '<span>'+(cov.length?pill('ok',cov.length+' site'+(cov.length>1?'s':'')):'')+'</span>'+
+      '<span>'+pill(c.status==='not_contacted'?'mute':'ok','T'+c.tier+' · '+c.status.replace(/_/g,' '))+'</span></summary>'+
+      '<div class="ch-body">'+
+      (c.phone?'<div class="cx"><b>Phone</b>'+esc(c.phone)+'</div>':'')+
+      (c.email?'<div class="cx"><b>Email</b>'+esc(c.email)+'</div>':'')+
+      (c.web?'<div class="cx"><b>Where</b>'+esc(c.web)+'</div>':'')+
+      (c.counties?'<div class="cx"><b>Counties</b>'+esc(c.counties)+'</div>':'')+
+      (cov.length?'<div class="cx"><b>Covers</b>'+cov.map(s=>esc(s.id+' '+s.name)).join(' · ')+'</div>':'')+
+      '<div class="ch-do"><b>The ask</b>'+esc(c.ask)+'</div>'+
+      '<p style="margin:11px 0 0">'+esc(c.why||'')+'</p></div></details>';
+  }).join('');
+}
+
+let prF='all';
+function renderProgress(){
+  const A=DB.activity.activity,S=DB.sites.sites;
+  const dates=A.map(a=>a.date).sort();
+  const span=dates.length?Math.max(1,Math.round((new Date(dates[dates.length-1])-new Date(dates[0]))/864e5)+1):0;
+  const outreach=A.filter(a=>a.type==='outreach').length;
+  statCards('#prStats',[
+    ['Entries logged',A.length,'Append-only record'],
+    ['Documents ingested',DB.documents.documents.length,'Files absorbed'],
+    ['Sites on record',S.length,'From all sources'],
+    ['Outreach events',outreach,outreach?'Logged contacts':'None logged yet'],
+    ['Days active',span,'First to latest entry']]);
+
+  const by={};
+  S.forEach(s=>{(by[s.status]=by[s.status]||[]).push(s);});
+  $('#stTable tbody').innerHTML=Object.keys(by).sort((a,b)=>by[b].length-by[a].length).map(k=>{
+    const v=by[k],pct=Math.round(v.length/S.length*100);
+    return '<tr><td>'+pill(LIVE.indexOf(k)>=0?(k==='identified'?'mute':'ok'):'stop',k.replace(/_/g,' '))+'</td>'+
+      '<td class="num">'+v.length+'</td>'+
+      '<td><div class="sbar"><span class="sbar-t" style="width:90px"><span class="sbar-f" style="width:'+pct+'%"></span></span><span class="mini">'+pct+'%</span></div></td>'+
+      '<td class="num">'+fmt(v.reduce((a,s)=>a+(s.acres_gross||0),0))+'</td>'+
+      '<td class="num">'+fmt(v.reduce((a,s)=>a+(s.acres_net||0),0))+'</td></tr>';
+  }).join('');
+
+  const rows=A.filter(a=>prF==='all'||a.type===prF).slice().sort((a,b)=>b.date.localeCompare(a.date)||b.id.localeCompare(a.id));
+  $('#timeline').innerHTML=rows.length?rows.map(a=>
+    '<div class="tl-r"><div class="tl-d">'+esc(a.date)+'<div style="color:var(--ink3);margin-top:3px">'+esc(a.type)+'</div></div>'+
+    '<div><div class="tl-t">'+esc(a.subject)+'</div><div class="tl-b">'+esc(a.detail)+'</div>'+
+    (a.outcome?'<div class="tl-o">'+esc(a.outcome)+'</div>':'')+
+    (a.refs&&a.refs.length?'<div class="f-e">'+a.refs.map(r=>'<span>'+esc(r)+'</span>').join('')+'</div>':'')+
+    '</div></div>').join(''):'<div class="msg">Nothing logged of this type.</div>';
+}
+
+function renderData(){
+  $('#docTable tbody').innerHTML=DB.documents.documents.map(d=>
+    '<tr><td><div class="nm">'+esc(d.name)+'</div><div class="sub">'+esc(d.kind)+'</div></td>'+
+    '<td style="font-family:var(--mono);font-size:12px">'+esc(d.received)+'</td>'+
+    '<td class="num">'+fmt(d.rows)+'</td>'+
+    '<td class="note" style="min-width:230px">'+esc(d.contained)+'</td>'+
+    '<td class="note" style="min-width:210px">'+esc(d.gaps||'—')+'</td></tr>').join('');
+  $('#srcTable tbody').innerHTML=[
+    ['data/counties.json',DB.counties.counties.length,'Public county screen — USDA farm structure, landform region, ordinance status, regional council'],
+    ['data/sites.json',DB.sites.sites.length,'Every site on record with acreage, hydrology, status, owner and flags'],
+    ['data/contacts.json',DB.contacts.contacts.length,'Organisations and people, mapped to the counties and sites they cover'],
+    ['data/activity.json',DB.activity.activity.length,'Append-only record of what has been done'],
+    ['data/documents.json',DB.documents.documents.length,'Every file ingested, what it held and what it was missing'],
+    ['data/brief.json',1,'The written analysis, regenerated when data lands']
+  ].map(r=>'<tr><td><code>'+esc(r[0])+'</code></td><td class="num">'+fmt(r[1])+'</td><td class="note">'+esc(r[2])+'</td></tr>').join('');
+}
+
+function renderAll(){
+  derive(); FIND=analyse();
+  renderScreen(); renderPipe(); renderAnalyst(); renderExec(); renderProgress(); renderData();
+  $('#tPipe').textContent=DB.sites.sites.filter(s=>s._live).length;
+  $('#mCounts').textContent=DB.sites.sites.length+' sites · '+DB.counties.counties.length+' counties · '+DB.contacts.contacts.length+' contacts';
+  $('#mUpdated').textContent=DB.sites.updated||'—';
+  $('#mRun').textContent=new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+}
+
+function chips(sel,fn){$(sel).addEventListener('click',function(e){
+  const b=e.target.closest('.chip'); if(!b)return;
+  $(sel).querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',String(c===b)));
+  fn(b.dataset.t);});}
+chips('#scChips',v=>{scF=v;renderScreen();});
+chips('#pipChips',v=>{pipF=v;renderPipe();});
+chips('#anChips',v=>{anF=v;renderAnalyst();});
+chips('#exChips',v=>{exF=v;renderExec();});
+chips('#prChips',v=>{prF=v;renderProgress();});
+
+document.querySelectorAll('#scTable th.srt').forEach(th=>th.addEventListener('click',()=>{
+  const k=th.dataset.s; scDir=(scSort===k)?-scDir:((k==='name'||k==='landform'||k==='owners_per_section')?1:-1); scSort=k; renderScreen();}));
+document.querySelectorAll('#pipTable th.srt').forEach(th=>th.addEventListener('click',()=>{
+  const k=th.dataset.s; pipDir=(pipSort===k)?-pipDir:((k==='name'||k==='county'||k==='_ops')?1:-1); pipSort=k; renderPipe();}));
+
+document.querySelector('.tabs').addEventListener('click',function(e){
+  const t=e.target.closest('.tab'); if(!t)return;
+  document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected',String(x===t)));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on',p.dataset.p===t.dataset.p));
 });
 
-/* ── PLATE 12 : contacts ──────────────────────────────────── */
-$('#contacts').innerHTML = CONTACTS.map((c, i) => `
-  <details class="ch"${i < 2 ? ' open' : ''}>
-    <summary>
-      <span class="ch-n">${String(i+1).padStart(2,'0')}</span>
-      <span class="ch-t">${esc(c.n)}<span>${esc(c.k)}</span></span>
-      <span class="ch-y"><b>TIER ${c.tier}</b></span>
-      <span class="ch-n" aria-hidden="true">+</span>
-    </summary>
-    <div class="ch-body">
-      <p style="margin:0 0 10px">${esc(c.who)}</p>
-      ${c.ph && c.ph !== '—' ? `<div class="cx"><b>Reach</b>${c.ph}</div>` : ''}
-      ${c.web && c.web !== '—' ? `<div class="cx"><b>Where</b>${c.web}</div>` : ''}
-      <div class="ch-do"><b>The ask</b>${esc(c.ask)}</div>
-      <p style="margin:12px 0 0">${esc(c.note)}</p>
-    </div>
-  </details>`).join('');
-
-$('#cogTable tbody').innerHTML = Object.values(COGS).filter(g => g.city !== '—').map(g =>
-  `<tr><td class="addr">${esc(g.n)}</td><td style="font-size:12.5px">${esc(g.city)}</td>
-   <td style="font-family:var(--mono);font-size:12.5px;white-space:nowrap">${esc(g.ph)}</td>
-   <td class="note">${esc(g.cty)}</td></tr>`).join('');
-
-/* ── PLATE 13 : asks ──────────────────────────────────────── */
-$('#asks').innerHTML = ASKS.map((a, i) => `
-  <div class="ask-c">
-    <div class="ask-h">
-      <div><div class="ask-who">${esc(a.who)}</div><div class="ask-goal">${esc(a.goal)}</div></div>
-      <button class="copy" type="button" data-i="${i}">Copy</button>
-    </div>
-    <p class="ask-s" id="askS${i}">${esc(a.s)}</p>
-  </div>`).join('');
-
-$('#asks').addEventListener('click', async e => {
-  const b = e.target.closest('.copy'); if (!b) return;
-  const txt = ASKS[+b.dataset.i].s;
-  let ok = false;
-  try { await navigator.clipboard.writeText(txt); ok = true; } catch (_) {}
-  if (!ok) {
-    // fall back to selecting the text so the reader can copy it themselves
-    const p = document.getElementById('askS' + b.dataset.i);
-    const r = document.createRange(); r.selectNodeContents(p);
-    const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+async function boot(){
+  const btn=$('#btnRefresh');
+  btn.disabled=true; btn.textContent='Loading…';
+  try{
+    DB=await load(); renderAll();
+    $('#boot').style.display='none';
+    const sel=document.querySelector('.tab[aria-selected="true"]').dataset.p;
+    document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on',p.dataset.p===sel));
+    btn.textContent='Refresh & re-analyse';
+  }catch(err){
+    $('#boot').style.display='';
+    $('#boot').className='msg err';
+    $('#boot').textContent='Could not load project data — '+err.message+'. If this file was opened directly from disk, browsers block local data reads; use the published link instead.';
+    btn.textContent='Retry';
   }
-  b.textContent = ok ? 'Copied' : 'Selected — press ⌘C';
-  b.classList.add('done');
-  setTimeout(() => { b.textContent = 'Copy'; b.classList.remove('done'); }, 2600);
-});
-
-/* ── PLATE 14 : pipeline + schema ─────────────────────────── */
-$('#pipeline').innerHTML = PIPELINE.map(p =>
-  `<div class="spr-r"><div class="spr-d">${esc(p.s)}</div><div><div class="spr-t">${esc(p.t)}</div><div class="spr-b">${p.b}</div></div></div>`).join('');
-
-$('#schemaTable tbody').innerHTML = SCHEMA.map(s =>
-  `<tr><td><code>${esc(s.f)}</code></td><td style="font-size:12.5px">${esc(s.src)}</td><td class="note">${esc(s.why)}</td></tr>`).join('');
-
-renderC2();
-
-/* ── boot ─────────────────────────────────────────────────── */
-renderSites();
-renderFunnel();
-renderAsm();
-renderCty();
+  btn.disabled=false;
+}
+$('#btnRefresh').addEventListener('click',boot);
+boot();
 </script>
-
 </body>
 </html>
