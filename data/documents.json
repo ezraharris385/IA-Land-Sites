@@ -1,30 +1,89 @@
 {
-  "schema": "everything ingested into the project, what it contained, and what it changed. append only.",
-  "updated": "2026-08-05",
-  "documents": [
-    {
-      "id": "D-001", "name": "Iowa Survey Draft.xlsx", "received": "2026-08-03",
-      "kind": "spreadsheet", "rows": 5,
-      "contained": "Property address, city, acreage, distance to transmission line, distance to substation, wetland notes, FEMA flood zone, listing agent and contact.",
-      "yielded": "5 sites", "gaps": "No parcel IDs, no county, no submarket, no zoning, no owner names.",
-      "refs": ["S-001", "S-008", "S-009", "S-010", "S-011"]
-    },
-    {
-      "id": "D-002", "name": "CoStar Sites - IA.xlsx", "received": "2026-08-03",
-      "kind": "spreadsheet", "rows": 13,
-      "contained": "Three stacked blocks — a CoStar export across 23 columns, LandWatch results with acreage and hydrology, and Land.com auction listings.",
-      "yielded": "12 sites",
-      "gaps": "The CoStar block carried Energy Star and LEED columns but no acreage or lot size, leaving five records unscoreable. One tract duplicated a record already present from the survey draft.",
-      "refs": ["S-002", "S-003", "S-004", "S-005", "S-006", "S-007", "S-012", "S-013", "S-014", "S-015", "S-016", "S-017"]
-    },
-    {
-      "id": "D-003", "name": "USDA 2022 Census of Agriculture — Iowa county tables", "received": "2026-08-05",
-      "kind": "public dataset", "rows": 99,
-      "contained": "Farms, land in farms, average and median farm size, and farms-by-size brackets for every Iowa county.",
-      "yielded": "Median farm size by county, which makes owners-per-section computable",
-      "gaps": "Counts operations rather than ownerships, so owners-per-section is an optimistic floor until calibrated against a real parcel dissolve.",
-      "refs": []
-    }
-  ],
-  "how_to_add": "Send any file — spreadsheet, PDF, notes, call log, parcel export, photos of a plat book page. It gets normalised into the schema, appended, and pushed. The site updates in about thirty seconds and the analysis re-runs against the new totals."
+ "schema": "everything ingested into the project, what it contained, and what it changed. append only.",
+ "updated": "2026-08-05",
+ "documents": [
+  {
+   "id": "D-001",
+   "name": "Iowa Survey Draft.xlsx",
+   "received": "2026-08-03",
+   "kind": "spreadsheet",
+   "rows": 5,
+   "contained": "Property address, city, acreage, distance to transmission line, distance to substation, wetland notes, FEMA flood zone, listing agent and contact.",
+   "yielded": "5 sites",
+   "gaps": "No parcel IDs, no county, no submarket, no zoning, no owner names.",
+   "refs": [
+    "S-001",
+    "S-008",
+    "S-009",
+    "S-010",
+    "S-011"
+   ]
+  },
+  {
+   "id": "D-002",
+   "name": "CoStar Sites - IA.xlsx",
+   "received": "2026-08-03",
+   "kind": "spreadsheet",
+   "rows": 13,
+   "contained": "Three stacked blocks — a CoStar export across 23 columns, LandWatch results with acreage and hydrology, and Land.com auction listings.",
+   "yielded": "12 sites",
+   "gaps": "The CoStar block carried Energy Star and LEED columns but no acreage or lot size, leaving five records unscoreable. One tract duplicated a record already present from the survey draft.",
+   "refs": [
+    "S-002",
+    "S-003",
+    "S-004",
+    "S-005",
+    "S-006",
+    "S-007",
+    "S-012",
+    "S-013",
+    "S-014",
+    "S-015",
+    "S-016",
+    "S-017"
+   ]
+  },
+  {
+   "id": "D-003",
+   "name": "USDA 2022 Census of Agriculture — Iowa county tables",
+   "received": "2026-08-05",
+   "kind": "public dataset",
+   "rows": 99,
+   "contained": "Farms, land in farms, average and median farm size, and farms-by-size brackets for every Iowa county.",
+   "yielded": "Median farm size by county, which makes owners-per-section computable",
+   "gaps": "Counts operations rather than ownerships, so owners-per-section is an optimistic floor until calibrated against a real parcel dissolve.",
+   "refs": []
+  },
+  {
+   "id": "D-004",
+   "name": "Book1 (1).xlsx",
+   "received": "2026-08-05",
+   "kind": "outreach log",
+   "rows": 5,
+   "contained": "Firm, person called, number, result, date and notes across five brokerage contacts made on 5 August.",
+   "yielded": "4 contacts, 5 outreach entries, 1 site",
+   "gaps": "No follow-up dates recorded, and the 2,700+ acre figure against Iowa Farmland has no location, parcel count or owner attached.",
+   "refs": [
+    "C-023",
+    "C-024",
+    "C-025",
+    "C-026",
+    "S-018"
+   ]
+  },
+  {
+   "id": "D-005",
+   "name": "farmlandsaleprospect.zip",
+   "received": "2026-08-05",
+   "kind": "prospect pack",
+   "rows": 4,
+   "contained": "Aerial map PDF for Sec 16-92N-36W, Buena Vista County, plus three FEMA National Flood Hazard Layer screenshots centred on 42.782743, -95.100688.",
+   "yielded": "Flood exposure on S-018 quantified as Zone A",
+   "gaps": "No parcel ID, no owner name, no survey, and no delineated buildable acreage. Zone A carries no Base Flood Elevation, so the flood depth is unknown.",
+   "refs": [
+    "S-018"
+   ]
+  }
+ ],
+ "how_to_add": "Send any file — spreadsheet, PDF, notes, call log, parcel export, photos of a plat book page. It gets normalised into the schema, appended, and pushed. The site updates in about thirty seconds and the analysis re-runs against the new totals."
 }

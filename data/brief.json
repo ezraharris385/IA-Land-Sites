@@ -1,41 +1,43 @@
 {
   "schema": "narrative analysis, regenerated whenever new data lands. the deterministic engine finds the facts; this reads them.",
   "generated": "2026-08-05",
-  "generated_from": {"sites": 17, "counties": 48, "contacts": 22, "activity": 7},
-  "headline": "The public data layer is complete and the private layer is empty. Every site on record came from a listing source, no owner has been contacted, and the top four counties on the screen hold no position at all.",
+  "generated_from": {"sites": 18, "counties": 48, "contacts": 26, "activity": 13},
+  "headline": "The project has its first warm owner-side lead and its first real outreach data on the same day. The lead is a full 640-acre section whose owners have previously been willing to sell — and the FEMA panel puts much of it in Zone A.",
   "state_of_play": [
-    "Seventeen sites are on record. Eight carry a usable acreage figure at or above 500 gross acres; five have no acreage captured at all because the CoStar export was pulled without a lot-size column.",
-    "Nothing has moved past identified. There are no letters out, no conversations open, and no options drafted, so the pipeline has no conversion data to read yet.",
-    "The county screen is built and scored on hard USDA data. That layer is now the most reliable asset in the project — it is measured rather than estimated.",
-    "The contact universe is mapped but untouched. Twenty-two organisations are loaded and every one shows not_contacted."
+    "Five brokerage contacts made in one day. One produced a lead, one had nothing at scale, two are open threads awaiting callback. That is a normal and healthy first-day hit rate.",
+    "Section 16, T92N R36W in Lincoln Township, Buena Vista County is now the most interesting record in the project: one full PLSS section, 640 acres exactly, off-market, at $12,000-12,500 an acre — roughly $7.7 to $8.0 million.",
+    "It is also the most compromised. The FEMA National Flood Hazard Layer shows Zone A across much of the section, sourced from the North Raccoon River, with no Base Flood Elevation determined.",
+    "Buena Vista County now holds two of the eighteen sites on record. It scores 78 on the screen with 3.4 owners per section — comfortably in the workable tier, though not the top of it.",
+    "Ten of the top twelve counties still hold no position, and none of the six tier-one contacts have been approached. The outreach so far has all been to land brokerages."
   ],
   "what_the_data_says": [
     {
-      "point": "Position and opportunity are almost perfectly inverted",
-      "detail": "Six of the eleven sites with acreage sit in Ringgold, Davis and Taylor — counties scoring 47, 37 and 38. The four highest-scoring counties on the screen (Kossuth 88, Cherokee 85, Wright 81, Sac 79) hold zero sites. The portfolio is concentrated in the bottom of the screen."
+      "point": "Zone A without a Base Flood Elevation is a harder problem than ordinary floodplain",
+      "detail": "Zone A means FEMA mapped the 1% annual chance floodplain but never ran the hydraulic analysis to establish how deep the water gets. There is no number to design against. Elevating or filling a campus requires commissioning that study first, which is time and money spent before you know whether the site is viable. The 416-acre net figure on record applies the standard floodplain haircut and should be treated as an upper bound — a visual read of the panel suggests the true buildable share is lower."
     },
     {
-      "point": "Assemblage difficulty is the cleanest discriminator in the dataset",
-      "detail": "Owners per section ranges from 2.7 in Cherokee to 10.2 in Dallas. Two sites sit in Davis County at 7.4 and one in Dallas at 10.2 — meaning a full-section footprint there needs roughly three times the signatures it needs in the top counties, for worse ground."
+      "point": "The section geometry is exactly the thesis, which makes the flood finding more frustrating",
+      "detail": "This is a single PLSS section — 640 acres under what appears to be unified ownership, on the Des Moines Lobe, with section-line road access on all four sides. Structurally it is the ideal unit. The constraint is water, not assemblage."
     },
     {
-      "point": "Kossuth is the single largest untouched pool in the state",
-      "detail": "396 farms at 500+ acres and 143 above 1,000, at a median of 228 acres — 2.8 owners per section. No site, no contact, no activity. Two loaded contacts already cover it: NIACOG and Mid Iowa Growth Partnership."
+      "point": "A willing owner is the scarcest thing in the dataset",
+      "detail": "Seventeen of the eighteen sites are public listings or unapproached strangers. This one has owners who have previously entertained a sale. That is worth preserving as a relationship even if this particular section does not survive diligence — the same owners may hold or know of other ground."
     },
     {
-      "point": "One recorded fact is worth more than the rest and is unverified",
-      "detail": "The Lohrville listing states no county zoning in Calhoun. If true it removes the rezoning path entirely on a 613-acre tract on flat ground. It is a phone call and it has not been made."
+      "point": "The brokerage channel is working, but it is the shallow end",
+      "detail": "Five calls produced one lead. High Point's best was 107 acres near Davenport, which is an order of magnitude too small and tells you what general land brokerages carry. The channels that reach large contiguous ground — utility development groups, regional partnerships, the state certified-site register — remain untouched."
     },
     {
-      "point": "Three of the strongest sites are on auction timelines",
-      "detail": "Albert City, Lohrville and Sanborn all came from auction listings. Auction ground moves on a fixed date rather than a negotiation, so these are the only records in the pipeline with an externally imposed clock."
+      "point": "One number in the log is unqualified and larger than everything else",
+      "detail": "A 2,700+ acre figure sits against Iowa Farmland with no location, parcel count or owner attached, and the contact was made through a website form rather than a conversation. It is either the largest opportunity in the project or a portfolio total across scattered listings. A phone call settles which."
     }
   ],
   "watchlist": [
-    "Taylor County drafted a moratorium ordinance on 8 June 2026 and one site sits inside it. Status unconfirmed since.",
-    "Sioux and Plymouth are closed, and both border O'Brien where a site is held. Ordinance contagion moves along county lines.",
-    "Five sites carry no acreage. Until that is filled they cannot be ranked and are effectively invisible to the screen.",
-    "No owner names are recorded anywhere in the dataset. Every site is known only through a broker or listing, which means no direct approach is possible yet."
+    "Section 16 needs a delineated buildable acreage before any offer. Ask the broker whether a survey or elevation certificate exists, and whether the non-flood ground is contiguous or fragmented.",
+    "Zone A boundaries are drawn approximately. A Letter of Map Amendment could move them, but that is a study, not a phone call.",
+    "Trevor Glomski at High Point asked to be called back with changes — that thread only stays warm if it is worked.",
+    "The 2,700+ acre Iowa Farmland figure has been sitting unqualified since first contact.",
+    "Still no owner names anywhere in the dataset except this one, and even here the owners are known only through the broker."
   ],
-  "if_nothing_else": "Two calls close the largest gaps in the dataset at once: Mid Iowa Growth Partnership covers Kossuth, Wright, Calhoun and Hardin — four of the top counties and two pipeline sites — and IADG is already the listing contact on two sites while representing 250 utilities across the rural counties where the screen points."
+  "if_nothing_else": "Two calls. Back to Matt Skinner to ask what share of Section 16 sits outside Zone A and whether the non-flood ground is contiguous — that single answer decides whether this is an $8M site or a dead one. Then Iowa Farmland by phone, to find out whether 2,700 acres means one block or a portfolio."
 }
