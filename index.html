@@ -97,6 +97,9 @@ th.num,td.num{text-align:right;font-variant-numeric:tabular-nums;font-family:var
 tbody td{padding:10px 12px;border-bottom:1px solid var(--rule2);vertical-align:top}
 tbody tr:last-child td{border-bottom:0}
 tbody tr.dim td{opacity:.5}
+tbody tr:nth-child(even) td{background:color-mix(in srgb,var(--sunk) 55%,transparent)}
+tbody tr:hover td{background:var(--acc-soft)}
+thead th{box-shadow:inset 0 -1px 0 var(--ink)}
 .rk{font-family:var(--mono);font-size:11px;color:var(--ink3)}
 .nm{font-weight:600}
 .sub{font-size:11.5px;color:var(--ink3);margin-top:2px}
@@ -776,7 +779,7 @@ function renderScreen(){
       '<td class="rk">'+(i+1)+'</td>'+
       '<td><div class="nm">'+esc(c.name)+'</div></td>'+
       '<td class="num"><div class="sbar"><b>'+c.score+'</b><span class="sbar-t"><span class="sbar-f" style="width:'+c.score+'%"></span></span></div></td>'+
-      '<td class="num"><b>'+c.owners_per_section+'</b><div class="sbar" style="margin-top:4px;justify-content:flex-end"><span class="sbar-t"><span class="sbar-f" style="width:'+w+'%"></span></span></div></td>'+
+      '<td class="num"><b>'+c.owners_per_section+'</b><div class="sub">'+(c.owners_per_section<=3.2?'easy':c.owners_per_section<=4.5?'workable':c.owners_per_section<=6?'hard':'severe')+'</div></td>'+
       '<td class="num">'+fmt(c.farms_ge500)+'</td><td class="num">'+fmt(c.farms_ge1000)+'</td><td class="num">'+fmt(c.median_farm_ac)+'</td>'+
       '<td class="num">'+(c.section_cost?'$'+(c.section_cost/1e6).toFixed(2)+'M':'—')+'</td>'+
       '<td class="num">'+(c.csr2||'—')+'</td>'+
@@ -818,8 +821,8 @@ function renderPipe(){
       '<td class="rk">'+esc(s.id)+'</td>'+
       '<td><div class="nm">'+esc(s.name)+'</div><div class="sub">'+esc(s.city||'')+(s.source?' · '+esc(s.source):'')+'</div></td>'+
       '<td class="num">'+fmt(s.acres_gross)+'</td>'+
-      '<td class="num"><b>'+fmt(s.acres_net)+'</b>'+(lost?'<div class="sub" style="font-family:var(--mono)">−'+fmt(lost)+'</div>':'')+'</td>'+
-      '<td>'+esc(s.county||'—')+(op?'<div class="sub">'+esc(op[1])+'</div>':'')+'</td>'+
+      '<td class="num"><b>'+fmt(s.acres_net)+'</b>'+(lost?'<div class="sub" style="font-family:var(--mono)">−'+fmt(lost)+' water</div>':'')+'</td>'+
+      '<td>'+esc(s.county||'—')+(op?'<div class="sub">ord: '+esc(op[1])+'</div>':'')+'</td>'+
       '<td class="num">'+(s._cscore==null?'—':s._cscore)+'</td>'+
       '<td class="num">'+(s._ops==null?'—':s._ops)+'</td>'+
       '<td>'+pill(s._live?(s.status==='identified'?'mute':'ok'):'stop',s.status.replace(/_/g,' '))+'</td>'+
@@ -1327,253 +1330,313 @@ function openCounties(){return DB.counties.counties.filter(c=>c.ordinance==='ope
 function liveSites(){return DB.sites.sites.filter(s=>s._live);}
 
 /* ── the answerer ─────────────────────────────────────────────────── */
+function pctile(v,arr){const s=arr.slice().sort((a,b)=>a-b);let n=0;s.forEach(x=>{if(x<v)n++;});return Math.round(n/s.length*100);}
+function ordWord(o){return o==='open'?'open, with no ordinance action on record':o==='unzoned?'?'reportedly unzoned, which if true removes the rezoning path entirely':o==='watch'?'unresolved — worth verifying before you spend':o==='drafting'?'drafting a moratorium':'closed under a moratorium';}
+function assemWord(o){return o<=3?'unusually easy':o<=3.6?'easy':o<=4.5?'workable':o<=6?'hard':'severe';}
+
 function answer(q){
   const R=resolve(q), tk=R.tk;
   if(!tk.length) return {title:'Ask me something',blocks:[bTxt('Type a question, or pick one of the examples below.')]};
 
-  const wantCost   = ANY(tk,['cost','costs','price','prices','expensive','cheap','cheapest','dollar','budget','afford','spend','$','per acre']);
+  const wantCost   = ANY(tk,['cost','costs','price','prices','expensive','cheap','cheapest','dollar','budget','afford','spend','per acre']);
   const wantOwners = ANY(tk,['owner','owners','signature','signatures','assemblage','assemble','fragmented','consolidat']);
   const wantWater  = ANY(tk,['water','aquifer','river','cooling','groundwater']);
-  const wantOrd    = ANY(tk,['moratorium','ordinance','zoning','zoned','closed','open','political','posture','board']);
+  const wantOrd    = ANY(tk,['moratorium','ordinance','zoning','zoned','closed','political','posture','board']);
   const wantRisk   = ANY(tk,['risk','risks','kill','kills','blocker','blockers','problem','problems','danger','wrong','worried','threat']);
   const wantWho    = ANY(tk,['who','call','contact','contacts','phone','reach','talk to','speak']);
   const wantGap    = ANY(tk,['missing','gap','gaps','lack','unknown','incomplete','not done','havent','have not','forgot','overlook','miss']);
   const wantNext   = ANY(tk,['next','should i','do now','priority','first','focus','recommend','advice','strongest move','best move']);
-  const wantCompare= ANY(tk,['vs','versus','compare','comparison','against','better than','or']) && R.counties.length>=2;
+  const wantCompare= ANY(tk,['vs','versus','compare','comparison','against','better than']) && R.counties.length>=2;
   const wantRank   = ANY(tk,['best','top','rank','ranking','worst','most','least','biggest','largest','smallest','easiest','hardest','strongest','weakest','deepest']);
   const wantList   = ANY(tk,['which','list','how many','count','all the','show me','what counties','what sites']);
+  const wantMine   = ANY(tk,['my sites','my site','my pipeline','my portfolio','my tracts','my land','what do i have','what i have','my holdings']);
+  const ALLC=DB.counties.counties, LIVE=liveSites();
 
-  /* --- comparison of two or more counties --- */
+  /* ── comparison ──────────────────────────────────────────────── */
   if(wantCompare){
     const cs=R.counties.slice(0,4);
-    const rows=cs.map(c=>[c.name,String(c.score),String(c.owners_per_section),fmt(c.farms_ge500),
-      c.section_cost?'$'+(c.section_cost/1e6).toFixed(2)+'M':'—',c.csr2==null?'—':String(c.csr2),
-      c.ordinance,(c.water||'—').slice(0,42)]);
     const best=cs.slice().sort((a,b)=>b.score-a.score)[0];
-    const cheap=cs.filter(c=>c.section_cost).sort((a,b)=>a.section_cost-b.section_cost)[0];
     const easy=cs.slice().sort((a,b)=>a.owners_per_section-b.owners_per_section)[0];
-    const out=[bTable(['County','Score','Owners/sec','Farms ≥500','Section','CSR2','Ordinance','Water'],rows)];
-    let v='<b>'+esc(best.name)+'</b> scores highest at '+best.score+'. ';
-    if(easy&&easy.name!==best.name) v+='<b>'+esc(easy.name)+'</b> is the easier assemblage at '+easy.owners_per_section+' owners per section. ';
-    if(cheap) v+='<b>'+esc(cheap.name)+'</b> is the cheaper section at $'+(cheap.section_cost/1e6).toFixed(2)+'M';
-    if(cheap&&cs.length>1){const dear=cs.filter(c=>c.section_cost).sort((a,b)=>b.section_cost-a.section_cost)[0];
-      if(dear&&dear.name!==cheap.name) v+=', against $'+(dear.section_cost/1e6).toFixed(2)+'M in '+esc(dear.name)+' — a difference of $'+((dear.section_cost-cheap.section_cost)/1e6).toFixed(2)+'M for the same 640 acres';}
-    out.push(bTxt(v+'.'));
-    cs.forEach(c=>{if(c.conflict) out.push(bTxt('<b>'+esc(c.name)+'</b> carries a source conflict: '+esc(c.conflict)));});
+    const priced=cs.filter(c=>c.section_cost).sort((a,b)=>a.section_cost-b.section_cost);
+    const cheap=priced[0], dear=priced[priced.length-1];
+    let p='Short answer: <b>'+esc(best.name)+'</b>. It scores '+best.score+' against '+
+      cs.filter(c=>c.name!==best.name).map(c=>c.score+' for '+esc(c.name)).join(' and ')+'. ';
+    if(easy.name===best.name) p+='It is also the easier assemblage at '+easy.owners_per_section+' owners per section, so it wins on both counts. ';
+    else p+='But <b>'+esc(easy.name)+'</b> is the easier assemblage — '+easy.owners_per_section+' owners per section against '+best.owners_per_section+' — so if signatures are your bottleneck rather than ground quality, that is the trade. ';
+    if(cheap&&dear&&cheap.name!==dear.name) p+='On money, a section runs $'+(cheap.section_cost/1e6).toFixed(2)+'M in '+esc(cheap.name)+' and $'+(dear.section_cost/1e6).toFixed(2)+'M in '+esc(dear.name)+' — a difference of <b>$'+((dear.section_cost-cheap.section_cost)/1e6).toFixed(2)+'M</b> for the same 640 acres, driven mostly by soil you will never farm.';
+    const out=[bTxt(p)];
+    const worry=cs.filter(c=>c.ordinance!=='open'||/most water-limited|groundwater-constrained|limited surface water/i.test(c.water||''));
+    if(worry.length) out.push(bTxt('Watch: '+worry.map(c=>'<b>'+esc(c.name)+'</b> is '+ordWord(c.ordinance)+(/most water-limited|groundwater-constrained|limited surface water/i.test(c.water||'')?' and its water note reads "'+esc(c.water)+'"':'')).join('; ')+'.'));
+    const held=cs.filter(c=>c._held);
+    out.push(bTxt(held.length?'You already hold '+held.map(c=>c._sites+' site'+(c._sites>1?'s':'')+' in '+esc(c.name)).join(' and ')+'.':'You hold no position in any of these.'));
+    out.push(bTable(['County','Score','Owners/sec','Farms ≥500','Section','CSR2','Ordinance','Water'],
+      cs.map(c=>[c.name,String(c.score),String(c.owners_per_section),fmt(c.farms_ge500),
+        c.section_cost?'$'+(c.section_cost/1e6).toFixed(2)+'M':'—',c.csr2==null?'—':String(c.csr2),c.ordinance,(c.water||'—').slice(0,44)])));
     return {title:'Comparing '+cs.map(c=>c.name).join(' vs '),blocks:out};
   }
 
-  /* --- a specific county --- */
+  /* ── one county ──────────────────────────────────────────────── */
   if(R.counties.length===1&&!wantRank&&!wantList&&!wantWho&&!wantRisk){
-    const c=R.counties[0], here=liveSites().filter(s=>s.county===c.name);
+    const c=R.counties[0], here=LIVE.filter(s=>s.county===c.name);
     const cov=DB.contacts.contacts.filter(k=>(k.counties||'').indexOf(c.name)>=0);
-    const rankAll=DB.counties.counties.slice().sort((a,b)=>b.score-a.score);
-    const pos=rankAll.findIndex(x=>x.name===c.name)+1;
-    const out=[bTxt('<b>'+esc(c.name)+' County</b> ranks <b>'+pos+' of '+rankAll.length+'</b> on the screen at score '+c.score+
-      '. Landform: '+esc(c.landform)+'. Ordinance: <b>'+esc(c.ordinance)+'</b>'+(c.posture?' (posture: '+esc(c.posture)+')':'')+'.')];
-    out.push(bList('The numbers',[
-      'Assemblage: <b>'+c.owners_per_section+' owners per 640-acre section</b> (median farm '+fmt(c.median_farm_ac)+' ac)',
-      'Pool: <b>'+fmt(c.farms_ge500)+'</b> farms at 500+ ac, '+fmt(c.farms_ge1000)+' above 1,000',
-      c.price_per_acre?'Land: <b>$'+fmt(c.price_per_acre)+'/acre</b> — a section costs <b>$'+(c.section_cost/1e6).toFixed(2)+'M</b>'+(c.csr2?' (CSR2 '+c.csr2+')':''):'Land price not on record',
-      c.water?'Water: '+esc(c.water):'Water not on record',
-      c.utility?'Utility: '+esc(c.utility):'Utility not on record']));
-    out.push(bTxt('Read: '+esc(c.note)));
+    const untouched=cov.filter(k=>k.status==='not_contacted');
+    const rk=ALLC.slice().sort((a,b)=>b.score-a.score); const pos=rk.findIndex(x=>x.name===c.name)+1;
+    let p='<b>'+esc(c.name)+'</b> is '+(pos<=5?'one of the strongest counties on the board':pos<=15?'a solid mid-table county':pos<=30?'a weak county on this screen':'near the bottom of the screen')+
+      ', ranked <b>'+pos+' of '+rk.length+'</b> at score '+c.score+'. Assemblage there is <b>'+assemWord(c.owners_per_section)+'</b> — about '+c.owners_per_section+
+      ' owners for a full section, against a median farm of '+fmt(c.median_farm_ac)+' acres. It is '+ordWord(c.ordinance)+'.';
+    const out=[bTxt(p)];
+    let p2='';
+    if(c.section_cost) p2+='A section costs <b>$'+(c.section_cost/1e6).toFixed(2)+'M</b> at $'+fmt(c.price_per_acre)+' an acre, which is '+
+      (pctile(c.price_per_acre,ALLC.filter(x=>x.price_per_acre).map(x=>x.price_per_acre))>60?'toward the expensive end of Iowa':'on the cheaper side for Iowa')+' — CSR2 '+c.csr2+'. ';
+    if(c.water) p2+='Water: '+esc(c.water)+'. ';
+    p2+='There are <b>'+fmt(c.farms_ge500)+'</b> farms at 500+ acres to work with, '+fmt(c.farms_ge1000)+' of them above 1,000.';
+    out.push(bTxt(p2));
+    out.push(bTxt(here.length?'<b>You hold '+here.length+' site'+(here.length>1?'s':'')+' here</b> — '+here.map(s=>esc(s.id+' '+s.name)).join(', ')+'.'
+      :'<b>You hold nothing here.</b> '+(c.ordinance==='open'&&c.score>=70?'Given the score, that is a gap worth closing.':'')));
+    if(untouched.length) out.push(bTxt('Nobody has called '+(untouched.length>1?'the '+untouched.length+' contacts':'the contact')+' covering it. Start with <b>'+esc(untouched[0].org.split(' /')[0])+'</b>'+(untouched[0].phone?' — '+esc(untouched[0].phone):'')+'.'));
+    else if(cov.length) out.push(bTxt('Contacts covering it have been approached: '+cov.map(k=>esc(k.org.split(' /')[0])).join(', ')+'.'));
+    else out.push(bTxt('<b>No loaded contact covers this county</b> — that is the first gap to close.'));
     if(c.conflict) out.push(bTxt('<b>Source conflict:</b> '+esc(c.conflict)));
-    out.push(here.length?bList('Your position here ('+here.length+')',here.map(siteLine))
-                        :bTxt('<b>You hold no site in '+esc(c.name)+'.</b>'));
-    if(cov.length) out.push(bList('Contacts covering it',cov.map(k=>'<b>'+esc(k.org.split(' /')[0])+'</b>'+(k.person?' — '+esc(k.person):'')+
-      (k.phone?' · '+esc(k.phone):'')+' — '+esc(k.status.replace(/_/g,' ')))));
-    else out.push(bTxt('No loaded contact covers this county.'));
+    out.push(bTxt('Read on file: '+esc(c.note)));
+    if(here.length) out.push(bList('Your sites here',here.map(siteLine)));
     return {title:c.name+' County',blocks:out};
   }
 
-  /* --- a specific site --- */
+  /* ── one site ────────────────────────────────────────────────── */
   if(R.sites.length&&!wantRank&&!wantList){
     const out=[];
-    R.sites.slice(0,3).forEach(s=>{
-      const c=byCounty[s.county];
-      out.push(bTxt('<b>'+esc(s.id+' — '+s.name)+'</b>'+(s.city?', '+esc(s.city):'')+' — '+esc(s.county||'?')+' County. Status <b>'+esc(s.status.replace(/_/g,' '))+'</b>.'));
-      const L=[
-        s.acres_gross==null?'<b>No acreage on record</b> — cannot be ranked':
-          'Acreage: <b>'+fmt(s.acres_gross)+' gross</b>, <b>'+fmt(s.acres_net)+' net buildable</b>'+
-          (s.acres_tillable?' ('+fmt(s.acres_tillable)+' tillable on record)':''),
-        'Hydrology: '+esc(s.hydrology||'none recorded')+(s.fema?' · FEMA '+esc(s.fema):''),
-        'Owner: '+(s.owner?esc(s.owner):'<b>unknown</b> — no direct approach possible'),
-        'Zoning: '+esc(s.zoning||'unknown'),
-        'Source: '+esc(s.source||'?')+(s.broker?' · broker '+esc(s.broker)+(s.broker_phone?' '+esc(s.broker_phone):''):'')];
-      if(s.price_per_acre_low) L.push('Asking: <b>$'+fmt(s.price_per_acre_low)+'–'+fmt(s.price_per_acre_high)+'/acre</b> (~$'+(s.price_total_low/1e6).toFixed(1)+'–'+(s.price_total_high/1e6).toFixed(1)+'M)');
-      if(c) L.push('County context: score '+c.score+', '+c.owners_per_section+' owners/section, '+esc(c.ordinance)+(c.water?', water: '+esc(c.water):''));
-      out.push(bList('What is on record',L));
+    R.sites.slice(0,2).forEach(s=>{
+      const c=byCounty[s.county]||{};
       const bad=(s.flags||[]).map(f=>FLAGS[f]).filter(m=>m&&m[0]==='stop').map(m=>m[1]);
-      if(bad.length) out.push(bList('What could kill it',bad.map(x=>'<b>'+esc(x)+'</b>')));
+      const good=(s.flags||[]).map(f=>FLAGS[f]).filter(m=>m&&m[0]==='ok').map(m=>m[1]);
+      let p='<b>'+esc(s.name)+'</b> ('+esc(s.id)+') is '+(s.acres_gross==null?'a site with <b>no acreage on record</b>, which means the screen cannot rank it at all'
+        :fmt(s.acres_gross)+' gross acres in '+esc(s.county)+' County, of which roughly <b>'+fmt(s.acres_net)+' are buildable</b> once the water is taken out')+
+        '. It sits at <b>'+esc(s.status.replace(/_/g,' '))+'</b>.';
+      if(s.acres_net!=null) p+=' That '+(s.acres_net>=500?'clears':'does not clear')+' the 500-acre threshold'+(s.acres_net>=500?'':' on its own');
+      p+=(c.score?', and the county behind it scores '+c.score+' with '+c.owners_per_section+' owners per section.':'.');
+      out.push(bTxt(p));
+      let v='';
+      if(bad.length) v='The case against it: <b>'+bad.map(esc).join('</b>, <b>')+'</b>. ';
+      if(good.length) v+='In its favour: '+good.map(esc).join(', ')+'. ';
+      if(!bad.length&&!good.length) v='Nothing flagged either way on this one. ';
+      if(!s.owner) v+='No owner is recorded, so there is no direct approach available yet — it is known only through '+(s.broker?esc(s.broker):'a listing')+'.';
+      else v+='Owner on record: '+esc(s.owner)+'.';
+      out.push(bTxt(v));
+      if(s.price_per_acre_low) out.push(bTxt('Asking <b>$'+fmt(s.price_per_acre_low)+'–'+fmt(s.price_per_acre_high)+' an acre</b>, roughly $'+(s.price_total_low/1e6).toFixed(1)+'–'+(s.price_total_high/1e6).toFixed(1)+'M for the whole thing.'));
       if(s.notes) out.push(bTxt(esc(s.notes)));
+      out.push(bList('On record',[
+        'Hydrology: '+esc(s.hydrology||'none recorded')+(s.fema?' · FEMA '+esc(s.fema):''),
+        'Zoning: '+esc(s.zoning||'unknown'),
+        'Landform: '+esc(s.landform||'unknown'),
+        'Source: '+esc(s.source||'?')+(s.broker?' · '+esc(s.broker)+(s.broker_phone?' '+esc(s.broker_phone):''):''),
+        c.water?'County water: '+esc(c.water):'']. filter(Boolean)));
       const acts=DB.activity.activity.filter(a=>(a.refs||[]).indexOf(s.id)>=0);
-      if(acts.length) out.push(bList('Logged against it',acts.map(a=>esc(a.date)+' — '+esc(a.subject)+(a.outcome?': '+esc(a.outcome):''))));
+      if(acts.length) out.push(bList('What has happened on it',acts.map(a=>esc(a.date)+' — '+esc(a.subject)+(a.outcome?': '+esc(a.outcome):''))));
+      else out.push(bTxt('Nothing has been logged against this site yet.'));
     });
-    return {title:R.sites.slice(0,3).map(s=>s.id).join(', '),blocks:out};
+    return {title:R.sites.slice(0,2).map(s=>s.id+' '+s.name).join(' · '),blocks:out};
   }
 
-  /* --- a specific contact --- */
-  if(R.contacts.length&&wantWho===false&&!wantRank){
+  /* ── a contact ───────────────────────────────────────────────── */
+  if(R.contacts.length&&!wantWho&&!wantRank){
     const out=[];
-    R.contacts.slice(0,3).forEach(k=>{
-      out.push(bTxt('<b>'+esc(k.org)+'</b>'+(k.person?' — '+esc(k.person):'')+' · tier '+k.tier+' · <b>'+esc(k.status.replace(/_/g,' '))+'</b>'));
-      out.push(bList('Details',[esc(k.role||''),k.phone?'Phone: '+esc(k.phone):'',k.email?'Email: '+esc(k.email):'',
-        k.counties?'Counties: '+esc(k.counties):''].filter(Boolean)));
-      out.push(bTxt('<b>The ask:</b> '+esc(k.ask)));
+    R.contacts.slice(0,2).forEach(k=>{
+      const cov=(k.covers_sites||[]).map(id=>DB.sites.sites.filter(s=>s.id===id)[0]).filter(Boolean);
+      out.push(bTxt('<b>'+esc(k.org)+'</b>'+(k.person?', '+esc(k.person):'')+' is a tier-'+k.tier+' contact, currently <b>'+esc(k.status.replace(/_/g,' '))+'</b>'+
+        (k.sentiment?' and reading as '+esc(k.sentiment):'')+'. '+esc(k.role||'')+'.'));
+      out.push(bTxt('<b>What to ask:</b> '+esc(k.ask)));
       if(k.why) out.push(bTxt(esc(k.why)));
+      out.push(bList('Reach',[k.phone?'Phone: '+esc(k.phone):'',k.email?'Email: '+esc(k.email):'',k.web?'Web: '+esc(k.web):'',
+        k.counties?'Counties: '+esc(k.counties):'',cov.length?'Covers: '+cov.map(s=>esc(s.id+' '+s.name)).join(', '):''].filter(Boolean)));
     });
-    return {title:'Contacts',blocks:out};
+    return {title:'Contact',blocks:out};
   }
 
-  /* --- who to call --- */
+  /* ── who to call ─────────────────────────────────────────────── */
   if(wantWho){
     const scope=R.counties.length?R.counties[0]:null;
     let pool=DB.contacts.contacts;
     if(scope) pool=pool.filter(k=>(k.counties||'').indexOf(scope.name)>=0);
     const untouched=pool.filter(k=>k.status==='not_contacted').sort((a,b)=>a.tier-b.tier);
-    const out=[bTxt(scope?'Contacts covering <b>'+esc(scope.name)+'</b>:':'Ranked by tier — tier 1 reaches the most acres per hour.')];
-    out.push(bTable(['Org','Person','Tier','Status','Phone'],
-      (untouched.length?untouched:pool).slice(0,8).map(k=>[k.org.split(' /')[0],k.person||'—',String(k.tier),k.status.replace(/_/g,' '),k.phone||'—'])));
-    const first=(untouched[0]||pool[0]);
-    if(first) out.push(bTxt('<b>Start with '+esc(first.org.split(' /')[0])+'.</b> '+esc(first.ask)));
-    if(!pool.length) out.push(bTxt('No loaded contact covers that.'));
-    return {title:scope?'Who covers '+scope.name:'Who to call',blocks:out};
+    const first=untouched[0]||pool[0];
+    if(!pool.length) return {title:'Who to call',blocks:[bTxt('No loaded contact covers '+(scope?esc(scope.name):'that')+'. That is itself the finding — it is a coverage gap.')]};
+    let p=scope?'For <b>'+esc(scope.name)+'</b>, '+pool.length+' contact'+(pool.length>1?'s cover':' covers')+' it and '+untouched.length+' '+(untouched.length===1?'has':'have')+' not been approached. '
+              :'Ranked by tier, because tier 1 reaches the most acres per hour of your time. ';
+    if(first) p+='<b>Call '+esc(first.org.split(' /')[0])+' first'+(first.person?' — '+esc(first.person):'')+(first.phone?', '+esc(first.phone):'')+'.</b> '+esc(first.why||first.ask);
+    return {title:scope?'Who covers '+scope.name:'Who to call',blocks:[bTxt(p),
+      bTable(['Org','Person','Tier','Status','Phone'],(untouched.length?untouched:pool).slice(0,8)
+        .map(k=>[k.org.split(' /')[0],k.person||'—',String(k.tier),k.status.replace(/_/g,' '),k.phone||'—']))]};
   }
 
-  /* --- risk --- */
+  /* ── risk ────────────────────────────────────────────────────── */
   if(wantRisk){
-    const scope=R.sites.length?R.sites:liveSites();
-    const rows=[];
-    scope.forEach(s=>{
-      const c=byCounty[s.county]||{};
-      (s.flags||[]).forEach(f=>{const m=FLAGS[f]; if(m&&m[0]==='stop') rows.push([s.id+' '+s.name,m[1],fmt(s.acres_net||0)]);});
-      if(c.ordinance==='closed'||c.ordinance==='drafting') rows.push([s.id+' '+s.name,'County '+c.ordinance,fmt(s.acres_net||0)]);
-      if(/most water-limited|groundwater-constrained|Limited groundwater|limited surface water/i.test(c.water||'')) rows.push([s.id+' '+s.name,'County is water-constrained',fmt(s.acres_net||0)]);
-    });
-    rows.sort((a,b)=>(+b[2].replace(/,/g,''))-(+a[2].replace(/,/g,'')));
-    return {title:'What could kill what you hold',blocks:[
-      bTxt(rows.length?'<b>'+rows.length+'</b> blocking conditions, ordered by the net buildable acreage each puts at risk.':'No blocking conditions recorded.'),
-      bTable(['Site','Condition','Net ac at risk'],rows.slice(0,14))]};
+    const scope=R.sites.length?R.sites:LIVE, rows=[];
+    scope.forEach(s=>{const c=byCounty[s.county]||{};
+      (s.flags||[]).forEach(f=>{const m=FLAGS[f]; if(m&&m[0]==='stop') rows.push([s.id+' '+s.name,m[1],s.acres_net||0]);});
+      if(c.ordinance==='closed'||c.ordinance==='drafting') rows.push([s.id+' '+s.name,'County '+c.ordinance,s.acres_net||0]);
+      if(/most water-limited|groundwater-constrained|limited surface water|Limited groundwater/i.test(c.water||'')) rows.push([s.id+' '+s.name,'County is water-constrained',s.acres_net||0]);});
+    rows.sort((a,b)=>b[2]-a[2]);
+    const acres=rows.reduce((a,r)=>a+r[2],0), worst=rows[0];
+    const bySite={}; rows.forEach(r=>{bySite[r[0]]=(bySite[r[0]]||0)+1;});
+    const mostHit=Object.keys(bySite).sort((a,b)=>bySite[b]-bySite[a])[0];
+    let p=rows.length?'There are <b>'+rows.length+'</b> blocking conditions across '+Object.keys(bySite).length+' live sites. '+
+      'The single biggest exposure is <b>'+esc(worst[1])+'</b> on '+esc(worst[0])+', which puts '+fmt(worst[2])+' net buildable acres at risk. '+
+      '<b>'+esc(mostHit)+'</b> carries the most problems at '+bySite[mostHit]+'.'
+      :'Nothing is currently flagged as blocking on any live site.';
+    const out=[bTxt(p)];
+    if(rows.length){
+      const water=rows.filter(r=>/water/i.test(r[1])).length, flood=rows.filter(r=>/flood|zone a|sfha/i.test(r[1])).length, ord=rows.filter(r=>/closed|drafting|ordinance/i.test(r[1])).length;
+      out.push(bTxt('By kind: '+[water?water+' water':'',flood?flood+' floodplain':'',ord?ord+' ordinance':''].filter(Boolean).join(', ')+
+        '. Water is the one you cannot engineer around — slope and even floodplain can be designed for, an absent aquifer cannot.'));
+      out.push(bTable(['Site','Condition','Net ac at risk'],rows.slice(0,14).map(r=>[r[0],r[1],fmt(r[2])])));
+    }
+    return {title:'What could kill what you hold',blocks:out};
   }
 
-  /* --- gaps --- */
+  /* ── gaps ────────────────────────────────────────────────────── */
   if(wantGap){
-    const S=DB.sites.sites, live=liveSites();
+    const S=DB.sites.sites;
     const noAc=S.filter(s=>s.acres_gross==null&&s.status!=='dead');
-    const noOwn=live.filter(s=>!s.owner);
-    const noZone=live.filter(s=>!s.zoning);
+    const noOwn=LIVE.filter(s=>!s.owner), noZone=LIVE.filter(s=>!s.zoning);
     const t1=DB.contacts.contacts.filter(k=>k.tier===1&&k.status==='not_contacted');
-    const gapC=DB.counties.counties.slice().sort((a,b)=>b.score-a.score).slice(0,12).filter(c=>!c._held);
-    const conf=DB.counties.counties.filter(c=>c.conflict);
-    return {title:'What is missing',blocks:[
-      bList('In the data',[
-        noAc.length?'<b>'+noAc.length+'</b> sites with no acreage — invisible to the screen: '+noAc.map(s=>esc(s.id)).join(', '):'Every live site has acreage',
-        '<b>'+noOwn.length+' of '+live.length+'</b> live sites have no owner name — no direct approach possible',
-        '<b>'+noZone.length+'</b> live sites have no zoning recorded',
-        conf.length?'<b>'+conf.length+'</b> counties have conflicting ordinance sources: '+conf.map(c=>esc(c.name)).join(', '):'No ordinance conflicts']),
-      bList('In the work',[
-        t1.length?'<b>'+t1.length+'</b> tier-1 contacts never approached: '+t1.map(k=>esc(k.org.split(' /')[0])).join('; '):'All tier-1 contacts approached',
-        gapC.length?'<b>'+gapC.length+' of the top 12 counties</b> hold no position: '+gapC.map(c=>esc(c.name)).join(', '):'You hold a position in every top-12 county'])]};
+    const gapC=ALLC.slice().sort((a,b)=>b.score-a.score).slice(0,12).filter(c=>!c._held);
+    const conf=ALLC.filter(c=>c.conflict);
+    let p='The biggest hole is ownership: <b>'+noOwn.length+' of your '+LIVE.length+' live sites have no owner name</b>, so every one of them is reachable only through a broker or a listing. Until that is filled you cannot make a direct approach to anybody.';
+    const out=[bTxt(p)];
+    let p2='After that: ';
+    const bits=[];
+    if(noAc.length) bits.push('<b>'+noAc.length+' sites carry no acreage at all</b> ('+noAc.map(s=>esc(s.id)).join(', ')+'), which makes them invisible to the screen');
+    if(t1.length) bits.push('<b>'+t1.length+' tier-1 contacts have never been called</b>');
+    if(gapC.length) bits.push('<b>'+gapC.length+' of the top twelve counties hold no position</b>');
+    if(conf.length) bits.push(conf.length+' counties have contradicting ordinance sources');
+    out.push(bTxt(p2+bits.join('; ')+'.'));
+    out.push(bList('Fill these first',[
+      noAc.length?'Acreage on '+noAc.map(s=>esc(s.id+' '+s.name)).join(', ')+' — one call to the listing contact':'',
+      t1.length?'Call '+esc(t1[0].org.split(' /')[0])+(t1[0].phone?' — '+esc(t1[0].phone):''):'',
+      gapC.length?'Take a position in '+esc(gapC[0].name)+' (score '+gapC[0].score+')':'',
+      noZone.length?noZone.length+' live sites have no zoning recorded — that is a courthouse call each':''].filter(Boolean)));
+    return {title:'What is missing',blocks:out};
   }
 
-  /* --- cost --- */
+  /* ── cost ────────────────────────────────────────────────────── */
   if(wantCost){
     if(R.counties.length===1){const c=R.counties[0];
-      return {title:'Cost in '+c.name,blocks:[bTxt('<b>'+esc(c.name)+'</b> runs <b>$'+fmt(c.price_per_acre)+' an acre</b> (2025 ISU survey), so one 640-acre section is <b>$'+(c.section_cost/1e6).toFixed(2)+'M</b>. CSR2 '+c.csr2+
-        '. Soil quality drives about three quarters of Iowa land price, and it is the one input a campus never uses.')]};}
+      const all=ALLC.filter(x=>x.price_per_acre).map(x=>x.price_per_acre);
+      const pc=pctile(c.price_per_acre,all);
+      return {title:'Cost in '+c.name,blocks:[
+        bTxt('A full 640-acre section in <b>'+esc(c.name)+'</b> costs about <b>$'+(c.section_cost/1e6).toFixed(2)+'M</b>, at $'+fmt(c.price_per_acre)+
+          ' an acre. That is more expensive than '+pc+'% of Iowa counties — CSR2 there is '+c.csr2+', and soil quality explains roughly three quarters of what Iowa land costs.'),
+        bTxt('Which matters because CSR2 is the one thing you pay for and then pave over. Every point of it runs about $102,000 across a section.')]};}
     const priced=openCounties().filter(c=>c.section_cost).sort((a,b)=>a.section_cost-b.section_cost);
-    const asc=ANY(tk,['cheap','cheapest','least','lowest','low']);
+    const asc=!ANY(tk,['most','expensive','dearest','highest','priciest']);
     const list=asc?priced.slice(0,10):priced.slice().reverse().slice(0,10);
-    return {title:asc?'Cheapest sections among open counties':'Cost of a section, open counties',blocks:[
-      bTxt('One 640-acre section, at each county\'s 2025 farmland price. Open counties only.'),
-      bTable(['County','Section cost','$/acre','CSR2','Score','Owners/sec'],
-        list.map(c=>[c.name,'$'+(c.section_cost/1e6).toFixed(2)+'M','$'+fmt(c.price_per_acre),String(c.csr2),String(c.score),String(c.owners_per_section)]))]};
+    const top=list[0], spread=priced[priced.length-1].section_cost-priced[0].section_cost;
+    return {title:asc?'Cheapest sections among open counties':'Most expensive sections',blocks:[
+      bTxt('<b>'+esc(top.name)+'</b> is the '+(asc?'cheapest':'most expensive')+' open county at <b>$'+(top.section_cost/1e6).toFixed(2)+'M</b> a section ($'+fmt(top.price_per_acre)+'/acre, CSR2 '+top.csr2+', score '+top.score+'). '+
+        'Across all open counties the spread is <b>$'+(spread/1e6).toFixed(2)+'M</b> for the identical 640 acres.'),
+      bTxt(asc?'Cheap is not automatically good — check the score and the water note in the same row before you get excited. The cheapest ground in Iowa is cheap because it is rough and dry.':'Paying at the top of the range buys soil productivity a data centre never uses.'),
+      bTable(['County','Section cost','$/acre','CSR2','Score','Owners/sec','Water'],
+        list.map(c=>[c.name,'$'+(c.section_cost/1e6).toFixed(2)+'M','$'+fmt(c.price_per_acre),String(c.csr2),String(c.score),String(c.owners_per_section),(c.water||'—').slice(0,34)]))]};
   }
 
-  /* --- water --- */
+  /* ── water ───────────────────────────────────────────────────── */
   if(wantWater){
+    const dryRe=/most water-limited|groundwater-constrained|Limited groundwater|limited surface water|Limited;/i;
     const scope=R.counties.length?R.counties:openCounties().slice().sort((a,b)=>b.score-a.score).slice(0,12);
-    const dry=DB.counties.counties.filter(c=>/most water-limited|groundwater-constrained|Limited groundwater|limited surface water|Limited;/i.test(c.water||''));
-    const held=liveSites().filter(s=>{const c=byCounty[s.county];return c&&/most water-limited|groundwater-constrained|Limited groundwater|limited surface water|Limited;/i.test(c.water||'');});
-    return {title:'Water',blocks:[
-      bTable(['County','Water','Score'],scope.map(c=>[c.name,c.water||'—',String(c.score)])),
-      held.length?bTxt('<b>'+held.length+' live sites sit in water-constrained counties:</b> '+held.map(s=>esc(s.id+' '+s.name+' ('+s.county+')')).join('; ')+'. A campus can be engineered around slope, not around an absent aquifer.'):bTxt('No live site sits in a water-constrained county.'),
-      bTxt(dry.length?'Water-constrained counties on the screen: '+dry.map(c=>esc(c.name)).join(', ')+'.':'')]};
+    const dry=ALLC.filter(c=>dryRe.test(c.water||''));
+    const held=LIVE.filter(s=>{const c=byCounty[s.county];return c&&dryRe.test(c.water||'');});
+    let p=held.length?'<b>'+held.length+' of your live sites sit in water-constrained counties</b> — '+held.map(s=>esc(s.id+' '+s.name)+' in '+esc(s.county)).join(', ')+
+      '. This is the constraint I would take most seriously, because a campus can be engineered around slope and even around floodplain, but not around an absent aquifer.'
+      :'None of your live sites sit in a water-constrained county, which is the good news in this dataset.';
+    const good=scope.filter(c=>/River|Lake/i.test(c.water||'')&&!dryRe.test(c.water||''));
+    return {title:'Water',blocks:[bTxt(p),
+      bTxt(good.length?'Counties with named surface water among the ones you should care about: '+good.slice(0,6).map(c=>'<b>'+esc(c.name)+'</b> ('+esc((c.water||'').split(';')[0])+')').join(', ')+'.':''),
+      bTxt(dry.length?'Water-constrained on the screen: '+dry.map(c=>esc(c.name)).join(', ')+'.':''),
+      bTable(['County','Water','Score'],scope.map(c=>[c.name,c.water||'—',String(c.score)]))]};
   }
 
-  /* --- ordinance --- */
+  /* ── ordinance ───────────────────────────────────────────────── */
   if(wantOrd&&!R.counties.length){
-    const by={};DB.counties.counties.forEach(c=>{(by[c.ordinance]=by[c.ordinance]||[]).push(c.name);});
+    const by={}; ALLC.forEach(c=>{(by[c.ordinance]=by[c.ordinance]||[]).push(c.name);});
+    const closed=(by['closed']||[]).length, drafting=(by['drafting']||[]).length, open=(by['open']||[]).length+(by['unzoned?']||[]).length;
+    const exposed=LIVE.filter(s=>{const c=byCounty[s.county];return c&&(c.ordinance==='closed'||c.ordinance==='drafting');});
     return {title:'Ordinance status',blocks:[
-      bList('Across the screen',Object.keys(by).map(k=>'<b>'+esc(k)+'</b> — '+by[k].length+': '+by[k].join(', '))),
-      bTxt('This field moved nine times during 2026 and two counties carry conflicting sources. Verify with the county before spending.')]};
+      bTxt('Of the '+ALLC.length+' counties on the screen, <b>'+open+' are open</b>, '+closed+' are closed under a moratorium and '+drafting+' '+(drafting===1?'is':'are')+' drafting one. '+
+        (exposed.length?'<b>'+exposed.length+' of your live sites sit in a closed or drafting county</b>: '+exposed.map(s=>esc(s.id+' '+s.name)).join(', ')+'.':'None of your live sites sit in a closed county.')),
+      bTxt('Treat this field as perishable. It moved nine times during 2026, and two counties currently have sources that disagree — verify with the county before you spend anything.'),
+      bList('By status',Object.keys(by).map(k=>'<b>'+esc(k)+'</b> ('+by[k].length+'): '+by[k].join(', ')))]};
   }
 
-  /* --- next / recommendation --- */
+  /* ── next ────────────────────────────────────────────────────── */
   if(wantNext){
-    const rank=DB.counties.counties.slice().sort((a,b)=>b.score-a.score);
-    const target=rank.filter(c=>!c._held&&(c.ordinance==='open'||c.ordinance==='unzoned?'))[0];
+    const rk=ALLC.slice().sort((a,b)=>b.score-a.score);
+    const target=rk.filter(c=>!c._held&&(c.ordinance==='open'||c.ordinance==='unzoned?'))[0];
     const who=target?DB.contacts.contacts.filter(k=>(k.counties||'').indexOf(target.name)>=0&&k.status==='not_contacted'):[];
     const crit=FIND.filter(f=>f.sev==='critical');
-    const out=[bTxt(DB.brief.if_nothing_else)];
-    if(crit.length) out.push(bList('Critical findings right now',crit.map(f=>'<b>'+esc(f.t)+'</b> — '+esc(f.d.slice(0,150))+'…')));
-    if(target) out.push(bTxt('Strongest county with no position: <b>'+esc(target.name)+'</b> — score '+target.score+', '+
-      target.owners_per_section+' owners per section, $'+(target.section_cost/1e6).toFixed(2)+'M a section.'+
-      (who.length?' Loaded and untouched contact covering it: <b>'+esc(who[0].org.split(' /')[0])+'</b>'+(who[0].phone?' · '+esc(who[0].phone):'')+'.':' No loaded contact covers it.')));
+    const out=[bTxt('<b>'+esc(DB.brief.if_nothing_else)+'</b>')];
+    if(crit.length) out.push(bTxt('Behind that, '+crit.length+' things are flagged critical right now: '+crit.map(f=>esc(f.t)).join('; ')+'.'));
+    if(target) out.push(bTxt('If you want a second move: <b>'+esc(target.name)+'</b> is the strongest county you hold nothing in — score '+target.score+', '+
+      target.owners_per_section+' owners per section, $'+(target.section_cost/1e6).toFixed(2)+'M a section'+
+      (who.length?', and <b>'+esc(who[0].org.split(' /')[0])+'</b>'+(who[0].phone?' ('+esc(who[0].phone)+')':'')+' already covers it and has never been called.':', though no loaded contact covers it yet.')));
     return {title:'What to do next',blocks:out};
   }
 
-  /* --- assemblage / owners --- */
+  /* ── assemblage ──────────────────────────────────────────────── */
   if(wantOwners){
     const pool=openCounties().slice().sort((a,b)=>a.owners_per_section-b.owners_per_section);
     const hard=ANY(tk,['hardest','worst','most','fragmented']);
     const list=hard?pool.slice().reverse().slice(0,10):pool.slice(0,10);
+    const t=list[0];
     return {title:hard?'Hardest assemblage':'Easiest assemblage',blocks:[
-      bTxt('640 ÷ the county median farm size — roughly how many signatures a full section needs. An optimistic floor: the census counts operations, not ownerships.'),
+      bTxt('<b>'+esc(t.name)+'</b> is the '+(hard?'hardest':'easiest')+' open county to assemble in, at <b>'+t.owners_per_section+' owners per 640-acre section</b> — median farm '+fmt(t.median_farm_ac)+' acres, score '+t.score+
+        (t.section_cost?', $'+(t.section_cost/1e6).toFixed(2)+'M a section':'')+'.'),
+      bTxt('The measure is 640 divided by the county median farm size. Treat it as an optimistic floor: the census counts operations rather than ownerships, and large operators farm rented ground across several owners, so the real signature count runs higher.'),
       bTable(['County','Owners/sec','Median farm','Farms ≥500','Score','Section'],
         list.map(c=>[c.name,String(c.owners_per_section),fmt(c.median_farm_ac),fmt(c.farms_ge500),String(c.score),c.section_cost?'$'+(c.section_cost/1e6).toFixed(2)+'M':'—']))]};
   }
 
-  /* --- rank / list of counties or sites --- */
-  if(wantRank||wantList){
-    if(ANY(tk,['site','sites','tract','tracts','parcel','property','properties'])){
-      const S=liveSites().slice().sort((a,b)=>(b.acres_net||0)-(a.acres_net||0));
+  /* ── rank / list ─────────────────────────────────────────────── */
+  if(wantRank||wantList||wantMine){
+    if(wantMine||ANY(tk,['site','sites','tract','tracts','parcel','property','properties'])){
+      const S=LIVE.slice().sort((a,b)=>(b.acres_net||0)-(a.acres_net||0));
       const over=S.filter(x=>(x.acres_net||0)>=500);
-      return {title:'Your sites, by net buildable acres',blocks:[
-        bTxt('<b>'+S.length+'</b> live sites on record. <b>'+over.length+'</b> clear 500 net buildable acres'+
-          (over.length?': '+over.map(x=>esc(x.id+' '+x.name)+' ('+fmt(x.acres_net)+' ac)').join(', '):'')+'.'),
+      return {title:'Your sites',blocks:[
+        bTxt('You have <b>'+S.length+' live sites</b>, of which <b>'+over.length+' clear 500 net buildable acres</b>'+
+          (over.length?': '+over.map(x=>esc(x.name)+' at '+fmt(x.acres_net)).join(', ')+'.':'.')+
+          ' The largest is <b>'+esc(S[0].name)+'</b> at '+fmt(S[0].acres_net)+' net acres in '+esc(S[0].county)+'.'),
         bTable(['ID','Site','County','Gross','Net','Cty score','Status'],
           S.map(s=>[s.id,s.name,s.county||'—',fmt(s.acres_gross),fmt(s.acres_net),s._cscore==null?'—':String(s._cscore),s.status.replace(/_/g,' ')]))]};
     }
     const openOnly=ANY(tk,['open','available','not closed']);
-    const unheldOnly=ANY(tk,['no position','not hold','dont hold','do not hold','nothing in','empty','uncovered','no site']);
-    let pool=openOnly?openCounties():DB.counties.counties;
-    if(unheldOnly) pool=pool.filter(c=>!c._held);
+    const unheld=ANY(tk,['no position','not hold','dont hold','do not hold','nothing in','empty','uncovered','no site']);
+    let pool=openOnly?openCounties():ALLC;
+    if(unheld) pool=pool.filter(c=>!c._held);
     const worst=ANY(tk,['worst','least','bottom','weakest']);
     pool=pool.slice().sort((a,b)=>worst?a.score-b.score:b.score-a.score);
-    return {title:(worst?'Lowest-scoring counties':'Highest-scoring counties')+(openOnly?' — open only':'')+(unheldOnly?' — where you hold nothing':''),blocks:[
-      bTxt('<b>'+pool.length+'</b> counties match'+(unheldOnly?', none of which you hold a position in':'')+'.'),
+    const t=pool[0];
+    return {title:(worst?'Lowest-scoring counties':'Highest-scoring counties')+(openOnly?' — open only':'')+(unheld?' — where you hold nothing':''),blocks:[
+      bTxt(t?'<b>'+esc(t.name)+'</b> comes out '+(worst?'bottom':'top')+' at score '+t.score+' — '+t.owners_per_section+' owners per section, '+fmt(t.farms_ge500)+' farms at 500+ acres'+
+        (t.section_cost?', $'+(t.section_cost/1e6).toFixed(2)+'M a section':'')+'. '+esc(t.note):'Nothing matches that.'),
+      bTxt(pool.length+' counties match'+(unheld?', none of which you currently hold':'')+'.'),
       bTable(['#','County','Score','Owners/sec','Farms ≥500','Section','CSR2','Ordinance','You hold'],
         pool.slice(0,15).map((c,i)=>[String(i+1),c.name,String(c.score),String(c.owners_per_section),fmt(c.farms_ge500),
           c.section_cost?'$'+(c.section_cost/1e6).toFixed(2)+'M':'—',c.csr2==null?'—':String(c.csr2),c.ordinance,c._held?String(c._sites):'—']))]};
   }
 
-  /* --- fallback: relevance search over every record --- */
+  /* ── fallback ────────────────────────────────────────────────── */
   const terms=tk.filter(w=>w.length>2);
-  const score=obj=>{const hay=norm(JSON.stringify(obj));return terms.reduce((a,w)=>a+(hay.indexOf(w)>=0?1:0),0);};
+  const sc=obj=>{const hay=norm(JSON.stringify(obj));return terms.reduce((a,w)=>a+(hay.indexOf(w)>=0?1:0),0);};
   const hits=[];
-  DB.counties.counties.forEach(c=>{const n=score(c);if(n) hits.push({n:n,k:'County',s:countyLine(c)});});
-  DB.sites.sites.forEach(s=>{const n=score(s);if(n) hits.push({n:n,k:'Site',s:siteLine(s)});});
-  DB.contacts.contacts.forEach(k=>{const n=score(k);if(n) hits.push({n:n,k:'Contact',s:'<b>'+esc(k.org)+'</b>'+(k.person?' — '+esc(k.person):'')+' · '+esc(k.status.replace(/_/g,' '))});});
-  DB.packages.packages.forEach(p=>{const n=score(p);if(n) hits.push({n:n,k:'Package',s:'<b>'+esc(p.name)+'</b> — '+esc(p.county)+', '+esc(p.type)});});
-  DB.activity.activity.forEach(a=>{const n=score(a);if(n) hits.push({n:n,k:'Log',s:esc(a.date)+' — <b>'+esc(a.subject)+'</b>'+(a.outcome?': '+esc(a.outcome):'')});});
+  ALLC.forEach(c=>{const n=sc(c);if(n) hits.push({n:n,k:'County',s:countyLine(c)});});
+  DB.sites.sites.forEach(s=>{const n=sc(s);if(n) hits.push({n:n,k:'Site',s:siteLine(s)});});
+  DB.contacts.contacts.forEach(k=>{const n=sc(k);if(n) hits.push({n:n,k:'Contact',s:'<b>'+esc(k.org)+'</b>'+(k.person?' — '+esc(k.person):'')+' · '+esc(k.status.replace(/_/g,' '))});});
+  DB.packages.packages.forEach(p=>{const n=sc(p);if(n) hits.push({n:n,k:'Package',s:'<b>'+esc(p.name)+'</b> — '+esc(p.county)+', '+esc(p.type)});});
+  DB.activity.activity.forEach(a=>{const n=sc(a);if(n) hits.push({n:n,k:'Log',s:esc(a.date)+' — <b>'+esc(a.subject)+'</b>'+(a.outcome?': '+esc(a.outcome):'')});});
   hits.sort((a,b)=>b.n-a.n);
   if(hits.length) return {title:'Records matching that',blocks:[
-    bTxt('I could not classify that as a question I compute directly, so here is every record that mentions it — most relevant first.'),
-    bList('Matches ('+hits.length+')',hits.slice(0,12).map(h=>'<span class="mini">'+h.k+'</span> '+h.s))]};
-
-  return {title:'No match',blocks:[bTxt('Nothing in the project mentions that. I answer questions about counties, sites, packages, contacts, costs, water, assemblage, ordinance status, risks and gaps — try one of the examples below.')]};
+    bTxt('That is not a question I can compute a direct answer to, so I have searched every record instead — <b>'+hits.length+' mention it</b>, most relevant first. If you rephrase around a county, a site, cost, water, assemblage, ordinance, risk or what is missing, I can give you a real answer.'),
+    bList('Matches',hits.slice(0,12).map(h=>'<span class="mini">'+h.k+'</span> '+h.s))]};
+  return {title:'Nothing on that',blocks:[bTxt('Nothing in the project mentions that at all. I can answer on counties, sites, packages, contacts, cost, water, assemblage, ordinance status, risks, gaps and what to do next — try one of the examples below.')]};
 }
 
 function renderAnswer(a){
