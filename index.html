@@ -216,6 +216,37 @@ details.defs>summary:hover{color:var(--acc)}
 .pkg-c{display:flex;flex-wrap:wrap;gap:4px}
 .pkg-c span{font-family:var(--mono);font-size:10.5px;background:var(--sunk);border:1px solid var(--rule2);padding:2px 7px;color:var(--ink2)}
 
+/* ── agent tab ────────────────────────────────────────────────────── */
+.ag-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.ag-c{background:var(--plate);padding:18px 20px 20px}
+.ag-k{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);margin-bottom:9px}
+.ag-t{font-family:var(--serif);font-size:19px;line-height:1.2;margin-bottom:10px}
+.ag-b{font-size:13px;line-height:1.6;color:var(--ink2)}
+.ag-b b{color:var(--ink)}
+.ag-l{margin:8px 0 0;padding-left:17px}
+.ag-l li{margin-bottom:6px;font-size:12.5px;line-height:1.55;color:var(--ink2)}
+.ag-l li b{color:var(--ink);font-weight:600}
+.ag-num{font-family:var(--mono);font-variant-numeric:tabular-nums;color:var(--ink)}
+.ask{background:var(--plate);border:1px solid var(--rule);padding:20px 22px}
+.ask textarea{width:100%;min-height:74px;font-family:var(--sans);font-size:14px;line-height:1.5;padding:11px 13px;
+  background:var(--sunk);color:var(--ink);border:1px solid var(--rule);resize:vertical}
+.ask input[type=password]{width:100%;font-family:var(--mono);font-size:12px;padding:9px 11px;background:var(--sunk);color:var(--ink);border:1px solid var(--rule)}
+.ask-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:11px}
+.btn{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:8px 14px;
+  background:var(--acc);color:#fff;border:1px solid var(--acc);cursor:pointer}
+:root[data-theme="dark"] .btn{color:#10171c}
+.btn:hover{opacity:.88}
+.btn[disabled]{opacity:.45;cursor:default}
+.btn.ghost{background:transparent;color:var(--ink2);border-color:var(--rule)}
+.btn.ghost:hover{border-color:var(--acc);color:var(--acc);opacity:1}
+.warn{margin-top:12px;padding:12px 15px;background:var(--warn-bg);border-left:2px solid var(--warn);font-size:12.5px;line-height:1.6;color:var(--ink)}
+.warn b{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--warn);display:block;margin-bottom:4px}
+.out{margin-top:14px;padding:16px 18px;background:var(--sunk);border:1px solid var(--rule);font-size:13.5px;line-height:1.65;white-space:pre-wrap;color:var(--ink)}
+.presets{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.preset{font-family:var(--mono);font-size:10px;letter-spacing:.05em;padding:6px 10px;background:transparent;color:var(--ink2);
+  border:1px solid var(--rule);cursor:pointer;text-align:left;line-height:1.35}
+.preset:hover{border-color:var(--acc);color:var(--ink)}
+
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -287,6 +318,7 @@ details.defs>summary:hover{color:var(--acc)}
   <button class="tab" role="tab" aria-selected="false" data-p="pipeline">Pipeline <b id="tPipe">0</b></button>
   <button class="tab" role="tab" aria-selected="false" data-p="packages">Packages <b id="tPkg">0</b></button>
   <button class="tab" role="tab" aria-selected="false" data-p="analyst">Analyst <b id="tFind">0</b></button>
+  <button class="tab" role="tab" aria-selected="false" data-p="agent">Agent</button>
   <button class="tab" role="tab" aria-selected="false" data-p="execution">Execution</button>
   <button class="tab" role="tab" aria-selected="false" data-p="progress">Progress</button>
   <button class="tab" role="tab" aria-selected="false" data-p="data">Data</button>
@@ -400,6 +432,52 @@ details.defs>summary:hover{color:var(--acc)}
   <div class="find" id="findings"></div>
   <h3>Written brief</h3>
   <div class="card" id="brief"></div>
+</section>
+
+<section class="panel" data-p="agent">
+  <h2>Agent</h2>
+  <p class="dek">Reads <strong>every record in the project at once</strong> — 49 counties, every site, every package, every contact, the full activity log and every ingested document — and reports what the whole dataset says rather than what any one tab shows. The standing brief below is computed fresh on each refresh and needs nothing set up. Below it, two ways to put the same complete picture in front of a real language model.</p>
+  <div class="stats" id="agStats"></div>
+
+  <h3>Standing brief</h3>
+  <div class="ag-grid" id="agBrief"></div>
+
+  <h3>Put the whole project in front of an AI</h3>
+  <div class="ask">
+    <div class="ag-b" style="margin-bottom:12px">This assembles every record into one structured brief — typically 20,000 to 30,000 words — and copies it to the clipboard. Paste it into Claude, or any assistant, and ask it anything. <b>No key, no cost, and it works for anyone you have shared this link with.</b></div>
+    <div class="ask-row">
+      <button class="btn" id="btnCtx" type="button">Copy full project context</button>
+      <button class="btn ghost" id="btnCtxDl" type="button">Download as .md</button>
+      <span class="mini" id="ctxSize"></span>
+    </div>
+    <div class="presets" id="ctxPresets"></div>
+  </div>
+
+  <h3>Ask Claude directly, from this page</h3>
+  <div class="ask">
+    <div class="ag-b" style="margin-bottom:12px">Optional. Uses your own Anthropic API key to send the entire dataset to <code>claude-opus-5</code> and answer free-form questions. The key is stored only in this browser and is never committed, never uploaded, and never visible to anyone you share the link with.</div>
+    <label class="mini" for="apiKey" style="display:block;margin-bottom:5px">Anthropic API key</label>
+    <input type="password" id="apiKey" placeholder="sk-ant-..." autocomplete="off" spellcheck="false">
+    <div class="ask-row">
+      <button class="btn ghost" id="btnSaveKey" type="button">Save key to this browser</button>
+      <button class="btn ghost" id="btnClearKey" type="button">Forget key</button>
+      <span class="mini" id="keyState">No key set</span>
+    </div>
+    <div style="margin-top:14px">
+      <label class="mini" for="askQ" style="display:block;margin-bottom:5px">Question</label>
+      <textarea id="askQ" placeholder="What is the single strongest move available to me right now, and what would kill it?"></textarea>
+      <div class="presets" id="askPresets"></div>
+      <div class="ask-row">
+        <button class="btn" id="btnAsk" type="button">Ask Claude</button>
+        <span class="mini" id="askState"></span>
+      </div>
+    </div>
+    <div class="out" id="askOut" style="display:none"></div>
+    <div class="warn">
+      <b>Read this before you paste a key</b>
+      Anthropic disables browser API calls by default and enabling them is explicitly flagged as dangerous, because anything running in a browser can in principle read what the page stores. Their own guidance says it is acceptable for internal tools used by trusted people, which is not what a publicly shared link is. Your key stays in your browser and never reaches the repository or anyone you send the link to — but the safest way to use this desk with an AI is the copy-context button above, which needs no key at all. If you do add one, use a dedicated key with a low spend limit and press <b>Forget key</b> when you are done.
+    </div>
+  </div>
 </section>
 
 <section class="panel" data-p="execution">
@@ -929,9 +1007,284 @@ function renderData(){
   ].map(r=>'<tr><td><code>'+esc(r[0])+'</code></td><td class="num">'+fmt(r[1])+'</td><td class="note">'+esc(r[2])+'</td></tr>').join('');
 }
 
+/* ── AGENT: synthesis across every dataset at once ────────────────── */
+const PRESET_Q = [
+  "What is the single strongest move available to me right now, and what would kill it?",
+  "Rank every county I have no position in by how hard it would be to get 640 contiguous buildable acres, and tell me who to call for the top three.",
+  "Read my outreach log and the pipeline together. What am I not following up on that I should be?",
+  "Which of my sites should I kill, and what is the evidence for killing each one?",
+  "If I only had $8M and one section to buy, where would you put it and why?",
+  "What is in this dataset that contradicts itself, or that I appear to have assumed without verifying?"
+];
+
+function agentSynthesis(){
+  const S=DB.sites.sites, C=DB.counties.counties, K=DB.contacts.contacts,
+        A=DB.activity.activity, P=DB.packages.packages, D=DB.documents.documents;
+  const live=S.filter(s=>s._live);
+  const rank=C.slice().sort((a,b)=>b.score-a.score);
+  const open=C.filter(c=>c.ordinance==='open'||c.ordinance==='unzoned?');
+  const cards=[];
+
+  // 1. position vs opportunity
+  const held=rank.filter(c=>c._held), gaps=rank.slice(0,12).filter(c=>!c._held);
+  const avgHeld=held.length?Math.round(held.reduce((a,c)=>a+c.score,0)/held.length):0;
+  const avgTop=Math.round(rank.slice(0,12).reduce((a,c)=>a+c.score,0)/12);
+  cards.push({k:'Position',t:'Where you are versus where the data points',
+    b:`Your live sites sit in ${held.length} counties averaging <b class="ag-num">${avgHeld}</b> on the screen. The top twelve average <b class="ag-num">${avgTop}</b>. `+
+      (gaps.length?`<b>${gaps.length} of those twelve hold nothing.</b>`:'You hold a position in every top-twelve county.'),
+    l:gaps.slice(0,5).map(c=>`<b>${esc(c.name)}</b> — score ${c.score}, ${c.owners_per_section} owners/section, ${fmt(c.farms_ge500)} farms at 500+ ac, section costs $${(c.section_cost/1e6).toFixed(2)}M`)});
+
+  // 2. capital
+  const priced=open.filter(c=>c.section_cost).sort((a,b)=>a.section_cost-b.section_cost);
+  if(priced.length){
+    const cheap=priced[0], dear=priced[priced.length-1];
+    const best=rank.filter(c=>(c.ordinance==='open'||c.ordinance==='unzoned?')&&c.section_cost)[0];
+    cards.push({k:'Capital',t:'What a section actually costs, by county',
+      b:`Across open counties one 640-acre section runs <b class="ag-num">$${(cheap.section_cost/1e6).toFixed(2)}M</b> to <b class="ag-num">$${(dear.section_cost/1e6).toFixed(2)}M</b> — a spread of $${((dear.section_cost-cheap.section_cost)/1e6).toFixed(2)}M on the same acreage. Soil quality drives most of it, and soil quality is the one input a campus never uses.`,
+      l:[`Cheapest open county: <b>${esc(cheap.name)}</b> at $${(cheap.section_cost/1e6).toFixed(2)}M (CSR2 ${cheap.csr2}, score ${cheap.score})`,
+         `Highest-scoring open county: <b>${esc(best.name)}</b> at $${(best.section_cost/1e6).toFixed(2)}M (CSR2 ${best.csr2})`,
+         `Most expensive open county: <b>${esc(dear.name)}</b> at $${(dear.section_cost/1e6).toFixed(2)}M (CSR2 ${dear.csr2})`]});
+  }
+
+  // 3. risk register weighted by what each site is worth
+  const risks=[];
+  live.forEach(s=>{
+    const c=byCounty[s.county]||{}; const w=s.acres_net||0;
+    (s.flags||[]).forEach(f=>{
+      const m=FLAGS[f]; if(m&&m[0]==='stop') risks.push({s:s,label:m[1],w:w});
+    });
+    if(c.ordinance==='closed'||c.ordinance==='drafting') risks.push({s:s,label:'County '+c.ordinance,w:w});
+  });
+  risks.sort((a,b)=>b.w-a.w);
+  cards.push({k:'Risk',t:'What could kill the acreage you hold',
+    b:risks.length?`<b class="ag-num">${risks.length}</b> blocking conditions across ${new Set(risks.map(r=>r.s.id)).size} live sites, ordered by the net buildable acreage each one puts at risk.`:'No blocking conditions on any live site.',
+    l:risks.slice(0,6).map(r=>`<b>${esc(r.label)}</b> — ${esc(r.s.name)}, ${esc(r.s.county)} (${fmt(r.w)} net ac at risk)`)});
+
+  // 4. coverage: contacts vs where you actually hold
+  const heldC=[...new Set(live.map(s=>s.county))];
+  const cov=heldC.map(cn=>({c:cn,n:K.filter(k=>(k.counties||'').indexOf(cn)>=0).length,
+    touched:K.filter(k=>(k.counties||'').indexOf(cn)>=0&&k.status!=='not_contacted').length}));
+  const untouched=cov.filter(x=>x.touched===0);
+  const t1=K.filter(k=>k.tier===1&&k.status==='not_contacted');
+  cards.push({k:'Coverage',t:'Who covers the ground you hold',
+    b:`${K.length} contacts loaded, <b class="ag-num">${K.filter(k=>k.status!=='not_contacted').length}</b> approached. `+
+      (untouched.length?`<b>${untouched.length} of ${heldC.length} counties where you hold a site have no contact approached.</b>`:'Every county you hold has an approached contact.'),
+    l:[...t1.slice(0,3).map(k=>`Tier 1, untouched: <b>${esc(k.org.split(' /')[0])}</b>`),
+       ...untouched.slice(0,3).map(x=>`No contact made in <b>${esc(x.c)}</b> (${x.n} loaded)`)]});
+
+  // 5. data completeness
+  const fields=[['Acreage',S.filter(s=>s.acres_gross!=null).length,S.length],
+                ['Owner name',S.filter(s=>s.owner).length,S.length],
+                ['Hydrology',S.filter(s=>s.hydro_class).length,S.length],
+                ['Zoning',S.filter(s=>s.zoning).length,S.length],
+                ['Broker/source',S.filter(s=>s.broker||s.source).length,S.length]];
+  const worst=fields.slice().sort((a,b)=>(a[1]/a[2])-(b[1]/b[2]))[0];
+  cards.push({k:'Data',t:'What the dataset is missing',
+    b:`The weakest field is <b>${esc(worst[0])}</b>, present on <b class="ag-num">${worst[1]} of ${worst[2]}</b> sites. Anything missing here is a site the screen cannot rank and an owner you cannot approach.`,
+    l:fields.map(f=>`${esc(f[0])}: <b class="ag-num">${f[1]}/${f[2]}</b>${f[1]<f[2]?' — '+(f[2]-f[1])+' missing':''}`)});
+
+  // 6. momentum
+  const dates=A.map(a=>a.date).sort();
+  const days=dates.length?Math.max(1,Math.round((new Date(dates[dates.length-1])-new Date(dates[0]))/864e5)+1):0;
+  const outreach=A.filter(a=>a.type==='outreach');
+  const byStage={}; S.forEach(s=>{byStage[s.status]=(byStage[s.status]||0)+1;});
+  cards.push({k:'Momentum',t:'What has actually moved',
+    b:`<b class="ag-num">${A.length}</b> logged entries over ${days} days, of which <b class="ag-num">${outreach.length}</b> are outreach. `+
+      (outreach.length?`${(outreach.length/days).toFixed(1)} contacts per active day.`:'No outreach logged yet.'),
+    l:Object.keys(byStage).sort((a,b)=>byStage[b]-byStage[a]).map(k=>`${esc(k.replace(/_/g,' '))}: <b class="ag-num">${byStage[k]}</b> site${byStage[k]>1?'s':''}`)});
+
+  // 7. packages ranked on net-per-owner
+  const pk=P.map(p=>{const q=pkgCalc(p);const v=q.net!=null?q.net:q.gross;
+    return {p:p,v:v,own:q.owners,eff:q.owners?Math.round(v/q.owners):null,cty:q.cty};})
+    .filter(x=>x.eff!=null).sort((a,b)=>b.eff-a.eff);
+  if(pk.length) cards.push({k:'Packages',t:'Most acres per signature',
+    b:`Ranking every route to a campus by buildable acres delivered per owner you have to bring along — the measure that decides how long an assemblage takes.`,
+    l:pk.slice(0,5).map(x=>`<b>${esc(x.p.name)}</b> — ${fmt(x.eff)} ac per owner (${fmt(x.v)} ac across ~${x.own})${x.cty?', county score '+x.cty.score:''}`)});
+
+  // 8. the one move
+  const target=rank.filter(c=>!c._held&&(c.ordinance==='open'||c.ordinance==='unzoned?'))[0];
+  const who=target?K.filter(k=>(k.counties||'').indexOf(target.name)>=0&&k.status==='not_contacted'):[];
+  cards.push({k:'Synthesis',t:'If the whole dataset only got to say one thing',
+    b:DB.brief.if_nothing_else,
+    l:target?[`Strongest county with no position: <b>${esc(target.name)}</b> — score ${target.score}, ${target.owners_per_section} owners/section, $${(target.section_cost/1e6).toFixed(2)}M a section`,
+      who.length?`Loaded and untouched contact covering it: <b>${esc(who[0].org.split(' /')[0])}</b>${who[0].phone?' · '+esc(who[0].phone):''}`:'No loaded contact covers it — that is the gap.']:[]});
+
+  return cards;
+}
+
+function renderAgent(){
+  const S=DB.sites.sites, C=DB.counties.counties;
+  statCards('#agStats',[
+    ['Records read',S.length+C.length+DB.contacts.contacts.length+DB.activity.activity.length+DB.packages.packages.length+DB.documents.documents.length,'Every row, every file'],
+    ['Data files',7,'Joined for this brief'],
+    ['Live sites',S.filter(s=>s._live).length,'In the synthesis'],
+    ['Counties',C.length,'Public screen'],
+    ['Findings',FIND.length,'From the Analyst']]);
+  $('#agBrief').innerHTML=agentSynthesis().map(c=>
+    '<div class="ag-c"><div class="ag-k">'+esc(c.k)+'</div><div class="ag-t">'+esc(c.t)+'</div>'+
+    '<div class="ag-b">'+c.b+'</div>'+
+    (c.l&&c.l.length?'<ul class="ag-l">'+c.l.map(x=>'<li>'+x+'</li>').join('')+'</ul>':'')+'</div>').join('');
+}
+
+/* ── full-project context export ──────────────────────────────────── */
+function buildContext(){
+  const L=[];
+  L.push('# IA LAND — HYPERSCALE SITE DESK: COMPLETE PROJECT DATA');
+  L.push('Exported '+new Date().toISOString().slice(0,10)+'. Every record in the project follows.');
+  L.push('\nGoal: assemble 500+ contiguous buildable acres in Iowa for a hyperscale data centre campus. Power and on-site generation are assumed solved; the binding constraints are land, water, assemblage difficulty and county ordinance status.\n');
+
+  L.push('\n## DERIVED FIELD DEFINITIONS');
+  L.push('- owners_per_section = 640 / county median farm size (USDA 2022). Optimistic floor: the census counts operations, not ownerships.');
+  L.push('- acres_net = gross x (1 - hydrology haircut) keyed to recorded hydrology; a real tillable figure overrides it. Screening estimate, not a delineation.');
+  L.push('- county score = landform 30, assemblage 28, ordinance 27, pool depth 15.');
+  L.push('- section_cost = county farmland $/acre (ISU 2025) x 640.');
+
+  L.push('\n\n## WRITTEN BRIEF (last regenerated '+DB.brief.generated+')');
+  L.push('HEADLINE: '+DB.brief.headline);
+  L.push('\nSTATE OF PLAY:'); DB.brief.state_of_play.forEach(x=>L.push('- '+x));
+  L.push('\nWHAT THE DATA SAYS:'); DB.brief.what_the_data_says.forEach(p=>L.push('- '+p.point+': '+p.detail));
+  L.push('\nWATCHLIST:'); DB.brief.watchlist.forEach(x=>L.push('- '+x));
+  L.push('\nIF NOTHING ELSE: '+DB.brief.if_nothing_else);
+
+  L.push('\n\n## COMPUTED FINDINGS ('+FIND.length+', re-derived each load)');
+  FIND.forEach(f=>L.push('['+f.sev.toUpperCase()+'/'+f.cat+'] '+f.t+' — '+f.d+(f.ev.length?' [refs: '+f.ev.join(', ')+']':'')));
+
+  L.push('\n\n## SITES ('+DB.sites.sites.length+')');
+  DB.sites.sites.forEach(s=>{
+    const c=byCounty[s.county];
+    L.push('\n### '+s.id+' — '+s.name+(s.city?', '+s.city:'')+' — '+(s.county||'?')+' County');
+    L.push('status='+s.status+' | role='+s.role+' | gross='+(s.acres_gross==null?'UNKNOWN':s.acres_gross)+' ac | net='+(s.acres_net==null?'UNKNOWN':s.acres_net)+' ac');
+    L.push('landform='+(s.landform||'?')+' | hydrology='+(s.hydrology||'none recorded')+' | FEMA='+(s.fema||'none recorded'));
+    L.push('zoning='+(s.zoning||'UNKNOWN')+' | owner='+(s.owner||'UNKNOWN')+' | source='+(s.source||'?'));
+    if(s.broker) L.push('broker='+s.broker+(s.broker_phone?' '+s.broker_phone:''));
+    if(s.price_per_acre_low) L.push('asking=$'+s.price_per_acre_low+'-'+s.price_per_acre_high+'/ac');
+    if(s.plss) L.push('PLSS='+s.plss+' | coords='+(s.coords||''));
+    if(c) L.push('county context: score='+c.score+', owners/section='+c.owners_per_section+', ordinance='+c.ordinance+', $'+c.price_per_acre+'/ac, CSR2='+c.csr2+', water='+c.water);
+    if((s.flags||[]).length) L.push('flags: '+s.flags.join(', '));
+    if(s.notes) L.push('notes: '+s.notes);
+  });
+
+  L.push('\n\n## COUNTY SCREEN ('+DB.counties.counties.length+')');
+  L.push('name | score | owners/sec | farms>=500 | farms>=1000 | median farm ac | $/ac | section cost | CSR2 | landform | ordinance | posture | water | utility | note');
+  DB.counties.counties.slice().sort((a,b)=>b.score-a.score).forEach(c=>{
+    L.push([c.name,c.score,c.owners_per_section,c.farms_ge500,c.farms_ge1000,c.median_farm_ac,
+      c.price_per_acre==null?'?':'$'+c.price_per_acre, c.section_cost==null?'?':'$'+c.section_cost,
+      c.csr2==null?'?':c.csr2,c.landform,c.ordinance,c.posture||'?',c.water||'?',c.utility||'?',c.note].join(' | '));
+    if(c.conflict) L.push('   CONFLICT: '+c.conflict);
+  });
+
+  L.push('\n\n## PACKAGES ('+DB.packages.packages.length+')');
+  DB.packages.packages.forEach(p=>{
+    const q=pkgCalc(p);
+    L.push('\n### '+p.id+' — '+p.name+' ['+p.type+'] — '+p.county);
+    L.push('gross='+(q.gross==null?'?':q.gross)+' | net='+(q.net==null?'not derived':q.net)+' | owners~'+(q.owners==null?'?':q.owners)+' | contiguous='+(p.contiguous||'?')+' | stage='+p.stage);
+    if(p.components&&p.components.length) L.push('components: '+p.components.join(', '));
+    L.push('thesis: '+p.thesis); L.push('blockers: '+p.blockers); L.push('next: '+p.next);
+  });
+
+  L.push('\n\n## CONTACTS ('+DB.contacts.contacts.length+')');
+  DB.contacts.contacts.forEach(k=>{
+    L.push('\n### '+k.id+' [tier '+k.tier+'] '+k.org+(k.person?' — '+k.person:'')+' — status='+k.status+(k.sentiment?', sentiment='+k.sentiment:''));
+    L.push('role: '+(k.role||'')); if(k.phone) L.push('phone: '+k.phone); if(k.email) L.push('email: '+k.email);
+    if(k.counties) L.push('counties: '+k.counties);
+    if((k.covers_sites||[]).length) L.push('covers sites: '+k.covers_sites.join(', '));
+    L.push('ask: '+k.ask); if(k.why) L.push('why: '+k.why);
+  });
+
+  L.push('\n\n## ACTIVITY LOG ('+DB.activity.activity.length+', append-only, retrospective)');
+  DB.activity.activity.slice().sort((a,b)=>a.date.localeCompare(b.date)).forEach(a=>{
+    L.push('\n'+a.id+' '+a.date+' ['+a.type+'] '+a.subject);
+    if(a.detail) L.push('  detail: '+a.detail);
+    if(a.outcome) L.push('  outcome: '+a.outcome);
+    if((a.refs||[]).length) L.push('  refs: '+a.refs.join(', '));
+  });
+
+  L.push('\n\n## DOCUMENTS INGESTED ('+DB.documents.documents.length+')');
+  DB.documents.documents.forEach(d=>{
+    L.push('\n'+d.id+' '+d.name+' ('+d.kind+', '+d.rows+' rows, received '+d.received+')');
+    L.push('  contained: '+d.contained); L.push('  yielded: '+d.yielded); L.push('  gaps: '+(d.gaps||'none noted'));
+  });
+
+  L.push('\n\n## CAVEATS THAT APPLY TO EVERY NUMBER ABOVE');
+  L.push('- County ordinance status changed nine times during 2026 and two counties currently carry conflicting sources. Verify before spending.');
+  L.push('- owners_per_section is an optimistic floor; true ownership is more fragmented than operation.');
+  L.push('- net acreage is a screening haircut, not a wetland delineation or a survey.');
+  L.push('- CSR2 is ISPAID-derived and published by crop reporting district, so it is directional at county level.');
+  L.push('- Posture "neutral-no record" for 80 of 99 counties means nothing has been proposed there, not that the county is receptive.');
+  return L.join('\n');
+}
+
+async function copyText(t){
+  try{ await navigator.clipboard.writeText(t); return true; }catch(_){ return false; }
+}
+function dlText(name,t){
+  const b=new Blob([t],{type:'text/markdown'}); const u=URL.createObjectURL(b);
+  const a=document.createElement('a'); a.href=u; a.download=name; a.click();
+  setTimeout(()=>URL.revokeObjectURL(u),2000);
+}
+
+/* ── ask Claude (optional, bring your own key) ────────────────────── */
+const KEY_STORE='ialand.anthropic.key';
+function keyState(){
+  const k=localStorage.getItem(KEY_STORE);
+  $('#keyState').textContent=k?('Key saved in this browser (…'+k.slice(-6)+')'):'No key set';
+  return k;
+}
+async function askClaude(){
+  const key=($('#apiKey').value||'').trim()||localStorage.getItem(KEY_STORE);
+  const q=($('#askQ').value||'').trim();
+  if(!key){ $('#askState').textContent='Add an API key first.'; return; }
+  if(!q){ $('#askState').textContent='Type a question first.'; return; }
+  const btn=$('#btnAsk'); btn.disabled=true;
+  $('#askState').textContent='Thinking — this can take a minute…';
+  $('#askOut').style.display='none';
+  try{
+    const mod=await import('https://esm.sh/@anthropic-ai/sdk@0.70.1');
+    const Anthropic=mod.default||mod.Anthropic;
+    const client=new Anthropic({apiKey:key,dangerouslyAllowBrowser:true});
+    const msg=await client.messages.create({
+      model:'claude-opus-5',
+      max_tokens:16000,
+      system:'You are a land acquisition analyst working on assembling 500+ contiguous buildable acres in Iowa for a hyperscale data centre. The complete project dataset is provided. Answer from it specifically — cite site IDs, county names and real numbers rather than generalities. Where the data is missing or self-contradictory, say so plainly instead of filling the gap. Keep responses focused and lead with the answer.',
+      messages:[{role:'user',content:buildContext()+'\n\n---\n\nQUESTION: '+q}]
+    });
+    const txt=(msg.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n');
+    $('#askOut').textContent=txt||'(no text returned — stop_reason: '+msg.stop_reason+')';
+    $('#askOut').style.display='';
+    $('#askState').textContent='Answered · '+(msg.usage?msg.usage.input_tokens+' in / '+msg.usage.output_tokens+' out tokens':'');
+  }catch(err){
+    $('#askOut').textContent='Request failed: '+(err&&err.message?err.message:String(err))+
+      '\n\nCommon causes: the key is wrong or has no credit, the browser blocked the request, or the SDK failed to load. The copy-context button above always works and needs no key.';
+    $('#askOut').style.display='';
+    $('#askState').textContent='Failed.';
+  }
+  btn.disabled=false;
+}
+
+function wireAgent(){
+  $('#ctxPresets').innerHTML=PRESET_Q.map(q=>'<button class="preset" type="button" data-q="'+esc(q)+'">'+esc(q)+'</button>').join('');
+  $('#askPresets').innerHTML=PRESET_Q.map(q=>'<button class="preset" type="button" data-q="'+esc(q)+'">'+esc(q)+'</button>').join('');
+  function fill(e){var b=e.target.closest('.preset'); if(!b)return; $('#askQ').value=b.dataset.q;
+    document.querySelector('.tab[data-p="agent"]').click(); $('#askQ').focus();}
+  $('#ctxPresets').addEventListener('click',fill);
+  $('#askPresets').addEventListener('click',fill);
+  $('#btnCtx').addEventListener('click',async()=>{
+    const t=buildContext(); const ok=await copyText(t);
+    $('#ctxSize').textContent=(ok?'Copied ':'Copy blocked — use Download · ')+Math.round(t.length/1000)+'k characters';
+  });
+  $('#btnCtxDl').addEventListener('click',()=>{const t=buildContext();dlText('ia-land-project-context.md',t);
+    $('#ctxSize').textContent='Downloaded · '+Math.round(t.length/1000)+'k characters';});
+  $('#btnSaveKey').addEventListener('click',()=>{const v=($('#apiKey').value||'').trim();
+    if(v){localStorage.setItem(KEY_STORE,v);} keyState();});
+  $('#btnClearKey').addEventListener('click',()=>{localStorage.removeItem(KEY_STORE);$('#apiKey').value='';keyState();
+    $('#askState').textContent='Key removed from this browser.';});
+  $('#btnAsk').addEventListener('click',askClaude);
+  keyState();
+}
+
 function renderAll(){
   derive(); FIND=analyse();
-  renderScreen(); renderPipe(); renderPkg(); renderAnalyst(); renderExec(); renderProgress(); renderData(); renderNow();
+  renderScreen(); renderPipe(); renderPkg(); renderAnalyst(); renderExec(); renderProgress(); renderData(); renderAgent(); renderNow();
   $('#tPipe').textContent=DB.sites.sites.filter(s=>s._live).length;
   $('#mCounts').textContent=DB.sites.sites.length+' sites · '+DB.counties.counties.length+' counties · '+DB.contacts.contacts.length+' contacts';
   $('#mUpdated').textContent=DB.sites.updated||'—';
@@ -977,6 +1330,7 @@ async function boot(){
   }
   btn.disabled=false;
 }
+wireAgent();
 $('#btnRefresh').addEventListener('click',boot);
 boot();
 </script>
