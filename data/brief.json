@@ -1,43 +1,52 @@
 {
   "schema": "narrative analysis, regenerated whenever new data lands. the deterministic engine finds the facts; this reads them.",
-  "generated": "2026-08-05",
-  "generated_from": {"sites": 18, "counties": 48, "contacts": 26, "activity": 13},
-  "headline": "The project has its first warm owner-side lead and its first real outreach data on the same day. The lead is a full 640-acre section whose owners have previously been willing to sell — and the FEMA panel puts much of it in Zone A.",
+  "generated": "2026-08-12",
+  "generated_from": {"sites": 19, "counties": 49, "contacts": 28, "activity": 16, "packages": 10},
+  "headline": "Price and water are now on the screen, and together they explain something the terrain analysis could not: the cheap counties are cheap because they are dry. Ringgold and Davis are the two lowest-priced counties in the file and both are among the most water-limited in Iowa — which is the actual reason large tracts sit there unsold.",
   "state_of_play": [
-    "Five brokerage contacts made in one day. One produced a lead, one had nothing at scale, two are open threads awaiting callback. That is a normal and healthy first-day hit rate.",
-    "Section 16, T92N R36W in Lincoln Township, Buena Vista County is now the most interesting record in the project: one full PLSS section, 640 acres exactly, off-market, at $12,000-12,500 an acre — roughly $7.7 to $8.0 million.",
-    "It is also the most compromised. The FEMA National Flood Hazard Layer shows Zone A across much of the section, sourced from the North Raccoon River, with no Base Flood Elevation determined.",
-    "Buena Vista County now holds two of the eighteen sites on record. It scores 78 on the screen with 3.4 owners per section — comfortably in the workable tier, though not the top of it.",
-    "Ten of the top twelve counties still hold no position, and none of the six tier-one contacts have been approached. The outreach so far has all been to land brokerages."
+    "A section now has a price. Across the workable counties one 640-acre section runs $7.2M to $10.4M. Kossuth is $7.94M, Emmet $7.99M, O'Brien $10.41M.",
+    "Ida County has been corrected from open to closed. It was scoring 79 and listed as a hunt county; the Board of Supervisors adopted an indefinite moratorium at the end of June 2026.",
+    "Emmet County has been added and enters at 81, fourth overall, with the easiest assemblage arithmetic in the state — median farm 290 acres, so 2.2 owners per section. It was not on the screen until an auction firm mentioned a private sale there.",
+    "Ten of ninety-nine counties show any data-centre posture at all. Six are open-favorable, three actively courting, one contested. The other eighty have no record — which means nothing has been proposed, not that they are receptive.",
+    "Two ordinance conflicts are flagged rather than resolved: Des Moines County, recorded here as closed but showing no moratorium as of 12 August, and Taylor County, recorded as drafting but showing no ordinance adopted."
   ],
   "what_the_data_says": [
     {
-      "point": "Zone A without a Base Flood Elevation is a harder problem than ordinary floodplain",
-      "detail": "Zone A means FEMA mapped the 1% annual chance floodplain but never ran the hydraulic analysis to establish how deep the water gets. There is no number to design against. Elevating or filling a campus requires commissioning that study first, which is time and money spent before you know whether the site is viable. The 416-acre net figure on record applies the standard floodplain haircut and should be treated as an upper bound — a visual read of the panel suggests the true buildable share is lower."
+      "point": "The cheap land is cheap for a reason that disqualifies it",
+      "detail": "Ringgold at $7,373 an acre and Davis at $7,735 are the two lowest-priced counties in the pipeline. Ringgold's water note reads 'among Iowa's most water-limited; rural water dependent'. Davis reads 'limited; Rathbun regional rural water'. Six sites sit in those two counties. Rough terrain was already a strike; water scarcity is a harder one, because a campus can be engineered around slope and cannot be engineered around an absent aquifer."
     },
     {
-      "point": "The section geometry is exactly the thesis, which makes the flood finding more frustrating",
-      "detail": "This is a single PLSS section — 640 acres under what appears to be unified ownership, on the Des Moines Lobe, with section-line road access on all four sides. Structurally it is the ideal unit. The constraint is water, not assemblage."
+      "point": "Soil quality drives price, and it is the one input that gets paved over",
+      "detail": "CSR2 explains 77% of the variance in farmland price across the 99 counties, at roughly $159 an acre for each CSR2 point — about $102,000 across a 640-acre section. Every point of corn suitability is money spent on productivity the campus will never use. The arbitrage is flat ground with mid-range soil, not the best soil."
     },
     {
-      "point": "A willing owner is the scarcest thing in the dataset",
-      "detail": "Seventeen of the eighteen sites are public listings or unapproached strangers. This one has owners who have previously entertained a sale. That is worth preserving as a relationship even if this particular section does not survive diligence — the same owners may hold or know of other ground."
+      "point": "Cheap ground is no harder to assemble",
+      "detail": "The correlation between price per acre and owners per section is -0.12, which is effectively none. Price and assemblage difficulty move independently, so there is no penalty for optimising both at once. That is what makes the value tier real rather than a trade-off."
     },
     {
-      "point": "The brokerage channel is working, but it is the shallow end",
-      "detail": "Five calls produced one lead. High Point's best was 107 acres near Davenport, which is an order of magnitude too small and tells you what general land brokerages carry. The channels that reach large contiguous ground — utility development groups, regional partnerships, the state certified-site register — remain untouched."
+      "point": "O'Brien has quietly become the weakest of the strong sites",
+      "detail": "At $16,269 an acre it is the most expensive county in the file — a section costs $2.47M more than Kossuth for five CSR2 points. It needs 3.9 owners against Kossuth's 2.8. Its water note reads 'NW Iowa groundwater-constrained'. And it borders Sioux, Plymouth and now Ida, all closed. The Sanborn site sits there."
     },
     {
-      "point": "One number in the log is unqualified and larger than everything else",
-      "detail": "A 2,700+ acre figure sits against Iowa Farmland with no location, parcel count or owner attached, and the contact was made through a website form rather than a conversation. It is either the largest opportunity in the project or a portfolio total across scattered listings. A phone call settles which."
+      "point": "A broker with no sight of any of this reached the same conclusion",
+      "detail": "Ben at Whiteshine described the southeast as very rough and recommended central or northern Iowa. That is the landform screen restated from the field — the southeast is Southern Iowa Drift Plain, which scores 22 of 100. He also anchors on CSR2, which is how the brokerage market actually prices ground, and is worth adopting as shared vocabulary in every call."
+    },
+    {
+      "point": "Buena Vista has a water competitor that was not visible before",
+      "detail": "The county's water note records large meatpacking demand from Tyson at Storm Lake alongside the Raccoon headwaters. Two sites sit there, including the 640-acre Section 16 already carrying Zone A. Competing industrial withdrawal is a permitting question to raise early, not at diligence."
+    },
+    {
+      "point": "The value tier is north-central Iowa",
+      "detail": "Ranking landform quality per dollar of land price puts Tama, Winnebago, Worth, Chickasaw, Marshall, Hancock, Mitchell and Cerro Gordo at the top — good terrain in the $11,200 to $12,400 range against $13,700 to $16,300 in the northwest. Worth County at CSR2 67 and Chickasaw at 68 are the clearest cases of good ground with below-median soil cost."
     }
   ],
   "watchlist": [
-    "Section 16 needs a delineated buildable acreage before any offer. Ask the broker whether a survey or elevation certificate exists, and whether the non-flood ground is contiguous or fragmented.",
-    "Zone A boundaries are drawn approximately. A Letter of Map Amendment could move them, but that is a study, not a phone call.",
-    "Trevor Glomski at High Point asked to be called back with changes — that thread only stays warm if it is worked.",
-    "The 2,700+ acre Iowa Farmland figure has been sitting unqualified since first contact.",
-    "Still no owner names anywhere in the dataset except this one, and even here the owners are known only through the broker."
+    "The most productive call in the log has no firm attached. The 12 August conversation produced a 1,300-acre November auction, other large auctions in the same window, and the Emmet County private sale — and there is no name, number or email to call back.",
+    "The November auction is dated 1 November 2026, eleven weeks out. Sale bills normally circulate 30 to 60 days ahead, so the window to see the book opens in early September.",
+    "Ida was in the hunt list until this update. Re-check the other counties currently marked open against a primary source before spending on any of them.",
+    "Taylor and Des Moines ordinance status disagree between sources. Both are low-scoring so neither is urgent, but the disagreement shows how fast this field moves.",
+    "Wright County records a Prestage pork plant water precedent at Eagle Grove — an existing large industrial withdrawal, which is a useful permitting comparable rather than a risk.",
+    "Still no owner name on any site except through a broker."
   ],
-  "if_nothing_else": "Two calls. Back to Matt Skinner to ask what share of Section 16 sits outside Zone A and whether the non-flood ground is contiguous — that single answer decides whether this is an $8M site or a dead one. Then Iowa Farmland by phone, to find out whether 2,700 acres means one block or a portfolio."
+  "if_nothing_else": "Recover the identity of the firm called on 12 August. That single call produced the only dated opportunity in the project and the lead in the best assemblage county in the state, and none of it is currently reachable. Then call Mid Iowa Growth Partnership, which covers Kossuth and Wright — two of the top four counties, both around $8M a section, both with river water."
 }

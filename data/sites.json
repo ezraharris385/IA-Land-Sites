@@ -1,6 +1,6 @@
 {
  "schema": "site pursuit unit — a cluster of one or more parcels pursued as a single campus footprint",
- "updated": "2026-08-05",
+ "updated": "2026-08-12",
  "status_values": [
   "identified",
   "screened",
@@ -56,7 +56,8 @@
    "flags": [
     "duplicate_source",
     "severe_hydrology",
-    "multi_tract"
+    "multi_tract",
+    "water_scarce"
    ]
   },
   {
@@ -87,7 +88,8 @@
    "last_touch": null,
    "notes": "925 leased acres through September. Available March.",
    "flags": [
-    "lease_encumbrance"
+    "lease_encumbrance",
+    "water_scarce"
    ]
   },
   {
@@ -118,7 +120,8 @@
    "last_touch": null,
    "notes": "At auction. Transmission ~3 mi, substation ~7 mi.",
    "flags": [
-    "at_auction"
+    "at_auction",
+    "water_contested"
    ]
   },
   {
@@ -182,7 +185,9 @@
    "notes": "At auction. Best landform class in the file. Transmission very close.",
    "flags": [
     "at_auction",
-    "adjacent_county_closed"
+    "adjacent_county_closed",
+    "water_constrained",
+    "price_premium"
    ]
   },
   {
@@ -213,7 +218,8 @@
    "last_touch": null,
    "notes": "Flood extent unresolved.",
    "flags": [
-    "flood_unresolved"
+    "flood_unresolved",
+    "water_scarce"
    ]
   },
   {
@@ -244,7 +250,8 @@
    "last_touch": null,
    "notes": "Marketed as a hunting property with cabin and ponds. On-site electric and water.",
    "flags": [
-    "recreational_ground"
+    "recreational_ground",
+    "water_scarce"
    ]
   },
   {
@@ -308,7 +315,8 @@
    "notes": null,
    "flags": [
     "under_500_gross",
-    "under_500_net"
+    "under_500_net",
+    "water_scarce"
    ]
   },
   {
@@ -606,7 +614,41 @@
     "owner_willing",
     "zone_a_no_bfe",
     "full_section",
-    "floodplain"
+    "floodplain",
+    "water_contested"
+   ]
+  },
+  {
+   "id": "S-019",
+   "name": "Emmet County private sale (~500 ac)",
+   "city": null,
+   "county": "Emmet",
+   "acres_gross": 500,
+   "acres_tillable": null,
+   "acres_net": 475,
+   "hydrology": "Not yet reviewed",
+   "hydro_class": "clean",
+   "fema": null,
+   "landform": "Des Moines Lobe",
+   "zoning": null,
+   "owner": null,
+   "owner_type": null,
+   "absentee": null,
+   "source": "Auction firm — attribution not recorded in the call log",
+   "broker": null,
+   "broker_phone": null,
+   "status": "identified",
+   "role": "anchor",
+   "option_status": "none",
+   "parcels": null,
+   "parcel_note": null,
+   "added": "2026-08-12",
+   "last_touch": "2026-08-12",
+   "notes": "Private sale opportunity around 500 acres, mentioned on a 12 Aug call. Emmet County has the easiest assemblage arithmetic in Iowa at 2.2 owners per section, no moratorium, and West Fork Des Moines River water. No address, acreage confirmation, price or owner yet — and the firm that offered it was not recorded.",
+   "flags": [
+    "off_market",
+    "source_unattributed",
+    "unverified"
    ]
   }
  ]

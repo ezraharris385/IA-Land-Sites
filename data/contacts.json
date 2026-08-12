@@ -1,6 +1,6 @@
 {
  "schema": "organisations and people who can surface land or clear a path. tier 1 = highest acres reachable per hour.",
- "updated": "2026-08-05",
+ "updated": "2026-08-12",
  "contacts": [
   {
    "id": "C-001",
@@ -468,6 +468,42 @@
    "status": "contacted",
    "last_touch": "2026-08-05",
    "sentiment": "neutral"
+  },
+  {
+   "id": "C-027",
+   "tier": 2,
+   "org": "Whiteshine Real Estate",
+   "person": "Ben",
+   "role": "Land brokerage — gave the clearest regional read of any contact so far",
+   "phone": null,
+   "email": "ben.sharshine@whiteproperties (address incomplete as recorded)",
+   "web": null,
+   "counties": "Iowa — advises central and northern",
+   "covers_sites": [],
+   "ask": "Which specific central and northern counties he works, and what he has at 500+ acres with CSR2 in the 60s rather than the 80s.",
+   "why": "Independently advised central or northern Iowa and described the southeast as too rough — matching the landform screen exactly, with no sight of it. Also anchors on CSR2 as the working metric, which is how the brokerage market prices ground.",
+   "status": "contacted",
+   "last_touch": "2026-08-12",
+   "sentiment": "warm"
+  },
+  {
+   "id": "C-028",
+   "tier": 2,
+   "org": "Auction firm — name not recorded",
+   "person": null,
+   "role": "Land auction house. Holds a November auction book and an Emmet County private sale",
+   "phone": null,
+   "email": null,
+   "web": null,
+   "counties": "Unknown",
+   "covers_sites": [
+    "S-019"
+   ],
+   "ask": "Re-establish who this was. They hold a 1,300-acre auction on 1 Nov 2026, other large acreage auctions the same period, an Emmet County private sale around 500 acres, and offered to circulate off-market buyers.",
+   "why": "The most productive single call in the log and the only one with no firm attached. Everything it produced is at risk of being unreachable.",
+   "status": "contacted",
+   "last_touch": "2026-08-12",
+   "sentiment": "warm"
   }
  ]
 }

@@ -1,6 +1,6 @@
 {
- "source": "USDA 2022 Census of Agriculture, Iowa county tables (parsed) + Iowa Geological Survey landform regions + county ordinance research",
- "updated": "2026-08-05",
+ "source": "USDA 2022 Census of Agriculture, Iowa county tables (parsed) + Iowa Geological Survey landform regions + county ordinance research + Iowa County Data Center Screen (ISU Land Value Survey 2025 per-county farmland price, ISPAID-derived CSR2 estimates, 2024 certified election results, utility/water/posture research current to 12 Aug 2026)",
+ "updated": "2026-08-12",
  "weights": {
   "landform": 30,
   "assemblage": 28,
@@ -25,7 +25,17 @@
    "farms_ge1000": 143,
    "pct_ge500": 29.5,
    "owners_per_section": 2.8,
-   "note": "Largest county in Iowa by area. Biggest pool of 500+ ac operations in the state."
+   "note": "Largest county in Iowa by area. Biggest pool of 500+ ac operations in the state.",
+   "price_per_acre": 12414,
+   "csr2": 79,
+   "section_cost": 7944960,
+   "posture": "Neutral-no record",
+   "water": "East Fork Des Moines River",
+   "utility": "Municipal/co-op (Algona Municipal; Prairie Energy Co-op); MidAmerican fringe",
+   "land_tier": "High",
+   "political_lean": "Very Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Cherokee",
@@ -44,7 +54,17 @@
    "farms_ge1000": 76,
    "pct_ge500": 25.1,
    "owners_per_section": 2.7,
-   "note": "Best terrain class plus the 3rd-highest median farm size on this board."
+   "note": "Best terrain class plus the 3rd-highest median farm size on this board.",
+   "price_per_acre": 13665,
+   "csr2": 78,
+   "section_cost": 8745600,
+   "posture": "Neutral-no record",
+   "water": "Little Sioux River",
+   "utility": "MidAmerican Energy",
+   "land_tier": "Premium (>$13k)",
+   "political_lean": "Very Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Wright",
@@ -63,7 +83,17 @@
    "farms_ge1000": 106,
    "pct_ge500": 31.6,
    "owners_per_section": 2.9,
-   "note": "Highest share of large operations among the hunt counties. I-35 corridor."
+   "note": "Highest share of large operations among the hunt counties. I-35 corridor.",
+   "price_per_acre": 12712,
+   "csr2": 81,
+   "section_cost": 8135680,
+   "posture": "Neutral-no record",
+   "water": "Boone River; adequate; Prestage pork plant (Eagle Grove) water precedent",
+   "utility": "MidAmerican Energy (Clarion/Eagle Grove)",
+   "land_tier": "High",
+   "political_lean": "Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Sac",
@@ -82,7 +112,17 @@
    "farms_ge1000": 94,
    "pct_ge500": 25.0,
    "owners_per_section": 3.8,
-   "note": "Adjacent to your Albert City and Lohrville candidates."
+   "note": "Adjacent to your Albert City and Lohrville candidates.",
+   "price_per_acre": 13743,
+   "csr2": 78,
+   "section_cost": 8795520,
+   "posture": "Neutral-no record",
+   "water": "North Raccoon River",
+   "utility": "MidAmerican Energy (Sac City)",
+   "land_tier": "Premium (>$13k)",
+   "political_lean": "Very Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Clay",
@@ -101,7 +141,17 @@
    "farms_ge1000": 88,
    "pct_ge500": 27.1,
    "owners_per_section": 3.5,
-   "note": "Spencer regional hub. Strong farm sizes."
+   "note": "Spencer regional hub. Strong farm sizes.",
+   "price_per_acre": 13112,
+   "csr2": 78,
+   "section_cost": 8391680,
+   "posture": "Neutral-no record",
+   "water": "Little Sioux River",
+   "utility": "Municipal (Spencer Municipal Utilities); Iowa Lakes Electric Co-op",
+   "land_tier": "Premium (>$13k)",
+   "political_lean": "Very Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "O'Brien",
@@ -120,17 +170,27 @@
    "farms_ge1000": 57,
    "pct_ge500": 21.0,
    "owners_per_section": 3.9,
-   "note": "Best terrain in the state. Sioux County next door is closed \u2014 move early."
+   "note": "Best terrain in the state. Sioux County next door is closed — move early.",
+   "price_per_acre": 16269,
+   "csr2": 84,
+   "section_cost": 10412160,
+   "posture": "Neutral-no record",
+   "water": "NW Iowa groundwater-constrained; Lewis & Clark pipeline (Sheldon); Dakota aquifer",
+   "utility": "MidAmerican Energy (Sheldon); several municipals",
+   "land_tier": "Premium (>$13k)",
+   "political_lean": "Very Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Ida",
    "landform": "Northwest Iowa Plains",
-   "ordinance": "open",
+   "ordinance": "closed",
    "cog": "SIMPC",
-   "score": 79,
+   "score": 54,
    "s_landform": 95,
-   "s_assemblage": 76,
-   "s_ordinance": 90,
+   "s_assemblage": 75,
+   "s_ordinance": 0,
    "s_pool": 31,
    "farms": 456,
    "avg_farm_ac": 462,
@@ -139,7 +199,17 @@
    "farms_ge1000": 47,
    "pct_ge500": 27.2,
    "owners_per_section": 3.5,
-   "note": "Strong terrain, very rural, least land competition on the board."
+   "note": "Board of Supervisors adopted an INDEFINITE moratorium end of June 2026. Previously scored 79 and listed as a hunt county — corrected.",
+   "price_per_acre": 13117,
+   "csr2": 70,
+   "section_cost": 8394880,
+   "posture": "Restrictive-moratorium",
+   "water": "Maple River; limited surface water",
+   "utility": "MidAmerican Energy (Ida Grove)",
+   "land_tier": "Premium (>$13k)",
+   "political_lean": "Very Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Benton",
@@ -158,7 +228,17 @@
    "farms_ge1000": 95,
    "pct_ge500": 22.4,
    "owners_per_section": 4.0,
-   "note": "Good terrain and fibre. Linn County next door is closed."
+   "note": "Good terrain and fibre. Linn County next door is closed.",
+   "price_per_acre": 12689,
+   "csr2": 76,
+   "section_cost": 8120960,
+   "posture": "Neutral-no record",
+   "water": "Cedar River",
+   "utility": "Alliant Energy (IPL); Vinton municipal",
+   "land_tier": "High",
+   "political_lean": "Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Grundy",
@@ -177,7 +257,17 @@
    "farms_ge1000": 80,
    "pct_ge500": 28.7,
    "owners_per_section": 3.7,
-   "note": "Flattest well-drained ground in Iowa with very little floodplain."
+   "note": "Flattest well-drained ground in Iowa with very little floodplain.",
+   "price_per_acre": 13658,
+   "csr2": 86,
+   "section_cost": 8741120,
+   "posture": "Neutral-no record",
+   "water": "Limited surface water; adequate aquifer",
+   "utility": "Mixed: MidAmerican; co-ops; Grundy Center municipal",
+   "land_tier": "Premium (>$13k)",
+   "political_lean": "Very Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Buena Vista",
@@ -196,7 +286,17 @@
    "farms_ge1000": 76,
    "pct_ge500": 25.8,
    "owners_per_section": 3.4,
-   "note": "Your Albert City tract is here. Storm Lake and pothole hydrology are the constraints."
+   "note": "Your Albert City tract is here. Storm Lake and pothole hydrology are the constraints.",
+   "price_per_acre": 13696,
+   "csr2": 80,
+   "section_cost": 8765440,
+   "posture": "Neutral-no record",
+   "water": "Storm Lake; large meatpacking (Tyson) water demand; Raccoon headwaters",
+   "utility": "Alliant Energy (IPL) (Storm Lake); MidAmerican surrounding towns",
+   "land_tier": "Premium (>$13k)",
+   "political_lean": "Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Crawford",
@@ -215,7 +315,17 @@
    "farms_ge1000": 107,
    "pct_ge500": 23.8,
    "owners_per_section": 3.2,
-   "note": "High median farm size. Confirm slope on the western edge."
+   "note": "High median farm size. Confirm slope on the western edge.",
+   "price_per_acre": 12563,
+   "csr2": 63,
+   "section_cost": 8040320,
+   "posture": "Neutral-no record",
+   "water": "Boyer River; Smithfield Denison water demand",
+   "utility": "MidAmerican Energy (Denison)",
+   "land_tier": "High",
+   "political_lean": "Very Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Tama",
@@ -234,7 +344,17 @@
    "farms_ge1000": 95,
    "pct_ge500": 21.3,
    "owners_per_section": 4.2,
-   "note": "Well-drained rolling ground. Check the Meskwaki Settlement boundary."
+   "note": "Well-drained rolling ground. Check the Meskwaki Settlement boundary.",
+   "price_per_acre": 11968,
+   "csr2": 73,
+   "section_cost": 7659520,
+   "posture": "Neutral-no record",
+   "water": "Iowa River",
+   "utility": "Alliant Energy (IPL) (Tama/Toledo); Traer municipal",
+   "land_tier": "High",
+   "political_lean": "Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Webster",
@@ -253,7 +373,17 @@
    "farms_ge1000": 97,
    "pct_ge500": 24.0,
    "owners_per_section": 4.0,
-   "note": "Fort Dodge base for contractors and the MIGP regional office."
+   "note": "Fort Dodge base for contractors and the MIGP regional office.",
+   "price_per_acre": 12694,
+   "csr2": 81,
+   "section_cost": 8124160,
+   "posture": "Neutral-no record",
+   "water": "Des Moines River; established heavy-industrial water users (gypsum; Cargill/CJ Bio ag processing)",
+   "utility": "MidAmerican Energy (Fort Dodge)",
+   "land_tier": "High",
+   "political_lean": "Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Palo Alto",
@@ -272,7 +402,17 @@
    "farms_ge1000": 90,
    "pct_ge500": 23.4,
    "owners_per_section": 3.7,
-   "note": "Flat with high median farm size. Screen the Des Moines River headwaters."
+   "note": "Flat with high median farm size. Screen the Des Moines River headwaters.",
+   "price_per_acre": 12504,
+   "csr2": 77,
+   "section_cost": 8002560,
+   "posture": "Neutral-no record",
+   "water": "West Fork Des Moines River",
+   "utility": "MidAmerican Energy (Emmetsburg)",
+   "land_tier": "High",
+   "political_lean": "Very Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Calhoun",
@@ -291,7 +431,17 @@
    "farms_ge1000": 96,
    "pct_ge500": 25.5,
    "owners_per_section": 4.4,
-   "note": "Your Lohrville listing records no county zoning. Verify in writing."
+   "note": "Your Lohrville listing records no county zoning. Verify in writing.",
+   "price_per_acre": 13317,
+   "csr2": 82,
+   "section_cost": 8522880,
+   "posture": "Neutral-no record",
+   "water": "North Raccoon River",
+   "utility": "MidAmerican Energy",
+   "land_tier": "Premium (>$13k)",
+   "political_lean": "Very Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Pocahontas",
@@ -310,7 +460,17 @@
    "farms_ge1000": 89,
    "pct_ge500": 25.7,
    "owners_per_section": 4.1,
-   "note": "Very flat. Heaviest pothole exposure in this tier."
+   "note": "Very flat. Heaviest pothole exposure in this tier.",
+   "price_per_acre": 12951,
+   "csr2": 82,
+   "section_cost": 8288640,
+   "posture": "Neutral-no record",
+   "water": "Adequate agricultural groundwater",
+   "utility": "Mixed: MidAmerican; co-ops; Laurens & Pocahontas municipals",
+   "land_tier": "High",
+   "political_lean": "Very Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Franklin",
@@ -329,7 +489,17 @@
    "farms_ge1000": 96,
    "pct_ge500": 25.6,
    "owners_per_section": 4.5,
-   "note": "Flat, I-35 corridor for construction logistics."
+   "note": "Flat, I-35 corridor for construction logistics.",
+   "price_per_acre": 11926,
+   "csr2": 78,
+   "section_cost": 7632640,
+   "posture": "Neutral-no record",
+   "water": "Adequate glacial/bedrock groundwater",
+   "utility": "MidAmerican Energy (Hampton)",
+   "land_tier": "High",
+   "political_lean": "Very Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Cerro Gordo",
@@ -348,7 +518,17 @@
    "farms_ge1000": 84,
    "pct_ge500": 26.4,
    "owners_per_section": 4.4,
-   "note": "Mason City labour and rail. Slightly more incorporated competition."
+   "note": "Mason City labour and rail. Slightly more incorporated competition.",
+   "price_per_acre": 11594,
+   "csr2": 74,
+   "section_cost": 7420160,
+   "posture": "Neutral-no record",
+   "water": "Clear Lake; strong limestone/Devonian aquifers; large industrial base (cement/ethanol)",
+   "utility": "Alliant Energy (IPL) (Mason City)",
+   "land_tier": "High",
+   "political_lean": "Lean R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Hancock",
@@ -367,7 +547,17 @@
    "farms_ge1000": 67,
    "pct_ge500": 22.9,
    "owners_per_section": 4.2,
-   "note": "Flat, rural, no ordinance action recorded."
+   "note": "Flat, rural, no ordinance action recorded.",
+   "price_per_acre": 11527,
+   "csr2": 76,
+   "section_cost": 7377280,
+   "posture": "Neutral-no record",
+   "water": "Adequate glacial aquifers",
+   "utility": "Alliant Energy (IPL) (Garner/Britt)",
+   "land_tier": "High",
+   "political_lean": "Very Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Carroll",
@@ -386,7 +576,17 @@
    "farms_ge1000": 64,
    "pct_ge500": 19.5,
    "owners_per_section": 4.0,
-   "note": "US-30 access and large operations."
+   "note": "US-30 access and large operations.",
+   "price_per_acre": 13239,
+   "csr2": 77,
+   "section_cost": 8472960,
+   "posture": "Open-favorable",
+   "water": "Middle Raccoon; adequate alluvial groundwater",
+   "utility": "MidAmerican Energy",
+   "land_tier": "Premium (>$13k)",
+   "political_lean": "Very Strong R",
+   "dc_projects": 1,
+   "operators": "Giga Energy"
   },
   {
    "name": "Humboldt",
@@ -405,7 +605,17 @@
    "farms_ge1000": 67,
    "pct_ge500": 23.4,
    "owners_per_section": 4.0,
-   "note": "Flat and rural. Exclude the Des Moines River corridor."
+   "note": "Flat and rural. Exclude the Des Moines River corridor.",
+   "price_per_acre": 12719,
+   "csr2": 81,
+   "section_cost": 8140160,
+   "posture": "Neutral-no record",
+   "water": "Des Moines River forks confluence",
+   "utility": "MidAmerican Energy (Humboldt)",
+   "land_tier": "High",
+   "political_lean": "Very Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Mitchell",
@@ -424,7 +634,17 @@
    "farms_ge1000": 59,
    "pct_ge500": 20.3,
    "owners_per_section": 4.7,
-   "note": "Your Mona Rail Site sits here. Watch karst on the eastern edge."
+   "note": "Your Mona Rail Site sits here. Watch karst on the eastern edge.",
+   "price_per_acre": 12418,
+   "csr2": 74,
+   "section_cost": 7947520,
+   "posture": "Neutral-no record",
+   "water": "Cedar River headwaters",
+   "utility": "Alliant Energy (IPL); Osage municipal",
+   "land_tier": "High",
+   "political_lean": "Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Chickasaw",
@@ -443,7 +663,17 @@
    "farms_ge1000": 64,
    "pct_ge500": 16.2,
    "owners_per_section": 5.3,
-   "note": "Reported to have no countywide zoning \u2014 verify. Small median farm size hurts assemblage."
+   "note": "Reported to have no countywide zoning — verify. Small median farm size hurts assemblage.",
+   "price_per_acre": 12135,
+   "csr2": 68,
+   "section_cost": 7766400,
+   "posture": "Neutral-no record",
+   "water": "Cedar/Wapsipinicon headwaters",
+   "utility": "Mixed: Alliant (New Hampton area); New Hampton municipal; MidAmerican (Nashua)",
+   "land_tier": "High",
+   "political_lean": "Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Marshall",
@@ -462,7 +692,17 @@
    "farms_ge1000": 85,
    "pct_ge500": 23.8,
    "owners_per_section": 5.2,
-   "note": "Decent farm sizes, existing industrial base at Marshalltown."
+   "note": "Decent farm sizes, existing industrial base at Marshalltown.",
+   "price_per_acre": 11857,
+   "csr2": 78,
+   "section_cost": 7588480,
+   "posture": "Neutral-no record",
+   "water": "Iowa River; JBS pork plant water demand",
+   "utility": "Alliant Energy (IPL) (Marshalltown)",
+   "land_tier": "High",
+   "political_lean": "Lean R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Hardin",
@@ -481,7 +721,17 @@
    "farms_ge1000": 93,
    "pct_ge500": 24.1,
    "owners_per_section": 5.3,
-   "note": "Existing industrial park already in your CoStar export."
+   "note": "Existing industrial park already in your CoStar export.",
+   "price_per_acre": 12619,
+   "csr2": 80,
+   "section_cost": 8076160,
+   "posture": "Neutral-no record",
+   "water": "Iowa River (Iowa Falls); ethanol industry water use",
+   "utility": "Alliant Energy (IPL) (Iowa Falls/Eldora); MidAmerican (Ackley)",
+   "land_tier": "High",
+   "political_lean": "Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Hamilton",
@@ -500,7 +750,17 @@
    "farms_ge1000": 101,
    "pct_ge500": 25.2,
    "owners_per_section": 5.3,
-   "note": "Low relief, large blocks. Screen prairie potholes hard."
+   "note": "Low relief, large blocks. Screen prairie potholes hard.",
+   "price_per_acre": 13130,
+   "csr2": 84,
+   "section_cost": 8403200,
+   "posture": "Neutral-no record",
+   "water": "Boone River",
+   "utility": "Municipal (Webster City); co-ops rural",
+   "land_tier": "Premium (>$13k)",
+   "political_lean": "Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Shelby",
@@ -519,7 +779,17 @@
    "farms_ge1000": 73,
    "pct_ge500": 26.0,
    "owners_per_section": 3.0,
-   "note": "2nd-highest median farm size on the board, but check terrain township by township."
+   "note": "2nd-highest median farm size on the board, but check terrain township by township.",
+   "price_per_acre": 11847,
+   "csr2": 67,
+   "section_cost": 7582080,
+   "posture": "Neutral-no record",
+   "water": "Nishnabotna; limited bedrock groundwater",
+   "utility": "MidAmerican Energy; Harlan Municipal Utilities",
+   "land_tier": "High",
+   "political_lean": "Very Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Buchanan",
@@ -538,7 +808,17 @@
    "farms_ge1000": 85,
    "pct_ge500": 18.9,
    "owners_per_section": 6.1,
-   "note": "Good terrain and fibre. Exclude the Wapsipinicon corridor."
+   "note": "Good terrain and fibre. Exclude the Wapsipinicon corridor.",
+   "price_per_acre": 12957,
+   "csr2": 74,
+   "section_cost": 8292480,
+   "posture": "Neutral-no record",
+   "water": "Wapsipinicon River",
+   "utility": "Municipal (Independence Light & Power); MidAmerican (Jesup); co-ops",
+   "land_tier": "High",
+   "political_lean": "Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Winnebago",
@@ -557,7 +837,17 @@
    "farms_ge1000": 52,
    "pct_ge500": 22.3,
    "owners_per_section": 4.9,
-   "note": "Flat and rural. Small county, fewer targets."
+   "note": "Flat and rural. Small county, fewer targets.",
+   "price_per_acre": 11217,
+   "csr2": 71,
+   "section_cost": 7178880,
+   "posture": "Neutral-no record",
+   "water": "Adequate glacial aquifers",
+   "utility": "Alliant Energy (IPL) (Forest City/Lake Mills)",
+   "land_tier": "High",
+   "political_lean": "Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Greene",
@@ -576,7 +866,17 @@
    "farms_ge1000": 94,
    "pct_ge500": 24.5,
    "owners_per_section": 4.3,
-   "note": "Northern half is the target. Exclude the Raccoon River corridor."
+   "note": "Northern half is the target. Exclude the Raccoon River corridor.",
+   "price_per_acre": 12557,
+   "csr2": 78,
+   "section_cost": 8036480,
+   "posture": "Neutral-no record",
+   "water": "North Raccoon alluvial",
+   "utility": "Alliant Energy (IPL) (Jefferson)",
+   "land_tier": "High",
+   "political_lean": "Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Butler",
@@ -595,7 +895,17 @@
    "farms_ge1000": 68,
    "pct_ge500": 16.0,
    "owners_per_section": 6.1,
-   "note": "Straddles two good regions. Western half is flatter."
+   "note": "Straddles two good regions. Western half is flatter.",
+   "price_per_acre": 12027,
+   "csr2": 74,
+   "section_cost": 7697280,
+   "posture": "Neutral-no record",
+   "water": "Shell Rock River; good Cedar Valley aquifers",
+   "utility": "MidAmerican Energy",
+   "land_tier": "High",
+   "political_lean": "Very Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Plymouth",
@@ -614,7 +924,17 @@
    "farms_ge1000": 140,
    "pct_ge500": 27.1,
    "owners_per_section": 3.1,
-   "note": "Moratorium. 348 large operations sitting behind a closed door."
+   "note": "Moratorium. 348 large operations sitting behind a closed door.",
+   "price_per_acre": 14582,
+   "csr2": 75,
+   "section_cost": 9332480,
+   "posture": "Restrictive-moratorium",
+   "water": "Floyd River; Dakota aquifer; Wells Enterprises (Le Mars) demand; Lewis & Clark member",
+   "utility": "MidAmerican Energy (Le Mars)",
+   "land_tier": "Premium (>$13k)",
+   "political_lean": "Very Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Worth",
@@ -633,7 +953,17 @@
    "farms_ge1000": 45,
    "pct_ge500": 19.3,
    "owners_per_section": 5.8,
-   "note": "Flat, but small county and modest farm sizes."
+   "note": "Flat, but small county and modest farm sizes.",
+   "price_per_acre": 11265,
+   "csr2": 67,
+   "section_cost": 7209600,
+   "posture": "Neutral-no record",
+   "water": "Shell Rock River; adequate",
+   "utility": "Alliant Energy (IPL) (Northwood)",
+   "land_tier": "High",
+   "political_lean": "Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Boone",
@@ -652,7 +982,17 @@
    "farms_ge1000": 96,
    "pct_ge500": 18.5,
    "owners_per_section": 8.1,
-   "note": "Flat and well served, but fragmented ownership and the Des Moines River valley cuts it."
+   "note": "Flat and well served, but fragmented ownership and the Des Moines River valley cuts it.",
+   "price_per_acre": 12811,
+   "csr2": 77,
+   "section_cost": 8199040,
+   "posture": "Neutral-no record",
+   "water": "Des Moines River; Xenia Rural Water",
+   "utility": "Alliant Energy (IPL) (Boone); Ogden municipal",
+   "land_tier": "High",
+   "political_lean": "Strong R",
+   "dc_projects": 1,
+   "operators": "InfoBunker"
   },
   {
    "name": "Story",
@@ -671,7 +1011,17 @@
    "farms_ge1000": 70,
    "pct_ge500": 14.2,
    "owners_per_section": 8.0,
-   "note": "Flat, but Ames metro fragmentation \u2014 8 owners per section."
+   "note": "Flat, but Ames metro fragmentation — 8 owners per section.",
+   "price_per_acre": 13479,
+   "csr2": 82,
+   "section_cost": 8626560,
+   "posture": "Neutral-no record",
+   "water": "South Skunk River; Ames wellfield adequate",
+   "utility": "Municipal (Ames Electric Services - own plant); Alliant (Nevada)",
+   "land_tier": "Premium (>$13k)",
+   "political_lean": "Lean D",
+   "dc_projects": 1,
+   "operators": "Global Reach"
   },
   {
    "name": "Pottawattamie",
@@ -690,7 +1040,17 @@
    "farms_ge1000": 189,
    "pct_ge500": 26.4,
    "owners_per_section": 4.1,
-   "note": "Proven entitlement path and big farms, but flat ground is floodplain and dry ground is steep."
+   "note": "Proven entitlement path and big farms, but flat ground is floodplain and dry ground is steep.",
+   "price_per_acre": 11571,
+   "csr2": 66,
+   "section_cost": 7405440,
+   "posture": "Actively courting",
+   "water": "Missouri River frontage + alluvial aquifer - abundant",
+   "utility": "MidAmerican Energy (Council Bluffs)",
+   "land_tier": "High",
+   "political_lean": "Strong R",
+   "dc_projects": 4,
+   "operators": "Google; CyrusOne OCB1; Edged Energy"
   },
   {
    "name": "Sioux",
@@ -709,7 +1069,17 @@
    "farms_ge1000": 104,
    "pct_ge500": 16.8,
    "owners_per_section": 4.8,
-   "note": "Moratorium. 281 large operations, closed."
+   "note": "Moratorium. 281 large operations, closed.",
+   "price_per_acre": 15983,
+   "csr2": 79,
+   "section_cost": 10229120,
+   "posture": "Restrictive-moratorium",
+   "water": "Rock/Big Sioux rivers; Lewis & Clark pipeline; heavy livestock-processing demand; Dakota aquifer",
+   "utility": "Mixed: municipals (Sioux Center/Orange City/Hawarden/Alton) + MidAmerican (Hull/Rock Valley)",
+   "land_tier": "Premium (>$13k)",
+   "political_lean": "Very Strong R",
+   "dc_projects": 1,
+   "operators": "PathOne Data Centers"
   },
   {
    "name": "Ringgold",
@@ -728,7 +1098,17 @@
    "farms_ge1000": 83,
    "pct_ge500": 26.5,
    "owners_per_section": 3.2,
-   "note": "Three of your sites. Big marginal farms, dissected terrain, bracketed by ordinance action."
+   "note": "Three of your sites. Big marginal farms, dissected terrain, bracketed by ordinance action.",
+   "price_per_acre": 7373,
+   "csr2": 46,
+   "section_cost": 4718720,
+   "posture": "Neutral-no record",
+   "water": "Among Iowa's most water-limited; rural water dependent",
+   "utility": "Municipal/co-op (Mount Ayr municipal; Southern Iowa REC)",
+   "land_tier": "Low (<$9k)",
+   "political_lean": "Very Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Woodbury",
@@ -747,7 +1127,17 @@
    "farms_ge1000": 128,
    "pct_ge500": 26.7,
    "owners_per_section": 4.0,
-   "note": "Moratorium."
+   "note": "Moratorium.",
+   "price_per_acre": 11277,
+   "csr2": 61,
+   "section_cost": 7217280,
+   "posture": "Restrictive-moratorium",
+   "water": "Missouri River frontage + alluvial aquifer - abundant",
+   "utility": "MidAmerican Energy (Sioux City)",
+   "land_tier": "High",
+   "political_lean": "Strong R",
+   "dc_projects": 3,
+   "operators": "MidAmerican Energy / Midwest Capital Group; Long Lines Broadband; FiberComm"
   },
   {
    "name": "Taylor",
@@ -766,7 +1156,18 @@
    "farms_ge1000": 77,
    "pct_ge500": 24.0,
    "owners_per_section": 3.4,
-   "note": "Moratorium drafted 8 Jun 2026. Your Bedford site is here."
+   "note": "Moratorium drafted 8 Jun 2026. Your Bedford site is here.",
+   "price_per_acre": 7555,
+   "csr2": 49,
+   "section_cost": 4835200,
+   "posture": "Neutral-no record",
+   "water": "Limited groundwater (SW Iowa); rural water",
+   "utility": "MidAmerican Energy (Bedford)",
+   "land_tier": "Low (<$9k)",
+   "political_lean": "Very Strong R",
+   "dc_projects": 0,
+   "operators": null,
+   "conflict": "Recorded here as drafting from an 8 Jun 2026 draft ordinance; the county screen dated 12 Aug 2026 shows no moratorium adopted. The draft may not have passed. Verify."
   },
   {
    "name": "Davis",
@@ -785,7 +1186,17 @@
    "farms_ge1000": 42,
    "pct_ge500": 10.8,
    "owners_per_section": 7.4,
-   "note": "Two of your sites. Worst assemblage profile on the board: 7.4 owners per section."
+   "note": "Two of your sites. Worst assemblage profile on the board: 7.4 owners per section.",
+   "price_per_acre": 7735,
+   "csr2": 45,
+   "section_cost": 4950400,
+   "posture": "Neutral-no record",
+   "water": "Limited; Rathbun regional rural water",
+   "utility": "Municipal/co-op (Bloomfield Municipal; Southern Iowa REC)",
+   "land_tier": "Low (<$9k)",
+   "political_lean": "Very Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Dallas",
@@ -804,7 +1215,17 @@
    "farms_ge1000": 81,
    "pct_ge500": 16.4,
    "owners_per_section": 10.2,
-   "note": "Real fibre and power, severe metro fragmentation, Madison County next door closed."
+   "note": "Real fibre and power, severe metro fragmentation, Madison County next door closed.",
+   "price_per_acre": 11883,
+   "csr2": 76,
+   "section_cost": 7605120,
+   "posture": "Actively courting",
+   "water": "Raccoon River alluvial; rapid metro growth straining supply; Central Iowa Water Works expansion",
+   "utility": "MidAmerican Energy",
+   "land_tier": "High",
+   "political_lean": "Swing",
+   "dc_projects": 5,
+   "operators": "Microsoft; Apple; COPT Defense Properties"
   },
   {
    "name": "Linn",
@@ -823,7 +1244,17 @@
    "farms_ge1000": 84,
    "pct_ge500": 13.8,
    "owners_per_section": 8.1,
-   "note": "18-month moratorium effective 1 Jul 2026."
+   "note": "18-month moratorium effective 1 Jul 2026.",
+   "price_per_acre": 13513,
+   "csr2": 72,
+   "section_cost": 8648320,
+   "posture": "Restrictive-moratorium",
+   "water": "Cedar River alluvial wellfields - Iowa's largest industrial water demand center (corn milling); Jordan aquifer drawdown flagged by DNR",
+   "utility": "Alliant Energy (IPL) (Cedar Rapids)",
+   "land_tier": "Premium (>$13k)",
+   "political_lean": "Lean D",
+   "dc_projects": 5,
+   "operators": "Google; QTS; Enseva; Ark Data Centers"
   },
   {
    "name": "Clarke",
@@ -842,7 +1273,17 @@
    "farms_ge1000": 35,
    "pct_ge500": 13.3,
    "owners_per_section": 4.7,
-   "note": "Moratorium. Borders Ringgold."
+   "note": "Moratorium. Borders Ringgold.",
+   "price_per_acre": 7348,
+   "csr2": 45,
+   "section_cost": 4702720,
+   "posture": "Restrictive-moratorium",
+   "water": "Known constraint: Osceola/Clarke supply shortage (West Lake); long-running new-reservoir effort",
+   "utility": "Alliant Energy (IPL) (Osceola); Clarke Electric Co-op",
+   "land_tier": "Low (<$9k)",
+   "political_lean": "Very Strong R",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Dubuque",
@@ -861,7 +1302,17 @@
    "farms_ge1000": 37,
    "pct_ge500": 11.5,
    "owners_per_section": 5.4,
-   "note": "12-month moratorium. Karst terrain regardless."
+   "note": "12-month moratorium. Karst terrain regardless.",
+   "price_per_acre": 13677,
+   "csr2": 60,
+   "section_cost": 8753280,
+   "posture": "Restrictive-moratorium",
+   "water": "Mississippi River frontage - abundant",
+   "utility": "Alliant Energy (IPL) (Dubuque)",
+   "land_tier": "Premium (>$13k)",
+   "political_lean": "Lean R",
+   "dc_projects": 1,
+   "operators": "KARIS Critical"
   },
   {
    "name": "Des Moines",
@@ -880,7 +1331,18 @@
    "farms_ge1000": 24,
    "pct_ge500": 12.7,
    "owners_per_section": 7.1,
-   "note": "12-month moratorium adopted 19 May 2026."
+   "note": "12-month moratorium adopted 19 May 2026.",
+   "price_per_acre": 10976,
+   "csr2": 65,
+   "section_cost": 7024640,
+   "posture": "Neutral-no record",
+   "water": "Mississippi River frontage - abundant",
+   "utility": "Alliant Energy (IPL) (Burlington)",
+   "land_tier": "Moderate",
+   "political_lean": "Lean R",
+   "dc_projects": 0,
+   "operators": null,
+   "conflict": "Recorded here as closed from a 19 May 2026 twelve-month ordinance; the county screen dated 12 Aug 2026 shows no moratorium. Verify before relying on either."
   },
   {
    "name": "Johnson",
@@ -899,7 +1361,17 @@
    "farms_ge1000": 46,
    "pct_ge500": 11.7,
    "owners_per_section": 7.7,
-   "note": "Moratorium."
+   "note": "Moratorium.",
+   "price_per_acre": 13476,
+   "csr2": 68,
+   "section_cost": 8624640,
+   "posture": "Restrictive-moratorium",
+   "water": "Iowa River + Coralville Reservoir; Silurian/Jordan aquifers",
+   "utility": "MidAmerican Energy (Iowa City/Coralville)",
+   "land_tier": "Premium (>$13k)",
+   "political_lean": "Strong D",
+   "dc_projects": 0,
+   "operators": null
   },
   {
    "name": "Madison",
@@ -918,7 +1390,46 @@
    "farms_ge1000": 66,
    "pct_ge500": 11.9,
    "owners_per_section": 9.1,
-   "note": "Moratorium."
+   "note": "Moratorium.",
+   "price_per_acre": 9770,
+   "csr2": 51,
+   "section_cost": 6252800,
+   "posture": "Restrictive-moratorium",
+   "water": "Limited groundwater (southern till); rural water",
+   "utility": "MidAmerican Energy (Earlham area); Winterset municipal/co-op mix",
+   "land_tier": "Moderate",
+   "political_lean": "Strong R",
+   "dc_projects": 0,
+   "operators": null
+  },
+  {
+   "name": "Emmet",
+   "landform": "Des Moines Lobe",
+   "ordinance": "open",
+   "cog": "NWIPDC",
+   "score": 81,
+   "s_landform": 82,
+   "s_assemblage": 97,
+   "s_ordinance": 90,
+   "s_pool": 34,
+   "farms": 404,
+   "avg_farm_ac": 535,
+   "median_farm_ac": 290,
+   "farms_ge500": 134,
+   "farms_ge1000": 69,
+   "pct_ge500": 33.2,
+   "owners_per_section": 2.2,
+   "price_per_acre": 12483,
+   "csr2": 74,
+   "section_cost": 7989120,
+   "posture": "Neutral-no record",
+   "water": "West Fork Des Moines River",
+   "utility": "Alliant Energy (IPL) (Estherville)",
+   "land_tier": "High",
+   "political_lean": "Very Strong R",
+   "dc_projects": 0,
+   "operators": null,
+   "note": "Median farm 290 acres — 2.2 owners per section, the easiest assemblage arithmetic in Iowa. Surfaced by an auction-firm lead, not by the screen."
   }
  ]
 }

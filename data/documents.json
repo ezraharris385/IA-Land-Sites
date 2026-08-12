@@ -1,6 +1,6 @@
 {
  "schema": "everything ingested into the project, what it contained, and what it changed. append only.",
- "updated": "2026-08-05",
+ "updated": "2026-08-12",
  "documents": [
   {
    "id": "D-001",
@@ -83,6 +83,32 @@
    "refs": [
     "S-018"
    ]
+  },
+  {
+   "id": "D-006",
+   "name": "Book1 (2).xlsx",
+   "received": "2026-08-12",
+   "kind": "outreach log",
+   "rows": 7,
+   "contained": "The running call log, extended to seven rows with two new conversations on 12 August.",
+   "yielded": "2 contacts, 3 activity entries, 1 site, 2 packages",
+   "gaps": "Row six carries no firm, no person and no number, yet produced the November auction book and the Emmet County lead. One email address is incomplete.",
+   "refs": [
+    "C-027",
+    "C-028",
+    "S-019"
+   ]
+  },
+  {
+   "id": "D-007",
+   "name": "Iowa_County_Data_Center_Screen.xlsx",
+   "received": "2026-08-12",
+   "kind": "public dataset",
+   "rows": 99,
+   "contained": "Five sheets. All 99 counties with farmland price per acre, CSR2, political lean, data-centre posture, moratorium status, utility, grid and water notes and existing projects; plus project pipeline, moratorium tracker, state policy and a sources tab.",
+   "yielded": "Price, water and posture across the screen; one correction; one new county",
+   "gaps": "CSR2 is ISPAID-derived and published by crop reporting district rather than by county, so it is directional. Posture for 80 of 99 counties is 'neutral-no record', which means nothing has been proposed, not that the county is receptive.",
+   "refs": []
   }
  ],
  "how_to_add": "Send any file — spreadsheet, PDF, notes, call log, parcel export, photos of a plat book page. It gets normalised into the schema, appended, and pushed. The site updates in about thirty seconds and the analysis re-runs against the new totals."

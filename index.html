@@ -309,11 +309,12 @@ details.defs>summary:hover{color:var(--acc)}
       <button class="chip" aria-pressed="false" data-t="closed">Closed</button>
     </div>
   </div>
-  <div class="scroll"><table id="scTable" style="min-width:1180px"><thead><tr>
+  <div class="scroll"><table id="scTable" style="min-width:1620px"><thead><tr>
     <th>#</th><th class="srt" data-s="name">County</th><th class="srt num" data-s="score">Score</th>
     <th class="srt num" data-s="owners_per_section">Owners/sec</th><th class="srt num" data-s="farms_ge500">Farms ≥500</th>
     <th class="srt num" data-s="farms_ge1000">≥1,000</th><th class="srt num" data-s="median_farm_ac">Median farm</th>
-    <th class="srt" data-s="landform">Landform</th><th>Ordinance</th><th>Position</th><th>Read</th>
+    <th class="srt num" data-s="section_cost">Section cost</th><th class="srt num" data-s="csr2">CSR2</th>
+    <th class="srt" data-s="landform">Landform</th><th>Ordinance</th><th>Water</th><th>Position</th><th>Read</th>
   </tr></thead><tbody></tbody></table></div>
   <details class="defs"><summary>What these columns mean</summary><div class="defs-b">
     <div><b>Score</b>0-100. Landform 30, assemblage 28, ordinance 27, pool depth 15. Higher is better.</div>
@@ -323,6 +324,9 @@ details.defs>summary:hover{color:var(--acc)}
     <div><b>Median farm</b>The middle farm size in that county. Bigger median means fewer owners to deal with.</div>
     <div><b>Landform</b>Iowa's terrain regions. Northwest Iowa Plains and Iowan Surface are the best; Southern Iowa Drift Plain is cut by streams and the worst for a slab.</div>
     <div><b>Ordinance</b>Whether the county has closed itself to data centres. Closed and Drafting mean do not spend money there yet.</div>
+    <div><b>Section cost</b>What 640 acres costs at that county's 2025 farmland price — the capital number for one full section.</div>
+    <div><b>CSR2</b>Corn Suitability Rating, 0-100. How good the soil is for farming. It drives 77% of land price, and it is the one thing you pay for and then pave over. Lower is cheaper, and it is the number the brokers work in.</div>
+    <div><b>Water</b>Surface and groundwater availability. A campus can be engineered around slope but not around an absent aquifer.</div>
     <div><b>Position</b>Whether a live site is already on record in that county.</div>
   </div></details>
   <p class="mini" style="margin-top:10px">Owners per section is an optimistic floor — the census counts operations, and large operators farm rented ground across several owners. Calibrate against a real parcel dissolve before trusting it.</p>
@@ -469,7 +473,10 @@ const FLAGS={
   severe_hydrology:['stop','Multiple watercourses'], recreational_ground:['stop','Recreational / timber'],
   ordinance_risk:['stop','Ordinance risk'], karst:['stop','Karst terrain'],
   acreage_missing:['stop','No acreage recorded'],
-  under_500_net:['stop','Under 500 net acres'], under_500_gross:['stop','Under 500 gross acres']
+  under_500_net:['stop','Under 500 net acres'], under_500_gross:['stop','Under 500 gross acres'],
+  water_scarce:['stop','County is water-scarce'], water_constrained:['stop','Groundwater constrained'],
+  water_contested:['warn','Competing industrial water demand'], price_premium:['warn','Premium land price'],
+  source_unattributed:['warn','Source firm not recorded'], unverified:['warn','Unverified']
 };
 const flagPill=f=>{const m=FLAGS[f];return m?pill(m[0],m[1]):pill('mute',f.replace(/_/g,' '));};
 let DB={},FIND=[],byCounty={};
@@ -567,6 +574,39 @@ function analyse(){
     warm.map(c=>c.org+(c.person?' — '+c.person:'')).join('; ')+'. Warm contacts decay. Whatever they offered to look for, follow up before the thread goes cold.',
     warm.map(c=>c.id));
 
+  const dry=live.filter(s=>{var c=byCounty[s.county];return c&&/most water-limited|groundwater-constrained|Limited groundwater|limited surface water|Limited;/i.test(c.water||'');});
+  if(dry.length) add('critical','water',
+    dry.length+' live site'+(dry.length>1?'s sit':' sits')+' in a water-constrained county',
+    dry.map(s=>s.name+' — '+s.county).join('; ')+'. A campus can be engineered around slope; it cannot be engineered around an absent aquifer. Establish the water source and permitted volume before anything else on these.',
+    dry.map(s=>s.id));
+
+  const contested=live.filter(s=>(s.flags||[]).indexOf('water_contested')>=0);
+  if(contested.length) add('medium','water',
+    'Competing industrial water demand in a county where a position is held',
+    contested.map(s=>s.name+' — '+s.county).join('; ')+'. A large existing withdrawal is already permitted nearby, which is a permitting question to raise early rather than at diligence.',
+    contested.map(s=>s.id));
+
+  const priced=C.filter(c=>c.section_cost&&c.ordinance!=='closed'&&c.ordinance!=='drafting');
+  if(priced.length>3){
+    const cheapest=priced.slice().sort((a,b)=>a.section_cost-b.section_cost)[0];
+    const dearest=priced.slice().sort((a,b)=>b.section_cost-a.section_cost)[0];
+    add('medium','cost','A section costs $'+(dearest.section_cost/1e6).toFixed(1)+'M in '+dearest.name+' and $'+(cheapest.section_cost/1e6).toFixed(1)+'M in '+cheapest.name,
+      'A spread of $'+((dearest.section_cost-cheapest.section_cost)/1e6).toFixed(1)+'M on the same 640 acres. Soil quality drives most of it, and soil quality is the one input a campus never uses — the arbitrage is flat ground with mid-range CSR2, not the best soil.',
+      [cheapest.name,dearest.name]);
+  }
+
+  const orphan=live.filter(s=>(s.flags||[]).indexOf('source_unattributed')>=0);
+  if(orphan.length) add('high','data',
+    'A lead has no source recorded',
+    orphan.map(s=>s.name).join('; ')+'. The firm that offered it was not captured in the call log, so there is no way to follow up. Recover the attribution before the thread goes cold.',
+    orphan.map(s=>s.id));
+
+  const conf=C.filter(c=>c.conflict);
+  if(conf.length) add('medium','verification',
+    conf.length+' count'+(conf.length>1?'ies have':'y has')+' conflicting ordinance status between sources',
+    conf.map(c=>c.name).join('; ')+'. Two sources disagree on whether a moratorium is in force. Neither has been treated as authoritative — verify with the county before relying on either.',
+    conf.map(c=>c.name));
+
   const bigCut=live.filter(s=>s.acres_gross&&s.acres_net&&(s.acres_gross-s.acres_net)/s.acres_gross>=.3);
   if(bigCut.length) add('medium','hydrology',
     bigCut.length+' site'+(bigCut.length>1?'s':'')+' lose 30% or more of gross acreage to hydrology',
@@ -658,8 +698,11 @@ function renderScreen(){
       '<td class="num"><div class="sbar"><b>'+c.score+'</b><span class="sbar-t"><span class="sbar-f" style="width:'+c.score+'%"></span></span></div></td>'+
       '<td class="num"><b>'+c.owners_per_section+'</b><div class="sbar" style="margin-top:4px;justify-content:flex-end"><span class="sbar-t"><span class="sbar-f" style="width:'+w+'%"></span></span></div></td>'+
       '<td class="num">'+fmt(c.farms_ge500)+'</td><td class="num">'+fmt(c.farms_ge1000)+'</td><td class="num">'+fmt(c.median_farm_ac)+'</td>'+
+      '<td class="num">'+(c.section_cost?'$'+(c.section_cost/1e6).toFixed(2)+'M':'—')+'</td>'+
+      '<td class="num">'+(c.csr2||'—')+'</td>'+
       '<td style="font-size:12px">'+esc(c.landform)+'</td>'+
       '<td>'+pill(op[0],op[1])+'</td>'+
+      '<td class="note" style="min-width:150px">'+esc(c.water||'—')+'</td>'+
       '<td>'+(c._held?pill('ok',c._sites+' site'+(c._sites>1?'s':'')):'<span class="mini">—</span>')+'</td>'+
       '<td class="note" style="min-width:250px">'+esc(c.note)+'</td></tr>';
   }).join('');

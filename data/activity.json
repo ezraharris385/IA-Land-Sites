@@ -1,6 +1,6 @@
 {
  "schema": "retrospective log — what has been done. no planning, no future-dated entries. append only.",
- "updated": "2026-08-05",
+ "updated": "2026-08-12",
  "types": [
   "data",
   "analysis",
@@ -216,6 +216,51 @@
     "D-005"
    ],
    "metric": {}
+  },
+  {
+   "id": "A-014",
+   "date": "2026-08-12",
+   "type": "outreach",
+   "subject": "Auction firm — attribution not recorded",
+   "detail": "Good phone call. Nothing available immediately.",
+   "outcome": "1,300-acre auction and other large acreage auctions in early November, 1 Nov 2026. Private sale opportunity in Emmet County around 500 acres. Offered to circulate off-market buyers. Firm name not captured.",
+   "refs": [
+    "C-028",
+    "S-019"
+   ],
+   "metric": {
+    "calls": 1,
+    "sites_added": 1
+   }
+  },
+  {
+   "id": "A-015",
+   "date": "2026-08-12",
+   "type": "outreach",
+   "subject": "Whiteshine Real Estate — Ben",
+   "detail": "Good phone call. Discussed where in Iowa to concentrate.",
+   "outcome": "Advised CSR2 of 50 or better, described the southeast as very rough and central as no man's land, and recommended central or northern Iowa.",
+   "refs": [
+    "C-027"
+   ],
+   "metric": {
+    "calls": 1
+   }
+  },
+  {
+   "id": "A-016",
+   "date": "2026-08-12",
+   "type": "data",
+   "subject": "Iowa County Data Center Screen ingested — all 99 counties",
+   "detail": "Farmland price per acre from the ISU Land Value Survey 2025, CSR2 estimates, 2024 certified election results, county data-centre posture, moratorium status, primary utility, grid and water notes, and existing data-centre projects and operators.",
+   "outcome": "Price and water joined to the screen for the first time. Ida County corrected from open to closed on an indefinite moratorium. Emmet County added at 2.2 owners per section. Two ordinance conflicts flagged for verification.",
+   "refs": [],
+   "metric": {
+    "counties_enriched": 48,
+    "counties_added": 1,
+    "corrections": 1,
+    "conflicts": 2
+   }
   }
  ]
 }
